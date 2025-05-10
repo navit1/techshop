@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'E-Commerce Lite',
-  description: 'A modern e-commerce application built with Next.js.',
+  title: 'TechShop - Your Destination for Cutting-Edge Electronics',
+  description: 'Discover the latest in tech gadgets, electronics, and accessories at TechShop. Quality products at great prices.',
 };
 
 export default function RootLayout({
@@ -42,3 +42,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+    

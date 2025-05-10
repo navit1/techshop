@@ -47,7 +47,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
-              data-ai-hint={`${product.categoryName?.toLowerCase() || 'product detail'} image`}
+              data-ai-hint={`${product.categoryName?.toLowerCase().replace('& ', '').replace(' ', '-') || 'electronic device'} closeup`}
             />
           </div>
           <div className="p-6 md:p-8 flex flex-col">
@@ -115,3 +115,5 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
+
+    

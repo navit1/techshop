@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-300"
-              data-ai-hint={`${product.categoryName?.toLowerCase() || 'product'} image`}
+              data-ai-hint={`${product.categoryName?.toLowerCase().replace('& ', '').replace(' ', '-') || 'electronic device'} product`}
             />
           </div>
         </CardHeader>
@@ -56,3 +56,5 @@ export function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
+
+    

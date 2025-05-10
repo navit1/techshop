@@ -42,7 +42,7 @@ export function CartItem({ item }: CartItemProps) {
             fill
             sizes="100px"
             className="object-cover"
-            data-ai-hint="cart product"
+            data-ai-hint="electronic product"
           />
         </div>
       </Link>
@@ -76,3 +76,5 @@ export function CartItem({ item }: CartItemProps) {
     </div>
   );
 }
+
+    
