@@ -11,11 +11,12 @@ import { AddToCartButton } from './AddToCartButton'; // Client component for add
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tag, Info, Package, ListChecks } from 'lucide-react';
+import { getReviewNoun } from '@/lib/i18nUtils';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = getProductById(params.id);
   if (!product) {
-    return { title: 'Product Not Found' };
+    return { title: 'Товар не найден' };
   }
   return {
     title: product.name,
@@ -54,10 +55,10 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             <CardHeader className="p-0">
               <Badge variant="secondary" className="w-fit mb-2">{product.categoryName}</Badge>
               <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground">{product.name}</CardTitle>
-              {product.brand && <p className="text-sm text-muted-foreground">Brand: {product.brand}</p>}
+              {product.brand && <p className="text-sm text-muted-foreground">Бренд: {product.brand}</p>}
               <div className="flex items-center space-x-2 mt-2">
                 <StarRating rating={averageRating} />
-                <span className="text-sm text-muted-foreground">({reviews.length} reviews)</span>
+                <span className="text-sm text-muted-foreground">({reviews.length} {getReviewNoun(reviews.length)})</span>
               </div>
             </CardHeader>
 
@@ -69,7 +70,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               
               {product.features && product.features.length > 0 && (
                 <div className="mt-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center"><ListChecks className="w-5 h-5 mr-2 text-primary" />Features</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center"><ListChecks className="w-5 h-5 mr-2 text-primary" />Характеристики</h3>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                     {product.features.map((feature, index) => (
                       <li key={index}>{feature}</li>
@@ -79,8 +80,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               )}
 
               <div className="mt-4 text-sm text-muted-foreground space-y-1">
-                {product.sku && <p className="flex items-center"><Tag className="w-4 h-4 mr-2 text-primary/70" />SKU: {product.sku}</p>}
-                <p className="flex items-center"><Package className="w-4 h-4 mr-2 text-primary/70" />Stock: {product.stock > 0 ? `${product.stock} available` : 'Out of Stock'}</p>
+                {product.sku && <p className="flex items-center"><Tag className="w-4 h-4 mr-2 text-primary/70" />Артикул: {product.sku}</p>}
+                <p className="flex items-center"><Package className="w-4 h-4 mr-2 text-primary/70" />Наличие: {product.stock > 0 ? `${product.stock} доступно` : 'Нет в наличии'}</p>
               </div>
 
             </CardContent>
@@ -96,7 +97,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
       {/* Reviews Section */}
       <section>
-        <h2 className="text-2xl font-semibold mb-6 text-foreground">Customer Reviews</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-foreground">Отзывы покупателей</h2>
         {reviews.length > 0 ? (
           <div className="space-y-6">
             {reviews.map(review => (
@@ -104,7 +105,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             ))}
           </div>
         ) : (
-          <p className="text-muted-foreground">No reviews yet for this product. Be the first to write one!</p>
+          <p className="text-muted-foreground">Отзывов на этот товар пока нет. Будьте первым!</p>
         )}
       </section>
       
@@ -117,3 +118,4 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 }
 
     
+

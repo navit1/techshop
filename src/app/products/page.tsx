@@ -9,27 +9,28 @@ export default function ProductsPage({ searchParams }: { searchParams?: { catego
   const selectedCategorySlug = searchParams?.category;
 
   let products: Product[];
+  let categoryTitle: string | undefined;
+
   if (selectedCategorySlug && selectedCategorySlug !== 'all') {
     const category = categories.find(c => c.slug === selectedCategorySlug);
     products = category ? getProductsByCategoryId(category.id) : getAllProducts();
+    categoryTitle = category?.name;
   } else {
     products = getAllProducts();
   }
   
-  const pageTitle = selectedCategorySlug && selectedCategorySlug !== 'all' 
-    ? categories.find(c => c.slug === selectedCategorySlug)?.name || "Products"
-    : "All Products";
+  const pageTitle = categoryTitle || "Все товары";
 
   return (
     <div className="space-y-8">
       <section>
         <h1 className="text-4xl font-bold mb-4 text-foreground">{pageTitle}</h1>
         <p className="text-lg text-muted-foreground mb-8">
-          Browse our collection of high-quality products. Use the filter to narrow down your search.
+          Просмотрите нашу коллекцию высококачественных товаров. Используйте фильтр для уточнения поиска.
         </p>
         <CategoryFilter categories={categories} />
         {products.length === 0 ? (
-          <p className="text-center text-muted-foreground text-xl py-10">No products found in this category.</p>
+          <p className="text-center text-muted-foreground text-xl py-10">Товары в этой категории не найдены.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map(product => (
@@ -41,3 +42,4 @@ export default function ProductsPage({ searchParams }: { searchParams?: { catego
     </div>
   );
 }
+

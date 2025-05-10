@@ -95,14 +95,14 @@ export function SearchInput() {
       <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
         <Input
           type="search"
-          placeholder="Search products..."
+          placeholder="Поиск товаров..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleInputFocus}
           className="bg-background focus-visible:ring-primary"
-          aria-label="Search products"
+          aria-label="Поиск товаров"
         />
-        <Button type="submit" variant="ghost" size="icon" aria-label="Submit search">
+        <Button type="submit" variant="ghost" size="icon" aria-label="Выполнить поиск">
           <SearchIcon className="h-5 w-5 text-foreground hover:text-primary" />
         </Button>
       </form>
@@ -113,11 +113,11 @@ export function SearchInput() {
             {isLoadingPreview && (
               <div className="p-4 flex items-center justify-center text-muted-foreground">
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                <span>Loading...</span>
+                <span>Загрузка...</span>
               </div>
             )}
             {!isLoadingPreview && previewResults.length === 0 && debouncedSearchTerm.trim() && (
-              <p className="p-4 text-sm text-muted-foreground text-center">No products found for "{debouncedSearchTerm}".</p>
+              <p className="p-4 text-sm text-muted-foreground text-center">Товары по запросу "{debouncedSearchTerm}" не найдены.</p>
             )}
             {!isLoadingPreview && previewResults.length > 0 && (
               <ul className="divide-y divide-border">
@@ -158,7 +158,7 @@ export function SearchInput() {
                   }}
                 >
                   <Eye className="mr-2 h-4 w-4" />
-                  View all results for "{debouncedSearchTerm.length > 20 ? debouncedSearchTerm.substring(0,20) + '...' : debouncedSearchTerm}"
+                  Показать все результаты для "{debouncedSearchTerm.length > 20 ? debouncedSearchTerm.substring(0,20) + '...' : debouncedSearchTerm}"
                 </Button>
               </div>
             )}
@@ -168,4 +168,5 @@ export function SearchInput() {
     </div>
   );
 }
+
 

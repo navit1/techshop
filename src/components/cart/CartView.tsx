@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
+import { getItemNoun } from '@/lib/i18nUtils';
 
 export function CartView() {
   const { cart, totalPrice, clearCart, itemCount } = useCart();
@@ -15,10 +16,10 @@ export function CartView() {
     return (
       <div className="text-center py-20">
         <ShoppingBag className="mx-auto h-24 w-24 text-muted-foreground mb-6" />
-        <h2 className="text-3xl font-semibold mb-4 text-foreground">Your Cart is Empty</h2>
-        <p className="text-muted-foreground mb-8">Looks like you haven't added anything to your cart yet.</p>
+        <h2 className="text-3xl font-semibold mb-4 text-foreground">Ваша корзина пуста</h2>
+        <p className="text-muted-foreground mb-8">Похоже, вы еще ничего не добавили в корзину.</p>
         <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-          <Link href="/products">Start Shopping</Link>
+          <Link href="/products">Начать покупки</Link>
         </Button>
       </div>
     );
@@ -34,28 +35,28 @@ export function CartView() {
       <div className="md:col-span-1">
         <Card className="sticky top-20 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-2xl">Order Summary</CardTitle>
+            <CardTitle className="text-2xl">Сводка заказа</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between text-lg">
-              <span>Subtotal ({itemCount} items)</span>
+              <span>Подытог ({itemCount} {getItemNoun(itemCount)})</span>
               <span className="font-semibold">₸{totalPrice.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Shipping</span>
-              <span>Calculated at checkout</span>
+              <span>Доставка</span>
+              <span>Рассчитывается при оформлении</span>
             </div>
             <div className="flex justify-between text-xl font-bold text-primary pt-2 border-t">
-              <span>Total</span>
+              <span>Итого</span>
               <span>₸{totalPrice.toFixed(2)}</span>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-3">
             <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
-              Proceed to Checkout
+              Перейти к оформлению
             </Button>
             <Button variant="outline" onClick={clearCart} className="w-full">
-              Clear Cart
+              Очистить корзину
             </Button>
           </CardFooter>
         </Card>
@@ -63,3 +64,4 @@ export function CartView() {
     </div>
   );
 }
+

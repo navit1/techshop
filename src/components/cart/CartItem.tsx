@@ -26,8 +26,8 @@ export function CartItem({ item }: CartItemProps) {
   const handleRemove = () => {
     removeFromCart(item.id);
     toast({
-      title: "Item Removed",
-      description: `${item.name} removed from your cart.`,
+      title: "Товар удален",
+      description: `${item.name} удален из вашей корзины.`,
       variant: "destructive"
     });
   }
@@ -50,11 +50,11 @@ export function CartItem({ item }: CartItemProps) {
         <Link href={`/products/${item.id}`}>
           <h3 className="text-lg font-semibold text-foreground hover:text-primary transition-colors">{item.name}</h3>
         </Link>
-        <p className="text-sm text-muted-foreground">Price: ₸{item.price.toFixed(2)}</p>
-        <p className="text-md font-semibold text-primary">Subtotal: ₸{(item.price * item.quantity).toFixed(2)}</p>
+        <p className="text-sm text-muted-foreground">Цена: ₸{item.price.toFixed(2)}</p>
+        <p className="text-md font-semibold text-primary">Подытог: ₸{(item.price * item.quantity).toFixed(2)}</p>
       </div>
       <div className="flex items-center space-x-2">
-         <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(item.quantity - 1)} disabled={item.quantity <= 1} aria-label="Decrease quantity">
+         <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(item.quantity - 1)} disabled={item.quantity <= 1} aria-label="Уменьшить количество">
           <Minus className="h-4 w-4" />
         </Button>
         <Input
@@ -64,13 +64,13 @@ export function CartItem({ item }: CartItemProps) {
           min="1"
           max={item.stock}
           className="w-16 h-10 text-center"
-          aria-label="Item quantity"
+          aria-label="Количество товара"
         />
-        <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(item.quantity + 1)} disabled={item.quantity >= item.stock} aria-label="Increase quantity">
+        <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(item.quantity + 1)} disabled={item.quantity >= item.stock} aria-label="Увеличить количество">
           <Plus className="h-4 w-4" />
         </Button>
       </div>
-      <Button variant="ghost" size="icon" onClick={handleRemove} className="text-destructive hover:text-destructive/80" aria-label="Remove item">
+      <Button variant="ghost" size="icon" onClick={handleRemove} className="text-destructive hover:text-destructive/80" aria-label="Удалить товар">
         <Trash2 className="h-5 w-5" />
       </Button>
     </div>
@@ -78,3 +78,4 @@ export function CartItem({ item }: CartItemProps) {
 }
 
     
+

@@ -16,7 +16,7 @@ export default function HomePage() {
         <div className="absolute inset-0">
            <Image 
             src="https://picsum.photos/seed/techhero/1200/400" 
-            alt="Modern electronics on a sleek background" 
+            alt="Современная электроника на стильном фоне"
             fill
             priority
             className="object-cover opacity-30"
@@ -24,19 +24,19 @@ export default function HomePage() {
           />
         </div>
         <div className="relative container mx-auto text-center">
-          <h1 className="text-5xl font-extrabold mb-4 tracking-tight">Welcome to TechShop</h1>
+          <h1 className="text-5xl font-extrabold mb-4 tracking-tight">Добро пожаловать в TechShop</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Your ultimate destination for the latest and greatest in electronics. Explore a world of innovation!
+            Ваш главный поставщик новейшей и лучшей электроники. Откройте мир инноваций!
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-            <Link href="/products">Shop Electronics</Link>
+            <Link href="/products">В магазин электроники</Link>
           </Button>
         </div>
       </section>
 
       {/* Featured Products Section */}
       <section>
-        <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">Featured Electronics</h2>
+        <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">Рекомендуемая электроника</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {featuredProducts.map(product => (
             <ProductCard key={product.id} product={product} />
@@ -47,12 +47,12 @@ export default function HomePage() {
       {/* Call to Action / Promotions (Optional) */}
       <section className="bg-card p-8 rounded-lg shadow-md">
         <div className="text-center">
-          <h3 className="text-2xl font-semibold text-primary mb-3">Hot Tech Deals This Week!</h3>
+          <h3 className="text-2xl font-semibold text-primary mb-3">Горячие предложения этой недели!</h3>
           <p className="text-muted-foreground mb-6">
-            Don&apos;t miss out on exclusive offers on top electronic gadgets. Limited time only.
+            Не упустите эксклюзивные предложения на лучшие электронные гаджеты. Предложение ограничено.
           </p>
           <Button asChild variant="outline">
-            <Link href="/products?filter=sale">View Tech Deals</Link>
+            <Link href="/products?filter=sale">Смотреть предложения</Link>
           </Button>
         </div>
       </section>

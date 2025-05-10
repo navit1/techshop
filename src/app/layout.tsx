@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'TechShop - Your Destination for Cutting-Edge Electronics',
-  description: 'Discover the latest in tech gadgets, electronics, and accessories at TechShop. Quality products at great prices.',
+  title: 'TechShop - Ваш магазин современной электроники',
+  description: 'Откройте для себя новейшие гаджеты, электронику и аксессуары в TechShop. Качественные товары по отличным ценам.',
 };
 
 export default function RootLayout({
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <CartProvider>
           <Header />

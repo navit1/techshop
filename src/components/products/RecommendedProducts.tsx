@@ -64,7 +64,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
         }
       } catch (e) {
         console.error("Failed to fetch recommendations:", e);
-        setError("Could not load recommendations at this time.");
+        setError("Не удалось загрузить рекомендации в данный момент.");
         setRecommendations([]);
       } finally {
         setIsLoading(false);
@@ -97,7 +97,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
   if (isLoading) {
     return (
       <div className="mt-12">
-        <h2 className="text-2xl font-semibold mb-6 text-foreground">You Might Also Like</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-foreground">Вам также может понравиться</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex flex-col space-y-3">
@@ -123,7 +123,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-semibold mb-6 text-foreground">You Might Also Like</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-foreground">Вам также может понравиться</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {recommendations.map(product => (
           <ProductCard key={product.id} product={product} />
@@ -132,3 +132,4 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
     </div>
   );
 }
+

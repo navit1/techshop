@@ -32,13 +32,13 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
 
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-semibold mb-2 text-foreground">Filter by Category</h3>
+      <h3 className="text-lg font-semibold mb-2 text-foreground">Фильтр по категориям</h3>
       <Select onValueChange={handleCategoryChange} defaultValue={currentCategory}>
         <SelectTrigger className="w-full sm:w-[200px] bg-card">
-          <SelectValue placeholder="Select Category" />
+          <SelectValue placeholder="Выберите категорию" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Categories</SelectItem>
+          <SelectItem value="all">Все категории</SelectItem>
           {categories.map(category => (
             <SelectItem key={category.id} value={category.slug}>
               {category.name}
@@ -49,3 +49,4 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
     </div>
   );
 }
+

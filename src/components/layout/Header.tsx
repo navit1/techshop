@@ -1,3 +1,4 @@
+
 "use client";
 import Link from 'next/link';
 import { ShoppingCart, Home, List } from 'lucide-react';
@@ -20,17 +21,17 @@ export function Header() {
         </div>
 
         <nav className="flex items-center space-x-3 sm:space-x-4 md:space-x-6 order-2 md:order-3">
-          <Link href="/" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Home">
+          <Link href="/" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Главная">
             <Home className="h-5 w-5 md:mr-1" />
-            <span className="hidden md:inline">Home</span>
+            <span className="hidden md:inline">Главная</span>
           </Link>
-          <Link href="/products" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Products">
+          <Link href="/products" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Товары">
             <List className="h-5 w-5 md:mr-1" />
-            <span className="hidden md:inline">Products</span>
+            <span className="hidden md:inline">Товары</span>
           </Link>
-          <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors relative" aria-label="Shopping Cart">
+          <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors relative" aria-label="Корзина">
             <ShoppingCart className="h-5 w-5 md:mr-1" />
-            <span className="hidden md:inline">Cart</span>
+            <span className="hidden md:inline">Корзина</span>
             {itemCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {itemCount}
@@ -42,3 +43,4 @@ export function Header() {
     </header>
   );
 }
+

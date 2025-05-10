@@ -20,8 +20,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = () => {
     addToCart(product);
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      title: "Добавлено в корзину",
+      description: `${product.name} добавлен в вашу корзину.`,
     });
   };
 
@@ -50,7 +50,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardContent>
       <CardFooter className="p-4 border-t">
         <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
-          <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+          <ShoppingCart className="mr-2 h-4 w-4" /> В корзину
         </Button>
       </CardFooter>
     </Card>
@@ -58,3 +58,4 @@ export function ProductCard({ product }: ProductCardProps) {
 }
 
     
+

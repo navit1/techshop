@@ -22,8 +22,8 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     if (quantity > 0) {
       addToCart(product, quantity);
       toast({
-        title: "Added to cart!",
-        description: `${quantity} x ${product.name} added to your cart.`,
+        title: "Добавлено в корзину!",
+        description: `${quantity} x ${product.name} добавлено в вашу корзину.`,
       });
       setQuantity(1); // Reset quantity after adding
     }
@@ -56,7 +56,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
   return (
     <div className="flex items-center space-x-4">
       <div className="flex items-center border rounded-md">
-        <Button variant="ghost" size="icon" onClick={decrementQuantity} className="rounded-r-none h-10 w-10 border-r" aria-label="Decrease quantity">
+        <Button variant="ghost" size="icon" onClick={decrementQuantity} className="rounded-r-none h-10 w-10 border-r" aria-label="Уменьшить количество">
           <Minus className="h-4 w-4" />
         </Button>
         <Input
@@ -67,9 +67,9 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
           min="1"
           max={product.stock}
           className="w-16 h-10 text-center border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-          aria-label="Quantity"
+          aria-label="Количество"
         />
-        <Button variant="ghost" size="icon" onClick={incrementQuantity} className="rounded-l-none h-10 w-10 border-l" aria-label="Increase quantity">
+        <Button variant="ghost" size="icon" onClick={incrementQuantity} className="rounded-l-none h-10 w-10 border-l" aria-label="Увеличить количество">
           <Plus className="h-4 w-4" />
         </Button>
       </div>
@@ -79,8 +79,9 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
         disabled={product.stock === 0 || quantity <= 0}
       >
         <ShoppingCart className="mr-2 h-4 w-4" />
-        {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+        {product.stock === 0 ? 'Нет в наличии' : 'В корзину'}
       </Button>
     </div>
   );
 }
+
