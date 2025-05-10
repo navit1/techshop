@@ -50,8 +50,8 @@ export function CartItem({ item }: CartItemProps) {
         <Link href={`/products/${item.id}`}>
           <h3 className="text-lg font-semibold text-foreground hover:text-primary transition-colors">{item.name}</h3>
         </Link>
-        <p className="text-sm text-muted-foreground">Price: ${item.price.toFixed(2)}</p>
-        <p className="text-md font-semibold text-primary">Subtotal: ${(item.price * item.quantity).toFixed(2)}</p>
+        <p className="text-sm text-muted-foreground">Price: ₸{item.price.toFixed(2)}</p>
+        <p className="text-md font-semibold text-primary">Subtotal: ₸{(item.price * item.quantity).toFixed(2)}</p>
       </div>
       <div className="flex items-center space-x-2">
          <Button variant="ghost" size="icon" onClick={() => handleQuantityChange(item.quantity - 1)} disabled={item.quantity <= 1} aria-label="Decrease quantity">

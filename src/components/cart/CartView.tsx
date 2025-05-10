@@ -39,7 +39,7 @@ export function CartView() {
           <CardContent className="space-y-4">
             <div className="flex justify-between text-lg">
               <span>Subtotal ({itemCount} items)</span>
-              <span className="font-semibold">${totalPrice.toFixed(2)}</span>
+              <span className="font-semibold">₸{totalPrice.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm text-muted-foreground">
               <span>Shipping</span>
@@ -47,7 +47,7 @@ export function CartView() {
             </div>
             <div className="flex justify-between text-xl font-bold text-primary pt-2 border-t">
               <span>Total</span>
-              <span>${totalPrice.toFixed(2)}</span>
+              <span>₸{totalPrice.toFixed(2)}</span>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-3">

@@ -62,7 +62,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             </CardHeader>
 
             <CardContent className="p-0 mt-6 flex-grow">
-              <p className="text-3xl font-extrabold text-primary mb-4">${product.price.toFixed(2)}</p>
+              <p className="text-3xl font-extrabold text-primary mb-4">₸{product.price.toFixed(2)}</p>
               <CardDescription className="text-base text-foreground/80 leading-relaxed">
                 {product.description}
               </CardDescription>

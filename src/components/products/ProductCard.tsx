@@ -46,7 +46,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <CardTitle className="text-lg font-semibold hover:text-primary transition-colors">{product.name}</CardTitle>
         </Link>
         <p className="text-sm text-muted-foreground mt-1">{product.categoryName}</p>
-        <p className="text-xl font-bold text-primary mt-2">${product.price.toFixed(2)}</p>
+        <p className="text-xl font-bold text-primary mt-2">₸{product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 border-t">
         <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
