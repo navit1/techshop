@@ -115,6 +115,72 @@ export const products: Product[] = [
     features: ['20,000 DPI Optical Sensor', 'Lightweight 60g Design', '8 Programmable Buttons', 'Customizable RGB Lighting'],
     sku: 'GM-MS-SSP',
     brand: 'RaptorGaming',
+  },
+  // New Smartphones
+  {
+    id: 'prod_el_9',
+    name: 'Apple iPhone 15 Pro',
+    description: 'The latest iPhone with Pro features, A17 Bionic chip, and advanced camera system.',
+    price: 1199.00,
+    imageUrl: 'https://picsum.photos/seed/iphone15pro/600/400',
+    categoryId: 'cat_el_1',
+    categoryName: 'Smartphones & Accessories',
+    stock: 30,
+    features: ['ProMotion Display', 'A17 Bionic Chip', '48MP Main Camera', 'Titanium Design', 'Action Button'],
+    sku: 'SM-AP-IP15P',
+    brand: 'Apple',
+  },
+  {
+    id: 'prod_el_10',
+    name: 'Samsung Galaxy S24 Ultra',
+    description: 'Experience Galaxy AI with the S24 Ultra. Powerful performance, stunning display, and an incredible camera system with S Pen support.',
+    price: 1299.00,
+    imageUrl: 'https://picsum.photos/seed/galaxys24ultra/600/400',
+    categoryId: 'cat_el_1',
+    categoryName: 'Smartphones & Accessories',
+    stock: 25,
+    features: ['Dynamic AMOLED 2X', 'Snapdragon 8 Gen 3 for Galaxy', '200MP Main Camera', 'Built-in S Pen', 'Galaxy AI Features'],
+    sku: 'SM-SS-S24U',
+    brand: 'Samsung',
+  },
+  {
+    id: 'prod_el_11',
+    name: 'Xiaomi 14 Ultra',
+    description: 'Co-engineered with Leica, the Xiaomi 14 Ultra offers a professional-grade photography experience in a smartphone.',
+    price: 1099.00,
+    imageUrl: 'https://picsum.photos/seed/xiaomi14ultra/600/400',
+    categoryId: 'cat_el_1',
+    categoryName: 'Smartphones & Accessories',
+    stock: 40,
+    features: ['Leica Quad Camera System', 'Snapdragon 8 Gen 3', '120Hz AMOLED Display', 'HyperCharge Technology', 'Ceramic Back'],
+    sku: 'SM-XM-14U',
+    brand: 'Xiaomi',
+  },
+  {
+    id: 'prod_el_12',
+    name: 'Vivo X100 Pro',
+    description: 'Capture stunning portraits and low-light shots with the Vivo X100 Pro, featuring ZEISS optics and advanced imaging technology.',
+    price: 949.00,
+    imageUrl: 'https://picsum.photos/seed/vivox100pro/600/400',
+    categoryId: 'cat_el_1',
+    categoryName: 'Smartphones & Accessories',
+    stock: 35,
+    features: ['ZEISS Co-engineered Camera', 'Dimensity 9300 Chipset', '120Hz LTPO AMOLED', '100W FlashCharge', 'V3 Imaging Chip'],
+    sku: 'SM-VV-X100P',
+    brand: 'Vivo',
+  },
+  {
+    id: 'prod_el_13',
+    name: 'Realme GT 5 Pro',
+    description: 'Flagship performance at a competitive price. The Realme GT 5 Pro offers a powerful processor, a bright display, and fast charging.',
+    price: 799.00,
+    imageUrl: 'https://picsum.photos/seed/realmegt5pro/600/400',
+    categoryId: 'cat_el_1',
+    categoryName: 'Smartphones & Accessories',
+    stock: 50,
+    features: ['Snapdragon 8 Gen 3', '144Hz AMOLED Display', 'Sony IMX890 OIS Camera', '240W SuperVOOC Charge', 'Stainless Steel Vapor Cooling'],
+    sku: 'SM-RM-GT5P',
+    brand: 'Realme',
   }
 ];
 
@@ -182,6 +248,87 @@ export const reviews: Review[] = [
     rating: 4,
     comment: 'Connects all my devices seamlessly. App is pretty good, but could use a few more integrations.',
     date: '2024-03-01T12:00:00Z',
+  },
+  // Reviews for new smartphones
+  {
+    id: 'rev_el_9',
+    productId: 'prod_el_9', // Apple iPhone 15 Pro
+    userName: 'TechGuru101',
+    rating: 5,
+    comment: 'The Action Button is a game changer! Performance is buttery smooth.',
+    date: '2024-05-01T10:00:00Z',
+  },
+  {
+    id: 'rev_el_10',
+    productId: 'prod_el_9', // Apple iPhone 15 Pro
+    userName: 'AppleFanatic',
+    rating: 4,
+    comment: 'Great phone, but battery life could be a bit better for heavy users.',
+    date: '2024-05-03T11:00:00Z',
+  },
+  {
+    id: 'rev_el_11',
+    productId: 'prod_el_10', // Samsung Galaxy S24 Ultra
+    userName: 'AndroidCentral',
+    rating: 5,
+    comment: 'Galaxy AI is surprisingly useful. The camera zoom is incredible!',
+    date: '2024-05-02T14:00:00Z',
+  },
+  {
+    id: 'rev_el_12',
+    productId: 'prod_el_10', // Samsung Galaxy S24 Ultra
+    userName: 'PenMaster',
+    rating: 5,
+    comment: 'Love the S Pen integration. This is the ultimate productivity phone.',
+    date: '2024-05-04T15:00:00Z',
+  },
+  {
+    id: 'rev_el_13',
+    productId: 'prod_el_11', // Xiaomi 14 Ultra
+    userName: 'PhotoPro',
+    rating: 5,
+    comment: 'Leica partnership really shines. The camera details are stunning.',
+    date: '2024-04-28T10:30:00Z',
+  },
+  {
+    id: 'rev_el_14',
+    productId: 'prod_el_11', // Xiaomi 14 Ultra
+    userName: 'ValueSeeker',
+    rating: 4,
+    comment: 'Flagship specs without the absolute top-tier price. Great deal.',
+    date: '2024-04-30T12:00:00Z',
+  },
+  {
+    id: 'rev_el_15',
+    productId: 'prod_el_12', // Vivo X100 Pro
+    userName: 'PortraitFan',
+    rating: 5,
+    comment: 'ZEISS portraits are unmatched. Amazing low-light performance.',
+    date: '2024-05-05T09:00:00Z',
+  },
+  {
+    id: 'rev_el_16',
+    productId: 'prod_el_12', // Vivo X100 Pro
+    userName: 'SpeedyCharge',
+    rating: 4,
+    comment: 'Super fast charging is a lifesaver. Display is also beautiful.',
+    date: '2024-05-06T13:15:00Z',
+  },
+  {
+    id: 'rev_el_17',
+    productId: 'prod_el_13', // Realme GT 5 Pro
+    userName: 'GamerMobile',
+    rating: 5,
+    comment: 'Handles all games smoothly. The 144Hz display is a treat.',
+    date: '2024-04-25T17:00:00Z',
+  },
+  {
+    id: 'rev_el_18',
+    productId: 'prod_el_13', // Realme GT 5 Pro
+    userName: 'BudgetKing',
+    rating: 4,
+    comment: 'Incredible value for the performance you get. Solid all-rounder.',
+    date: '2024-04-27T19:30:00Z',
   }
 ];
 
@@ -190,7 +337,7 @@ export const getProductById = (id: string): Product | undefined =>
   products.find(p => p.id === id);
 
 export const getReviewsByProductId = (productId: string): Review[] =>
-  reviews.filter(r => r.productId === productId);
+  reviews.filter(r => r.productId === productId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export const getProductsByCategoryId = (categoryId: string): Product[] =>
   products.filter(p => p.categoryId === categoryId);
@@ -198,5 +345,3 @@ export const getProductsByCategoryId = (categoryId: string): Product[] =>
 export const getAllProducts = (): Product[] => products;
 
 export const getAllCategories = (): Category[] => categories;
-
-    
