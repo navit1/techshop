@@ -965,6 +965,111 @@ export const products: Product[] = [
     sku: 'ACC-DJI-RS3MINI',
     brand: 'DJI',
   },
+  // New Wearable Technology
+  {
+    id: 'prod_el_74',
+    name: 'Apple Watch Series 9',
+    description: 'The latest Apple Watch with a brighter display, faster S9 SiP, and new double tap gesture for interaction.',
+    price: 399.00,
+    imageUrl: 'https://picsum.photos/seed/applewatch9/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 80,
+    features: ['Brighter Always-On Retina display', 'S9 SiP with Double Tap gesture', 'Advanced health sensors (ECG, Blood Oxygen)', 'Crash Detection & Fall Detection', 'Carbon Neutral options'],
+    sku: 'WT-AP-W9',
+    brand: 'Apple',
+  },
+  {
+    id: 'prod_el_75',
+    name: 'Samsung Galaxy Watch 6 Classic',
+    description: 'Timeless design with a rotating bezel, advanced health monitoring, and seamless Galaxy ecosystem integration.',
+    price: 399.99,
+    imageUrl: 'https://picsum.photos/seed/galaxywatch6classic/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 75,
+    features: ['Rotating Bezel', 'Sapphire Crystal Glass', 'BioActive Sensor (ECG, BIA, Heart Rate)', 'Sleep Coaching', 'Customizable Watch Faces'],
+    sku: 'WT-SS-GW6C',
+    brand: 'Samsung',
+  },
+  {
+    id: 'prod_el_76',
+    name: 'Fitbit Charge 6 Fitness Tracker',
+    description: 'Advanced fitness tracker with Google essentials, heart rate on exercise equipment, and 7 days of battery life.',
+    price: 159.95,
+    imageUrl: 'https://picsum.photos/seed/fitbitcharge6/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 100,
+    features: ['ECG App & EDA Scan App', 'Built-in GPS', 'Google Maps & Wallet', 'Active Zone Minutes', 'Sleep Score'],
+    sku: 'WT-FB-CH6',
+    brand: 'Fitbit',
+  },
+  {
+    id: 'prod_el_77',
+    name: 'Garmin Venu 3 Smartwatch',
+    description: 'Purpose-built with advanced health and fitness features and the ability to make calls and send texts from your wrist.',
+    price: 449.99,
+    imageUrl: 'https://picsum.photos/seed/garminvenu3/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 60,
+    features: ['AMOLED Display', 'Body Battery™ Energy Monitoring', 'Advanced Sleep Coaching', 'Built-in Sports Apps & Animated Workouts', 'Wheelchair Mode'],
+    sku: 'WT-GM-VENU3',
+    brand: 'Garmin',
+  },
+  {
+    id: 'prod_el_78',
+    name: 'Xiaomi Smart Band 8 Pro',
+    description: 'Large AMOLED display, comprehensive health tracking, and long battery life in a sleek and stylish design.',
+    price: 69.99,
+    imageUrl: 'https://picsum.photos/seed/xiaomiband8pro/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 120,
+    features: ['1.74" AMOLED Display', 'Built-in GPS', 'All-Day SpO2 Monitoring', '150+ Fitness Modes', 'Up to 14-Day Battery Life'],
+    sku: 'WT-XM-SB8P',
+    brand: 'Xiaomi',
+  },
+  {
+    id: 'prod_el_79',
+    name: 'Google Pixel Watch 2',
+    description: 'The helpfulness of Google, now with improved performance, all-day battery life, and new safety features.',
+    price: 349.99,
+    imageUrl: 'https://picsum.photos/seed/pixelwatch2/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 65,
+    features: ['Wear OS by Google', 'Fitbit Health & Fitness Tracking', 'New CPU for smoother performance', 'Safety Check & Emergency Sharing', 'ECG app'],
+    sku: 'WT-GG-PW2',
+    brand: 'Google',
+  },
+  {
+    id: 'prod_el_80',
+    name: 'Amazfit Balance Smartwatch',
+    description: 'Focus on mental and physical readiness with AI-powered insights, dual-band GPS, and a lightweight design.',
+    price: 229.99,
+    imageUrl: 'https://picsum.photos/seed/amazfitbalance/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 55,
+    features: ['Zepp OS 3.0 with AI Health Coach', 'Body Composition Measurement', 'Dual-band GPS & Route Import', '1.5" HD AMOLED Display', '14-Day Battery Life'],
+    sku: 'WT-AM-BAL',
+    brand: 'Amazfit',
+  },
+  {
+    id: 'prod_el_81',
+    name: 'Huawei Watch GT 4',
+    description: 'Elegant smartwatch with upgraded health monitoring, scientific workout coach, and up to 2 weeks of battery life.',
+    price: 279.00,
+    imageUrl: 'https://picsum.photos/seed/huaweiwatchgt4/600/400',
+    categoryId: 'cat_el_6',
+    categoryName: 'Wearable Technology',
+    stock: 70,
+    features: ['Geometric Aesthetics Design', 'TruSeen™ 5.5+ Health Monitoring', 'Calorie Management', 'Professional Workout Tracking', 'Wide Compatibility'],
+    sku: 'WT-HW-GT4',
+    brand: 'Huawei',
+  },
 ];
 
 export const reviews: Review[] = [
@@ -1492,6 +1597,111 @@ export const reviews: Review[] = [
     comment: 'Love the retro dials and Fuji colors. The high-res sensor captures amazing detail.',
     date: '2024-07-12T11:00:00Z',
   },
+  // Reviews for new Wearable Technology
+  {
+    id: 'rev_el_66',
+    productId: 'prod_el_74', // Apple Watch Series 9
+    userName: 'AppleWatchFan',
+    rating: 5,
+    comment: 'The double tap gesture is surprisingly useful! Brighter screen is great outdoors.',
+    date: '2024-08-01T09:00:00Z',
+  },
+  {
+    id: 'rev_el_67',
+    productId: 'prod_el_74', // Apple Watch Series 9
+    userName: 'FitnessFreak',
+    rating: 4,
+    comment: 'Solid health tracking and love the ECG feature. Battery still needs daily charging for heavy use.',
+    date: '2024-08-02T10:15:00Z',
+  },
+  {
+    id: 'rev_el_68',
+    productId: 'prod_el_75', // Samsung Galaxy Watch 6 Classic
+    userName: 'GalaxyUser007',
+    rating: 5,
+    comment: 'The rotating bezel is back and it\'s amazing! Watch feels premium and works seamlessly with my Samsung phone.',
+    date: '2024-08-03T11:30:00Z',
+  },
+  {
+    id: 'rev_el_69',
+    productId: 'prod_el_75', // Samsung Galaxy Watch 6 Classic
+    userName: 'HealthNut',
+    rating: 4,
+    comment: 'BIA sensor is interesting. Sleep tracking is very detailed. Wish it had a bit more third-party app support.',
+    date: '2024-08-04T12:45:00Z',
+  },
+  {
+    id: 'rev_el_70',
+    productId: 'prod_el_76', // Fitbit Charge 6
+    userName: 'CasualTracker',
+    rating: 5,
+    comment: 'Perfect for my needs. Accurate tracking, Google Maps is handy, and the battery lasts for days!',
+    date: '2024-08-05T14:00:00Z',
+  },
+  {
+    id: 'rev_el_71',
+    productId: 'prod_el_76', // Fitbit Charge 6
+    userName: 'RunnerGirl',
+    rating: 4,
+    comment: 'Good GPS for runs. Heart rate on equipment is a cool feature. The screen is a bit small for some notifications.',
+    date: '2024-08-06T15:15:00Z',
+  },
+  {
+    id: 'rev_el_72',
+    productId: 'prod_el_77', // Garmin Venu 3
+    userName: 'SeriousAthlete',
+    rating: 5,
+    comment: 'Garmin\'s health and fitness metrics are unparalleled. Venu 3 has a beautiful AMOLED screen and great battery life.',
+    date: '2024-08-07T16:30:00Z',
+  },
+  {
+    id: 'rev_el_73',
+    productId: 'prod_el_77', // Garmin Venu 3
+    userName: 'SmartwatchExplorer',
+    rating: 4,
+    comment: 'Love the call functionality and the animated workouts. The Garmin ecosystem is robust.',
+    date: '2024-08-08T17:45:00Z',
+  },
+  {
+    id: 'rev_el_74',
+    productId: 'prod_el_78', // Xiaomi Smart Band 8 Pro
+    userName: 'BudgetWearableFan',
+    rating: 5,
+    comment: 'Incredible value for money! Large screen, GPS, and tons of features for a fraction of the price of others.',
+    date: '2024-08-09T09:30:00Z',
+  },
+  {
+    id: 'rev_el_75',
+    productId: 'prod_el_78', // Xiaomi Smart Band 8 Pro
+    userName: 'StyleConsciousUser',
+    rating: 4,
+    comment: 'Looks very sleek and the display is vibrant. Tracking is good for general fitness.',
+    date: '2024-08-10T10:45:00Z',
+  },
+  {
+    id: 'rev_el_76',
+    productId: 'prod_el_79', // Google Pixel Watch 2
+    userName: 'PixelPowerUser',
+    rating: 4,
+    comment: 'Much improved performance over the first gen. Fitbit integration is seamless. Battery is better but still needs a daily charge.',
+    date: '2024-08-11T11:00:00Z',
+  },
+  {
+    id: 'rev_el_77',
+    productId: 'prod_el_80', // Amazfit Balance
+    userName: 'ZenMaster',
+    rating: 5,
+    comment: 'The readiness score and AI coach are genuinely helpful. Great battery life and a beautiful display.',
+    date: '2024-08-12T14:20:00Z',
+  },
+  {
+    id: 'rev_el_78',
+    productId: 'prod_el_81', // Huawei Watch GT 4
+    userName: 'GlobalUser',
+    rating: 4,
+    comment: 'Stunning design and incredible battery life. Health tracking is comprehensive. App availability can be a limitation.',
+    date: '2024-08-13T16:50:00Z',
+  },
 ];
 
 // Helper functions to get data
@@ -1507,4 +1717,3 @@ export const getProductsByCategoryId = (categoryId: string): Product[] =>
 export const getAllProducts = (): Product[] => products;
 
 export const getAllCategories = (): Category[] => categories;
-
