@@ -6,7 +6,6 @@ export const categories: Category[] = [
   { id: 'cat_el_2', name: 'Laptops & Computers', slug: 'laptops-computers' },
   { id: 'cat_el_3', name: 'Audio & Headphones', slug: 'audio-headphones' },
   { id: 'cat_el_4', name: 'Cameras & Drones', slug: 'cameras-drones' },
-  { id: 'cat_el_5', name: 'Gaming Consoles & Accessories', slug: 'gaming' },
   { id: 'cat_el_6', name: 'Wearable Technology', slug: 'wearables' },
   { id: 'cat_el_7', name: 'Smart Home Devices', slug: 'smart-home' },
 ];
@@ -65,19 +64,6 @@ export const products: Product[] = [
     brand: 'AeroVision',
   },
   {
-    id: 'prod_el_5',
-    name: 'Vortex G1 Gaming Console',
-    description: 'Enter the next generation of gaming with the Vortex G1. Experience lightning-fast load times, stunning 4K graphics, and a vast library of exclusive titles.',
-    price: 499.99,
-    imageUrl: 'https://picsum.photos/seed/vortexconsole/600/400',
-    categoryId: 'cat_el_5',
-    categoryName: 'Gaming Consoles & Accessories',
-    stock: 60,
-    features: ['8K Output Support', 'Custom NVMe SSD', 'Ray Tracing Technology', 'Backward Compatibility', 'Haptic Feedback Controller'],
-    sku: 'GM-VG-001',
-    brand: 'QuantumPlay',
-  },
-  {
     id: 'prod_el_6',
     name: 'ChronoFit Active Smartwatch',
     description: 'Stay connected and track your fitness goals with the ChronoFit Active. ECG, SpO2 monitoring, built-in GPS, and a vibrant always-on display.',
@@ -102,19 +88,6 @@ export const products: Product[] = [
     features: ['Multi-protocol support', 'Voice assistant integration', 'Customizable automation scenes', 'Secure local control'],
     sku: 'SH-AH-PRO',
     brand: 'AuraHome',
-  },
-  {
-    id: 'prod_el_8',
-    name: 'StealthStrike Pro Gaming Mouse',
-    description: 'Dominate the competition with the StealthStrike Pro Gaming Mouse. Ultra-lightweight design, 20K DPI optical sensor, and customizable RGB lighting.',
-    price: 69.95,
-    imageUrl: 'https://picsum.photos/seed/gamingmouse/600/400',
-    categoryId: 'cat_el_5',
-    categoryName: 'Gaming Consoles & Accessories',
-    stock: 90,
-    features: ['20,000 DPI Optical Sensor', 'Lightweight 60g Design', '8 Programmable Buttons', 'Customizable RGB Lighting'],
-    sku: 'GM-MS-SSP',
-    brand: 'RaptorGaming',
   },
   // New Smartphones
   {
@@ -1225,14 +1198,6 @@ export const reviews: Review[] = [
     rating: 5,
     comment: 'Incredible drone for the price. Stable flight and amazing video quality. Easy to learn for beginners too!',
     date: '2024-02-28T07:30:00Z',
-  },
-   {
-    id: 'rev_el_7',
-    productId: 'prod_el_5', // Vortex G1 Gaming Console
-    userName: 'GamerGuyX',
-    rating: 5,
-    comment: 'Next-gen is finally here! Load times are insane and the graphics are breathtaking. Controller feels great.',
-    date: '2024-04-10T18:00:00Z',
   },
   {
     id: 'rev_el_8',
