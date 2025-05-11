@@ -13,6 +13,7 @@ import { Search as SearchIcon, Loader2, Eye } from 'lucide-react';
 import type { Product } from '@/types';
 import { getAllProducts } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 const DEBOUNCE_DELAY = 300;
 const MAX_PREVIEW_RESULTS = 5;
@@ -124,10 +125,18 @@ export function SearchInput() {
                   <li key={product.id}>
                     <Link
                       href={`/products/${product.id}`}
-                      className="flex items-center p-3 hover:bg-muted/50 transition-colors"
+                      className="flex items-center p-3 hover:bg-muted/50 transition-colors space-x-3"
                       onClick={() => setShowPreview(false)}
                     >
-                      {/* Image div removed */}
+                      <div className="w-12 h-12 bg-muted rounded-md overflow-hidden relative shrink-0">
+                        <Image
+                          src={`https://picsum.photos/seed/${product.id}/50/50`}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          data-ai-hint="search preview"
+                        />
+                      </div>
                       <div className="flex-grow min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
                         <p className="text-xs text-primary">₸{product.price.toFixed(2)}</p>

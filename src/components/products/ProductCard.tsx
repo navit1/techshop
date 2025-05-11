@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { useCart } from '@/contexts/CartProvider';
 import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 
 interface ProductCardProps {
   product: Product;
@@ -26,18 +27,27 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-      {/* Image removed */}
+      <Link href={`/products/${product.id}`} className="block group">
+        <div className="aspect-square w-full bg-muted overflow-hidden relative">
+          <Image
+            src={`https://picsum.photos/seed/${product.id}/300/300`}
+            alt={product.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            data-ai-hint="product image"
+          />
+        </div>
+      </Link>
       <CardHeader className="p-4">
         <Link href={`/products/${product.id}`}>
-          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors min-h-[3em] line-clamp-2">{product.name}</CardTitle>
+          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors min-h-[2.5em] line-clamp-2">{product.name}</CardTitle>
         </Link>
       </CardHeader>
       <CardContent className="p-4 flex-grow">
         <p className="text-sm text-muted-foreground mt-1">{product.categoryName}</p>
         <p className="text-xl font-bold text-primary mt-2">₸{product.price.toFixed(2)}</p>
-        {/* Removed description from card preview for brevity after image removal */}
       </CardContent>
-      <CardFooter className="p-4 border-t">
+      <CardFooter className="p-4 border-t mt-auto">
         <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
           <ShoppingCart className="mr-2 h-4 w-4" /> В корзину
         </Button>
