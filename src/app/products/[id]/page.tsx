@@ -1,8 +1,6 @@
 
-import Image from 'next/image';
 import { getProductById, getReviewsByProductId } from '@/lib/data';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StarRating } from '@/components/products/StarRating';
 import { ReviewItem } from '@/components/products/ReviewItem';
@@ -10,7 +8,7 @@ import { RecommendedProducts } from '@/components/products/RecommendedProducts';
 import { AddToCartButton } from './AddToCartButton'; // Client component for adding to cart
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Tag, Info, Package, ListChecks } from 'lucide-react';
+import { Tag, Package, ListChecks } from 'lucide-react';
 import { getReviewNoun } from '@/lib/i18nUtils';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -39,18 +37,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   return (
     <div className="space-y-12">
       <Card className="overflow-hidden shadow-lg">
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="relative aspect-square md:aspect-auto min-h-[300px] md:min-h-[500px]">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-              data-ai-hint={`${product.categoryName?.toLowerCase().replace('& ', '').replace(' ', '-') || 'electronic device'} closeup`}
-            />
-          </div>
+        <div className="grid md:grid-cols-1 gap-8"> {/* Changed to md:grid-cols-1 since image is removed */}
+          {/* Image div removed */}
           <div className="p-6 md:p-8 flex flex-col">
             <CardHeader className="p-0">
               <Badge variant="secondary" className="w-fit mb-2">{product.categoryName}</Badge>
@@ -116,6 +104,3 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
-
-    
-

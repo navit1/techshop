@@ -19,7 +19,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  imageUrl: string;
+  // imageUrl: string; // Removed as per user request
   categoryId: string;
   categoryName?: string; // Denormalized for convenience
   stock: number;

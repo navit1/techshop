@@ -1,7 +1,6 @@
 
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import type { CartItem as CartItemType } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -34,18 +33,7 @@ export function CartItem({ item }: CartItemProps) {
 
   return (
     <div className="flex items-center space-x-4 p-4 border-b bg-card rounded-md shadow-sm">
-      <Link href={`/products/${item.id}`}>
-        <div className="relative h-24 w-24 rounded-md overflow-hidden">
-           <Image
-            src={item.imageUrl}
-            alt={item.name}
-            fill
-            sizes="100px"
-            className="object-cover"
-            data-ai-hint="electronic product"
-          />
-        </div>
-      </Link>
+      {/* Image Link removed */}
       <div className="flex-grow">
         <Link href={`/products/${item.id}`}>
           <h3 className="text-lg font-semibold text-foreground hover:text-primary transition-colors">{item.name}</h3>
@@ -76,6 +64,3 @@ export function CartItem({ item }: CartItemProps) {
     </div>
   );
 }
-
-    
-

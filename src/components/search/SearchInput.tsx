@@ -5,7 +5,6 @@ import type { FormEvent} from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -128,16 +127,7 @@ export function SearchInput() {
                       className="flex items-center p-3 hover:bg-muted/50 transition-colors"
                       onClick={() => setShowPreview(false)}
                     >
-                      <div className="relative h-12 w-12 rounded-md overflow-hidden mr-3 shrink-0">
-                        <Image
-                          src={product.imageUrl}
-                          alt={product.name}
-                          fill
-                          sizes="50px"
-                          className="object-cover"
-                          data-ai-hint={`${product.categoryName?.toLowerCase() || 'gadget'} thumbnail`}
-                        />
-                      </div>
+                      {/* Image div removed */}
                       <div className="flex-grow min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
                         <p className="text-xs text-primary">₸{product.price.toFixed(2)}</p>
@@ -168,5 +158,3 @@ export function SearchInput() {
     </div>
   );
 }
-
-

@@ -1,8 +1,14 @@
 
 "use client";
 
-import type { CartItem, Product } from '@/types';
+import type { Product } from '@/types'; // Product type already updated (imageUrl removed)
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+// Define CartItem based on the updated Product type
+export interface CartItem extends Omit<Product, 'reviews' | 'imageUrl'> { // imageUrl removed here too
+  quantity: number;
+}
+
 
 interface CartContextType {
   cart: CartItem[];
@@ -44,7 +50,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-      return [...prevCart, { ...product, quantity: Math.min(quantity, product.stock) }];
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { reviews, ...productDetails } = product; // imageUrl is already not on Product by this point from types/index.ts
+      return [...prevCart, { ...productDetails, quantity: Math.min(quantity, product.stock) }];
     });
   };
 

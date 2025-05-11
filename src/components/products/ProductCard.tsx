@@ -1,6 +1,5 @@
 
 "use client";
-import Image from 'next/image';
 import Link from 'next/link';
 import type { Product } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -27,26 +26,16 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-      <Link href={`/products/${product.id}`} className="block">
-        <CardHeader className="p-0">
-          <div className="aspect-[4/3] relative w-full overflow-hidden">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-300"
-              data-ai-hint={`${product.categoryName?.toLowerCase().replace('& ', '').replace(' ', '-') || 'electronic device'} product`}
-            />
-          </div>
-        </CardHeader>
-      </Link>
-      <CardContent className="p-4 flex-grow">
+      {/* Image removed */}
+      <CardHeader className="p-4">
         <Link href={`/products/${product.id}`}>
-          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors">{product.name}</CardTitle>
+          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors min-h-[3em] line-clamp-2">{product.name}</CardTitle>
         </Link>
+      </CardHeader>
+      <CardContent className="p-4 flex-grow">
         <p className="text-sm text-muted-foreground mt-1">{product.categoryName}</p>
         <p className="text-xl font-bold text-primary mt-2">₸{product.price.toFixed(2)}</p>
+        {/* Removed description from card preview for brevity after image removal */}
       </CardContent>
       <CardFooter className="p-4 border-t">
         <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -56,6 +45,3 @@ export function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
-
-    
-
