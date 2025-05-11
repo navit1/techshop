@@ -121,29 +121,33 @@ export function SearchInput() {
             )}
             {!isLoadingPreview && previewResults.length > 0 && (
               <ul className="divide-y divide-border">
-                {previewResults.map(product => (
-                  <li key={product.id}>
-                    <Link
-                      href={`/products/${product.id}`}
-                      className="flex items-center p-3 hover:bg-muted/50 transition-colors space-x-3"
-                      onClick={() => setShowPreview(false)}
-                    >
-                      <div className="w-12 h-12 bg-muted rounded-md overflow-hidden relative shrink-0">
-                        <Image
-                          src={`https://picsum.photos/seed/${product.id}/50/50`}
-                          alt={product.name}
-                          fill
-                          className="object-cover"
-                          data-ai-hint="search preview"
-                        />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
-                        <p className="text-xs text-primary">₸{product.price.toFixed(2)}</p>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
+                {previewResults.map(product => {
+                  const imageSrc = product.imageUrl ? product.imageUrl : `https://picsum.photos/seed/${product.id}/50/50`;
+                  const imageHint = product.imageUrl && product.id === 'prod_el_9' ? "iphone pro" : "search preview";
+                  return (
+                    <li key={product.id}>
+                      <Link
+                        href={`/products/${product.id}`}
+                        className="flex items-center p-3 hover:bg-muted/50 transition-colors space-x-3"
+                        onClick={() => setShowPreview(false)}
+                      >
+                        <div className="w-12 h-12 bg-muted rounded-md overflow-hidden relative shrink-0">
+                          <Image
+                            src={imageSrc}
+                            alt={product.name}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={imageHint}
+                          />
+                        </div>
+                        <div className="flex-grow min-w-0">
+                          <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
+                          <p className="text-xs text-primary">₸{product.price.toFixed(2)}</p>
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             )}
             {!isLoadingPreview && debouncedSearchTerm.trim() && (

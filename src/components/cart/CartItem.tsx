@@ -32,16 +32,19 @@ export function CartItem({ item }: CartItemProps) {
     });
   }
 
+  const imageSrc = item.imageUrl ? item.imageUrl : `https://picsum.photos/seed/${item.id}/100/100`;
+  const imageHint = item.imageUrl && item.id === 'prod_el_9' ? "iphone pro" : "cart item";
+
   return (
     <div className="flex items-start sm:items-center space-x-4 p-4 border-b bg-card rounded-md shadow-sm flex-col sm:flex-row">
       <Link href={`/products/${item.id}`} className="shrink-0">
         <div className="w-24 h-24 bg-muted rounded-md overflow-hidden relative">
            <Image
-            src={`https://picsum.photos/seed/${item.id}/100/100`}
+            src={imageSrc}
             alt={item.name}
             fill
             className="object-cover"
-            data-ai-hint="cart item"
+            data-ai-hint={imageHint}
           />
         </div>
       </Link>

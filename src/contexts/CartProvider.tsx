@@ -1,11 +1,12 @@
 
 "use client";
 
-import type { Product } from '@/types'; // Product type already updated (imageUrl removed)
+import type { Product } from '@/types';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define CartItem based on the updated Product type
-export interface CartItem extends Omit<Product, 'reviews' | 'imageUrl'> { // imageUrl removed here too
+// imageUrl is now optional on Product, so CartItem will also have imageUrl?: string
+export interface CartItem extends Omit<Product, 'reviews'> { 
   quantity: number;
 }
 
@@ -51,7 +52,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { reviews, ...productDetails } = product; // imageUrl is already not on Product by this point from types/index.ts
+      const { reviews, ...productDetails } = product; 
+      // productDetails will now include imageUrl if present on product
       return [...prevCart, { ...productDetails, quantity: Math.min(quantity, product.stock) }];
     });
   };
