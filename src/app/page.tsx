@@ -13,16 +13,7 @@ export default function HomePage() {
     <div className="space-y-12">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary/70 via-primary/50 to-accent/50 text-primary-foreground py-20 px-6 rounded-lg shadow-xl overflow-hidden">
-        <div className="absolute inset-0">
-           <Image 
-            src="https://picsum.photos/seed/techhero/1200/400" 
-            alt="Современная электроника на стильном фоне"
-            fill
-            priority
-            className="object-cover opacity-30"
-            data-ai-hint="electronics store"
-          />
-        </div>
+        {/* Removed background image div and Image component */}
         <div className="relative container mx-auto text-center">
           <h1 className="text-5xl font-extrabold mb-4 tracking-tight">Добро пожаловать в TechShop</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -64,3 +55,4 @@ export default function HomePage() {
 }
 
     
+
