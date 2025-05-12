@@ -28,7 +28,7 @@ export default function HomePage() {
       {/* Featured Products Section */}
       <section>
         <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">Рекомендуемая электроника</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {featuredProducts.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
