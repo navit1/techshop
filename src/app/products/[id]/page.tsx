@@ -38,7 +38,11 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     <div className="space-y-12">
       <Card className="overflow-hidden shadow-lg">
         <div className="grid md:grid-cols-2 gap-0 md:gap-8">
-          {/* Removed image section */}
+          <div className="md:p-8">
+             <div className="aspect-video bg-muted rounded-lg md:rounded-l-lg md:rounded-r-none" data-ai-hint="product detail placeholder">
+              {/* Placeholder for product image */}
+            </div>
+          </div>
           <div className="p-6 md:p-8 flex flex-col">
             <CardHeader className="p-0">
               <Badge variant="secondary" className="w-fit mb-2">{product.categoryName}</Badge>

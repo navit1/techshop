@@ -33,7 +33,11 @@ export function CartItem({ item }: CartItemProps) {
 
   return (
     <div className="flex items-start sm:items-center space-x-4 p-4 border-b bg-card rounded-md shadow-sm flex-col sm:flex-row">
-      {/* Removed image section */}
+      <Link href={`/products/${item.id}`} className="flex-shrink-0">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-muted rounded-md" data-ai-hint="cart item placeholder">
+          {/* Placeholder for product image */}
+        </div>
+      </Link>
       <div className="flex-grow mt-3 sm:mt-0">
         <Link href={`/products/${item.id}`}>
           <h3 className="text-lg font-semibold text-foreground hover:text-primary transition-colors line-clamp-2">{item.name}</h3>

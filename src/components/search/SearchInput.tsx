@@ -127,7 +127,9 @@ export function SearchInput() {
                         className="flex items-center p-3 hover:bg-muted/50 transition-colors space-x-3"
                         onClick={() => setShowPreview(false)}
                       >
-                        {/* Removed image section */}
+                        <div className="w-12 h-12 bg-muted rounded-md flex-shrink-0" data-ai-hint="search preview placeholder">
+                          {/* Placeholder for product image */}
+                        </div>
                         <div className="flex-grow min-w-0">
                           <p className="text-sm font-medium text-foreground truncate">{product.name}</p>
                           <p className="text-xs text-primary">₸{product.price.toFixed(2)}</p>

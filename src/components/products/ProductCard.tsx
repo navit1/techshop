@@ -26,10 +26,14 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-      {/* Removed image section */}
+      <Link href={`/products/${product.id}`} className="block group">
+        <div className="aspect-[4/3] bg-muted rounded-t-lg group-hover:opacity-90 transition-opacity" data-ai-hint="product placeholder">
+          {/* Placeholder for product image */}
+        </div>
+      </Link>
       <CardHeader className="p-2 sm:p-3">
         <Link href={`/products/${product.id}`}>
-          <CardTitle className="text-base sm:text-lg font-semibold hover:text-primary transition-colors min-h-[2.2em] line-clamp-2">{product.name}</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-semibold hover:text-primary transition-colors min-h-[2.2em] line-clamp-2 leading-tight">{product.name}</CardTitle>
         </Link>
       </CardHeader>
       <CardContent className="p-2 sm:p-3 flex-grow">
@@ -44,4 +48,3 @@ export function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
-
