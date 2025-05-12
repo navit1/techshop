@@ -90,7 +90,7 @@ export function SearchInput() {
   }, []);
 
   return (
-    <div className="relative w-full" ref={searchContainerRef}>
+    <div className="relative w-full lg:w-[440px]" ref={searchContainerRef}>
       <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
         <Input
           type="search"

@@ -5,11 +5,6 @@ import { getProductNoun } from '@/lib/i18nUtils';
 import { ProductGrid } from '@/components/products/ProductGrid';
 import { ProductGridSkeleton } from '@/components/products/ProductGridSkeleton';
 
-export const metadata = {
-  title: 'Товары - TechShop',
-  description: 'Ознакомьтесь со всеми нашими товарами в TechShop.',
-};
-
 export default function ProductsPage({
   searchParams,
 }: {
