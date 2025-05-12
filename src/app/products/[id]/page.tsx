@@ -10,7 +10,6 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tag, Package, ListChecks } from 'lucide-react';
 import { getReviewNoun } from '@/lib/i18nUtils';
-import Image from 'next/image';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = getProductById(params.id);
@@ -35,23 +34,11 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
     : 0;
 
-  const imageSrc = product.imageUrl ? product.imageUrl : `https://picsum.photos/seed/${product.id}/600/600`;
-  const imageHint = product.imageUrl && product.id === 'prod_el_9' ? "iphone pro" : "product detail";
-
   return (
     <div className="space-y-12">
       <Card className="overflow-hidden shadow-lg">
         <div className="grid md:grid-cols-2 gap-0 md:gap-8">
-          <div className="aspect-square md:aspect-auto bg-muted relative min-h-[300px] md:min-h-0">
-            <Image
-              src={imageSrc}
-              alt={product.name}
-              fill
-              priority
-              className="object-cover"
-              data-ai-hint={imageHint}
-            />
-          </div>
+          {/* Removed image section */}
           <div className="p-6 md:p-8 flex flex-col">
             <CardHeader className="p-0">
               <Badge variant="secondary" className="w-fit mb-2">{product.categoryName}</Badge>

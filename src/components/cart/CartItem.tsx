@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartProvider';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-import Image from 'next/image';
 
 interface CartItemProps {
   item: CartItemType;
@@ -32,22 +31,9 @@ export function CartItem({ item }: CartItemProps) {
     });
   }
 
-  const imageSrc = item.imageUrl ? item.imageUrl : `https://picsum.photos/seed/${item.id}/100/100`;
-  const imageHint = item.imageUrl && item.id === 'prod_el_9' ? "iphone pro" : "cart item";
-
   return (
     <div className="flex items-start sm:items-center space-x-4 p-4 border-b bg-card rounded-md shadow-sm flex-col sm:flex-row">
-      <Link href={`/products/${item.id}`} className="shrink-0">
-        <div className="w-24 h-24 bg-muted rounded-md overflow-hidden relative">
-           <Image
-            src={imageSrc}
-            alt={item.name}
-            fill
-            className="object-cover"
-            data-ai-hint={imageHint}
-          />
-        </div>
-      </Link>
+      {/* Removed image section */}
       <div className="flex-grow mt-3 sm:mt-0">
         <Link href={`/products/${item.id}`}>
           <h3 className="text-lg font-semibold text-foreground hover:text-primary transition-colors line-clamp-2">{item.name}</h3>

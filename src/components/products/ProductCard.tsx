@@ -7,7 +7,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { useCart } from '@/contexts/CartProvider';
 import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart } from 'lucide-react';
-import Image from 'next/image';
 
 interface ProductCardProps {
   product: Product;
@@ -25,24 +24,9 @@ export function ProductCard({ product }: ProductCardProps) {
     });
   };
 
-  const imageSrc = product.imageUrl ? product.imageUrl : `https://picsum.photos/seed/${product.id}/300/300`;
-  const imageHint = product.imageUrl && product.id === 'prod_el_9' ? "iphone pro" : "product image";
-
-
   return (
     <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
-      <Link href={`/products/${product.id}`} className="block group">
-        <div className="aspect-square w-full bg-muted overflow-hidden relative">
-          <Image
-            src={imageSrc}
-            alt={product.name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            data-ai-hint={imageHint}
-            priority={product.id === 'prod_el_9'} // Prioritize loading for specific important images
-          />
-        </div>
-      </Link>
+      {/* Removed image section */}
       <CardHeader className="p-2 sm:p-3">
         <Link href={`/products/${product.id}`}>
           <CardTitle className="text-base sm:text-lg font-semibold hover:text-primary transition-colors min-h-[2.2em] line-clamp-2">{product.name}</CardTitle>
