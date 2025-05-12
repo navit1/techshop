@@ -39,7 +39,7 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       <Card className="overflow-hidden shadow-lg">
         <div className="grid md:grid-cols-2 gap-0 md:gap-8">
           <div className="md:p-8">
-             <div className="aspect-video bg-muted rounded-lg md:rounded-l-lg md:rounded-r-none" data-ai-hint="product detail placeholder">
+             <div className="aspect-video bg-muted rounded-lg" data-ai-hint="product detail placeholder">
               {/* Placeholder for product image */}
             </div>
           </div>
@@ -108,3 +108,4 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
+
