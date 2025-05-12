@@ -43,20 +43,21 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </div>
       </Link>
-      <CardHeader className="p-4">
+      <CardHeader className="p-2 sm:p-3">
         <Link href={`/products/${product.id}`}>
-          <CardTitle className="text-lg font-semibold hover:text-primary transition-colors min-h-[2.5em] line-clamp-2">{product.name}</CardTitle>
+          <CardTitle className="text-base sm:text-lg font-semibold hover:text-primary transition-colors min-h-[2.2em] line-clamp-2">{product.name}</CardTitle>
         </Link>
       </CardHeader>
-      <CardContent className="p-4 flex-grow">
-        <p className="text-sm text-muted-foreground mt-1">{product.categoryName}</p>
-        <p className="text-xl font-bold text-primary mt-2">₸{product.price.toFixed(2)}</p>
+      <CardContent className="p-2 sm:p-3 flex-grow">
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">{product.categoryName}</p>
+        <p className="text-lg sm:text-xl font-bold text-primary mt-1 sm:mt-2">₸{product.price.toFixed(2)}</p>
       </CardContent>
-      <CardFooter className="p-4 border-t mt-auto">
-        <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+      <CardFooter className="p-2 sm:p-3 border-t mt-auto">
+        <Button onClick={handleAddToCart} className="w-full bg-accent hover:bg-accent/90 text-accent-foreground text-sm sm:text-base py-1.5 sm:py-2">
           <ShoppingCart className="mr-2 h-4 w-4" /> В корзину
         </Button>
       </CardFooter>
     </Card>
   );
 }
+
