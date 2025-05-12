@@ -34,19 +34,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* Call to Action / Promotions (Optional) */}
-      <section className="bg-card p-8 rounded-lg shadow-md">
-        <div className="text-center">
-          <h3 className="text-2xl font-semibold text-primary mb-3">Горячие предложения этой недели!</h3>
-          <p className="text-muted-foreground mb-6">
-            Не упустите эксклюзивные предложения на лучшие электронные гаджеты. Предложение ограничено.
-          </p>
-          <Button asChild variant="outline">
-            <Link href="/products?filter=sale">Смотреть предложения</Link>
-          </Button>
-        </div>
-      </section>
       
       {/* AI Recommendations can be added here if desired for the homepage */}
       {/* <RecommendedProducts /> */}
@@ -55,4 +42,3 @@ export default function HomePage() {
 }
 
     
-
