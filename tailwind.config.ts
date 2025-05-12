@@ -7,6 +7,13 @@ export default {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // Add safelist for dynamically generated grid column classes
+  safelist: [
+    {
+      pattern: /grid-cols-(2|3|4)/, // Pattern for grid-cols-2, grid-cols-3, grid-cols-4
+      variants: ['md'], // Ensure it works with the md: prefix
+    },
+  ],
   theme: {
   	extend: {
   		colors: {
