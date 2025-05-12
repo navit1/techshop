@@ -32,7 +32,7 @@ export default function ProductsPage({ searchParams }: { searchParams?: { catego
         {products.length === 0 ? (
           <p className="text-center text-muted-foreground text-xl py-10">Товары в этой категории не найдены.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

@@ -98,13 +98,13 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
     return (
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-6 text-foreground">Вам также может понравиться</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex flex-col space-y-3">
-              <Skeleton className="h-[200px] w-full rounded-xl" />
+              <Skeleton className="h-[150px] sm:h-[200px] w-full rounded-xl" />
               <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
               </div>
             </div>
           ))}
@@ -124,7 +124,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-semibold mb-6 text-foreground">Вам также может понравиться</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {recommendations.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
@@ -132,4 +132,3 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
     </div>
   );
 }
-
