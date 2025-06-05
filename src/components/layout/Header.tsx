@@ -1,7 +1,7 @@
 
 "use client";
 import Link from 'next/link';
-import { ShoppingCart, List, Heart, User, Menu } from 'lucide-react';
+import { ShoppingCart, List, Heart, User, Menu, ChevronDown } from 'lucide-react';
 import { useCart } from '@/contexts/CartProvider';
 import { SearchInput } from '@/components/search/SearchInput';
 import {
@@ -13,11 +13,67 @@ import { CatalogDropdown } from '@/components/layout/CatalogDropdown';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import { getAllCategories } from '@/lib/data'; // Added for popover categories
+import type { Category } from '@/types'; // Added for popover categories
+import { ScrollArea } from '@/components/ui/scroll-area'; // Added for popover categories
+import { cn } from '@/lib/utils'; // Added for popover categories
+
+
+interface PopoverCatalogDropdownProps {
+  onLinkClick?: () => void;
+  categories: Category[];
+}
+
+function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropdownProps) {
+  const mainCategories = categories.filter(c => !c.parentId);
+  const getSubCategories = (parentId: string) => categories.filter(c => c.parentId === parentId);
+
+  return (
+    <div className="bg-card text-card-foreground shadow-lg rounded-b-md md:rounded-md border border-t-0 md:border-t">
+      <ScrollArea className="h-auto md:max-h-[80vh] md:h-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-2 p-4 md:p-6">
+          {mainCategories.map((category) => {
+            const subCategories = getSubCategories(category.id);
+            return (
+              <div key={category.id} className="py-2">
+                <Link
+                  href={`/products?category=${category.slug}`}
+                  onClick={onLinkClick}
+                  className="group font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center justify-between mb-2"
+                >
+                  <span>{category.name}</span>
+                  {subCategories.length > 0 && <ChevronDown className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />}
+                </Link>
+                {subCategories.length > 0 && (
+                  <ul className="space-y-1 pl-3 border-l border-border ml-1">
+                    {subCategories.map((subCategory) => (
+                      <li key={subCategory.id}>
+                        <Link
+                          href={`/products?category=${subCategory.slug}`}
+                          onClick={onLinkClick}
+                          className="block text-xs text-muted-foreground hover:text-primary transition-colors py-1"
+                        >
+                          {subCategory.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}
+
 
 export function Header() {
   const { cart } = useCart();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const allCategories = getAllCategories(); // Fetch categories
 
   return (
     <header className="bg-card shadow-md sticky top-0 z-50 w-full border-b">
@@ -38,8 +94,8 @@ export function Header() {
                   <span>Каталог</span>
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-screen max-w-4xl mt-1 p-0" align="start">
-                <CatalogDropdown />
+              <PopoverContent className="w-screen max-w-5xl mt-1 p-0" align="start">
+                 <PopoverCatalogDropdown categories={allCategories} />
               </PopoverContent>
             </Popover>
           </div>
@@ -53,23 +109,25 @@ export function Header() {
         {/* Right side: Desktop Icons & Mobile Trigger */}
         <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
           {/* Desktop Icons */}
-          <nav className="hidden md:flex items-center space-x-3 sm:space-x-4 md:space-x-6">
-            <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors relative" aria-label="Корзина">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="sr-only md:not-sr-only md:ml-1">Корзина</span>
-              {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {itemCount}
-                </span>
-              )}
+          <nav className="hidden md:flex items-center space-x-3 sm:space-x-4 md:space-x-5">
+            <Link href="/cart" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors relative px-1 py-0.5" aria-label="Корзина">
+              <div className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2.5 bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-xs mt-0.5">Корзина</span>
             </Link>
-            <Link href="/wishlist" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Избранное">
+            <Link href="/wishlist" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-0.5" aria-label="Избранное">
               <Heart className="h-5 w-5" />
-              <span className="sr-only md:not-sr-only md:ml-1">Избранное</span>
+              <span className="text-xs mt-0.5">Избранное</span>
             </Link>
-            <Link href="/login" className="flex items-center text-foreground hover:text-primary transition-colors" aria-label="Вход">
+            <Link href="/login" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-0.5" aria-label="Вход">
               <User className="h-5 w-5" />
-              <span className="sr-only md:not-sr-only md:ml-1">Вход</span>
+              <span className="text-xs mt-0.5">Вход</span>
             </Link>
           </nav>
 
@@ -89,12 +147,14 @@ export function Header() {
                         TechShop
                      </Link>
                    </div>
-                   <div className="p-4 flex-grow">
+                   <div className="p-4 flex-grow overflow-y-auto">
                       <div className="mb-6">
                          <SearchInput />
                       </div>
-                      <h3 className="text-lg font-semibold mb-4 px-2 text-foreground">Каталог</h3>
-                      <CatalogDropdown onLinkClick={() => setIsMobileMenuOpen(false)} />
+                      <h3 className="text-lg font-semibold mb-2 px-2 text-foreground">Каталог</h3>
+                      <div className="border rounded-md">
+                        <CatalogDropdown onLinkClick={() => setIsMobileMenuOpen(false)} />
+                      </div>
 
                       <nav className="mt-8 flex flex-col space-y-4 border-t pt-6">
                         <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label="Корзина" onClick={() => setIsMobileMenuOpen(false)}>
@@ -131,3 +191,4 @@ export function Header() {
     </header>
   );
 }
+
