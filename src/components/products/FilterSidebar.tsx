@@ -155,7 +155,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex justify-between items-center p-4 border-b flex-shrink-0">
-        <h3 className="text-xl font-semibold text-foreground flex items-center">
+        <h3 className="text-lg font-semibold text-foreground flex items-center"> {/* Reduced from text-xl */}
           <FilterIcon className="w-5 h-5 mr-2" />
           Фильтры
         </h3>
@@ -164,10 +164,10 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
         </Button>
       </div>
       
-      <ScrollArea className="flex-1 pr-3 pt-6 overflow-y-auto">
+      <ScrollArea className="flex-1 pr-3 pt-4 overflow-y-auto"> {/* Reduced pt from 6 to 4 */}
         <Accordion type="multiple" defaultValue={['price', 'brand', 'color']} className="w-full">
           <AccordionItem value="price">
-            <AccordionTrigger className="text-lg font-medium hover:no-underline">Цена</AccordionTrigger>
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">Цена</AccordionTrigger> {/* Changed from text-lg font-medium */}
             <AccordionContent className="space-y-4 pt-2">
               <Slider
                 value={priceRange}
@@ -178,24 +178,24 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
                 step={Math.max(100, Math.round((maxPossiblePrice - minPossiblePrice) / 1000) * 100)} 
                 className="my-4"
               />
-              <div className="flex justify-between items-center gap-2">
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3"> {/* Changed layout for inputs */}
                 <Input
                   type="number"
                   value={minPriceInput}
                   onChange={(e) => setMinPriceInput(e.target.value)}
                   onBlur={handlePriceInputChange}
                   placeholder="От"
-                  className="w-1/2"
+                  className="w-full sm:flex-1" /* Made inputs flexible */
                   aria-label="Минимальная цена"
                 />
-                <span className="text-muted-foreground">-</span>
+                <span className="text-muted-foreground hidden sm:inline">-</span> {/* Hide dash on stacked inputs */}
                 <Input
                   type="number"
                   value={maxPriceInput}
                   onChange={(e) => setMaxPriceInput(e.target.value)}
                   onBlur={handlePriceInputChange}
                   placeholder="До"
-                  className="w-1/2"
+                  className="w-full sm:flex-1" /* Made inputs flexible */
                   aria-label="Максимальная цена"
                 />
               </div>
@@ -204,7 +204,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
 
           {availableBrands.length > 0 && (
             <AccordionItem value="brand">
-              <AccordionTrigger className="text-lg font-medium hover:no-underline">Бренд</AccordionTrigger>
+              <AccordionTrigger className="text-base font-semibold hover:no-underline">Бренд</AccordionTrigger> {/* Changed from text-lg font-medium */}
               <AccordionContent className="space-y-2 pt-2">
                 {availableBrands.map(brand => (
                   <div key={brand} className="flex items-center space-x-2">
@@ -225,7 +225,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
           
           {availableColors.length > 0 && (
             <AccordionItem value="color">
-              <AccordionTrigger className="text-lg font-medium hover:no-underline">Цвет</AccordionTrigger>
+              <AccordionTrigger className="text-base font-semibold hover:no-underline">Цвет</AccordionTrigger> {/* Changed from text-lg font-medium */}
               <AccordionContent className="space-y-2 pt-2">
                 {availableColors.map(color => (
                   <div key={color} className="flex items-center space-x-2">
@@ -248,4 +248,5 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
       </ScrollArea>
     </div>
   );
-}
+
+    

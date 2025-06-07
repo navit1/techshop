@@ -240,7 +240,7 @@ export default function ProductsPage() {
       {/* Mobile Filter Sheet */}
       <Sheet open={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen}>
         <SheetContent side="left" className="w-full max-w-xs sm:max-w-sm p-0">
-          <div className="p-4 h-full"> {/* Ensure FilterSidebar has a parent with height */}
+          <div className="h-full"> {/* Removed p-4 from here */}
              <FilterSidebar products={filteredAndSortedProducts} allProductsForCategory={productsForCategory} />
           </div>
         </SheetContent>
@@ -248,3 +248,5 @@ export default function ProductsPage() {
     </div>
   );
 }
+
+    
