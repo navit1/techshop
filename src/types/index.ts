@@ -26,8 +26,10 @@ export interface Product {
   stock: number;
   reviews?: Review[]; // Optional, can be fetched separately
   features?: string[];
-  sku?: string;
+  attributes?: Record<string, string | string[]>; // For specific filterable attributes like { "Цвет": "Черный", "RAM": "8GB" }
   brand?: string;
+  sku?: string;
+  dateAdded: string; // ISO date string for "Newness" sorting
 }
 
 export interface CartItem extends Product {
