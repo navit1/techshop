@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { Product, Category } from '@/types';
+import type { Product } from '@/types';
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -21,8 +21,6 @@ import { ScrollArea } from '../ui/scroll-area';
 interface FilterSidebarProps {
   products: Product[]; // Products in the current category/view
   allProductsForCategory: Product[]; // All products for the base category to derive filter options
-  // onFilterChange: (filters: any) => void; // Will be handled by URL params
-  // initialFilters: any; // Will be read from URL params
 }
 
 const MIN_PRICE_DEFAULT = 0;
@@ -37,11 +35,10 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
     parseInt(searchParams.get('maxPrice') || String(MAX_PRICE_DEFAULT), 10)
   ]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
-    searchParams.get('brands')?.split(',') || []
+    searchParams.get('brands')?.split(',').filter(Boolean) || []
   );
-  // Example for a single attribute filter, extend this pattern for more attributes
   const [selectedColors, setSelectedColors] = useState<string[]>(
-    searchParams.get('colors')?.split(',') || []
+    searchParams.get('colors')?.split(',').filter(Boolean) || []
   );
 
   const [minPriceInput, setMinPriceInput] = useState(String(priceRange[0]));
@@ -76,7 +73,6 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
   }, [priceRange]);
 
   useEffect(() => {
-    // Sync state from URL on initial load or URL change
     const min = parseInt(searchParams.get('minPrice') || String(minPossiblePrice), 10);
     const max = parseInt(searchParams.get('maxPrice') || String(maxPossiblePrice), 10);
     setPriceRange([min, max]);
@@ -141,16 +137,13 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
     params.delete('maxPrice');
     params.delete('brands');
     params.delete('colors');
-    // Add other filter params to delete here
     router.push(`?${params.toString()}`, { scroll: false });
     
-    // Also reset local state, though useEffect on searchParams should handle this
     setPriceRange([minPossiblePrice, maxPossiblePrice]);
     setSelectedBrands([]);
     setSelectedColors([]);
   };
 
-  // Calculate product counts for filter options (simple version for now)
   const getBrandProductCount = (brand: string) => {
     return allProductsForCategory.filter(p => p.brand === brand).length;
   };
@@ -160,8 +153,8 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
 
 
   return (
-    <div className="w-full space-y-6">
-      <div className="flex justify-between items-center pb-4 border-b">
+    <div className="w-full h-full flex flex-col">
+      <div className="flex justify-between items-center p-4 border-b flex-shrink-0">
         <h3 className="text-xl font-semibold text-foreground flex items-center">
           <FilterIcon className="w-5 h-5 mr-2" />
           Фильтры
@@ -171,18 +164,18 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
         </Button>
       </div>
       
-      <ScrollArea className="h-[calc(100vh-200px)] pr-3"> {/* Adjust height as needed */}
+      <ScrollArea className="flex-1 pr-3 pt-6 overflow-y-auto">
         <Accordion type="multiple" defaultValue={['price', 'brand', 'color']} className="w-full">
           <AccordionItem value="price">
-            <AccordionTrigger className="text-lg font-medium">Цена</AccordionTrigger>
+            <AccordionTrigger className="text-lg font-medium hover:no-underline">Цена</AccordionTrigger>
             <AccordionContent className="space-y-4 pt-2">
               <Slider
                 value={priceRange}
-                onValueChange={setPriceRange} // For live visual feedback
-                onValueCommit={handleSliderCommit} // To apply filter
+                onValueChange={setPriceRange} 
+                onValueCommit={handleSliderCommit} 
                 min={minPossiblePrice}
                 max={maxPossiblePrice}
-                step={Math.max(100, Math.round((maxPossiblePrice - minPossiblePrice) / 1000) * 100)} // Dynamic step
+                step={Math.max(100, Math.round((maxPossiblePrice - minPossiblePrice) / 1000) * 100)} 
                 className="my-4"
               />
               <div className="flex justify-between items-center gap-2">
@@ -211,7 +204,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
 
           {availableBrands.length > 0 && (
             <AccordionItem value="brand">
-              <AccordionTrigger className="text-lg font-medium">Бренд</AccordionTrigger>
+              <AccordionTrigger className="text-lg font-medium hover:no-underline">Бренд</AccordionTrigger>
               <AccordionContent className="space-y-2 pt-2">
                 {availableBrands.map(brand => (
                   <div key={brand} className="flex items-center space-x-2">
@@ -232,7 +225,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
           
           {availableColors.length > 0 && (
             <AccordionItem value="color">
-              <AccordionTrigger className="text-lg font-medium">Цвет</AccordionTrigger>
+              <AccordionTrigger className="text-lg font-medium hover:no-underline">Цвет</AccordionTrigger>
               <AccordionContent className="space-y-2 pt-2">
                 {availableColors.map(color => (
                   <div key={color} className="flex items-center space-x-2">
@@ -250,8 +243,6 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
               </AccordionContent>
             </AccordionItem>
           )}
-
-          {/* Add more AccordionItems for other attributes here */}
           
         </Accordion>
       </ScrollArea>
