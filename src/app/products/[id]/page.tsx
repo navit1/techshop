@@ -8,7 +8,7 @@ import { RecommendedProducts } from '@/components/products/RecommendedProducts';
 import { AddToCartButton } from './AddToCartButton'; // Client component for adding to cart
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Tag, Package, ListChecks } from 'lucide-react';
+import { Tag, Package, ListChecks, TruckIcon, CreditCardIcon } from 'lucide-react';
 import { getReviewNoun } from '@/lib/i18nUtils';
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -78,8 +78,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
             </CardContent>
             
-            <div className="mt-auto pt-6">
+            <div className="mt-auto pt-6 space-y-4">
                <AddToCartButton product={product} />
+               <div className="text-xs text-muted-foreground space-y-1">
+                  <p className="flex items-center"><TruckIcon className="w-4 h-4 mr-2 text-primary/70" />Примерный срок доставки: 2-5 дней.</p>
+                  <p className="flex items-center"><CreditCardIcon className="w-4 h-4 mr-2 text-primary/70" />Доступные способы оплаты: Kaspi, Visa, MasterCard.</p>
+               </div>
             </div>
           </div>
         </div>
@@ -108,4 +112,3 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
-
