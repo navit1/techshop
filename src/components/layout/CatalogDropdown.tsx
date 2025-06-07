@@ -1,40 +1,55 @@
 
-import { getAllCategories } from '@/lib/data';
 import type { Category } from '@/types';
 import Link from 'next/link';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { ChevronRight } from 'lucide-react'; // Or any suitable icon
+import { ChevronRight } from 'lucide-react';
 
 interface CatalogDropdownProps {
-  onLinkClick?: () => void; // Optional callback for mobile menu closing
+  onLinkClick?: () => void;
+  categories: Category[];
 }
 
-export function CatalogDropdown({ onLinkClick }: CatalogDropdownProps) {
-  const categories: Category[] = getAllCategories();
-
-  // Determine number of columns based on category count (adjust as needed)
-  const numColumns = categories.length > 12 ? 4 : (categories.length > 6 ? 3 : 2);
-  const columnClass = `grid-cols-${numColumns}`;
+export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProps) {
+  const mainCategories = categories.filter(c => !c.parentId);
+  const getSubCategories = (parentId: string) => categories.filter(c => c.parentId === parentId);
 
   return (
-    <div className="bg-card text-card-foreground shadow-lg rounded-b-md md:rounded-md border border-t-0 md:border-t">
-      <ScrollArea className="h-auto md:max-h-[70vh] md:h-auto"> {/* Added ScrollArea */}
-        <div className={cn(
-            "grid gap-x-6 gap-y-4 p-4 md:p-6",
-             `md:${columnClass}` // Apply grid columns only on medium screens and up
-             )}>
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/products?category=${category.slug}`}
-              onClick={onLinkClick}
-              className="group flex items-center justify-between p-2 rounded-md text-sm font-medium text-foreground hover:bg-muted hover:text-primary transition-colors"
-            >
-              <span>{category.name}</span>
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-            </Link>
-          ))}
+    <div className="bg-card text-card-foreground">
+      <ScrollArea className="h-auto max-h-[70vh]">
+        <div className="p-3 space-y-1">
+          {mainCategories.map((category) => {
+            const subCategories = getSubCategories(category.id);
+            return (
+              <div key={category.id}>
+                <Link
+                  href={`/products?category=${category.slug}`}
+                  onClick={onLinkClick}
+                  className="group flex items-center justify-between p-2.5 rounded-md text-sm font-semibold text-foreground hover:bg-muted hover:text-primary transition-colors"
+                >
+                  <span>{category.name}</span>
+                  {subCategories.length > 0 && (
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors opacity-75" />
+                  )}
+                </Link>
+                {subCategories.length > 0 && (
+                  <ul className="pt-1 pb-2 pl-5 space-y-1 ml-2 border-l border-border/70">
+                    {subCategories.map((subCategory) => (
+                      <li key={subCategory.id}>
+                        <Link
+                          href={`/products?category=${subCategory.slug}`}
+                          onClick={onLinkClick}
+                          className="group flex items-center justify-between p-2 rounded-md text-xs font-medium text-muted-foreground hover:bg-muted/70 hover:text-primary transition-colors"
+                        >
+                          <span>{subCategory.name}</span>
+                           <ChevronRight className="h-3 w-3 text-muted-foreground/50 group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </div>
       </ScrollArea>
     </div>

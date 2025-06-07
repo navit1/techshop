@@ -3,6 +3,7 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
+  parentId?: string; // Добавлено для поддержки иерархии
 }
 
 export interface Review {
