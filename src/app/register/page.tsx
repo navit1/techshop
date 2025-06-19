@@ -67,6 +67,8 @@ export default function RegisterPage() {
         errorMessage = "Пароль слишком слабый. Пожалуйста, используйте более надежный пароль (минимум 6 символов).";
       } else if (error.code === "auth/invalid-email") {
         errorMessage = "Некорректный формат email.";
+      } else if (error.code === "auth/api-key-not-valid") {
+        errorMessage = "Ошибка конфигурации Firebase: недействительный API ключ. Пожалуйста, проверьте файл src/lib/firebase.ts и ваши переменные окружения (.env.local), чтобы убедиться, что указан правильный API ключ вашего Firebase проекта.";
       }
       
       toast({
