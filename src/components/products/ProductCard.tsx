@@ -5,8 +5,10 @@ import type { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartProvider';
+import { useWishlist } from '@/contexts/WishlistProvider'; // Added
 import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart, Heart } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Added for cn utility
 
 interface ProductCardProps {
   product: Product;
@@ -14,7 +16,10 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isProductInWishlist } = useWishlist(); // Added wishlist hooks
   const { toast } = useToast();
+
+  const isInWishlist = isProductInWishlist(product.id);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -24,12 +29,21 @@ export function ProductCard({ product }: ProductCardProps) {
     });
   };
 
-  const handleAddToWishlist = () => {
-    // Placeholder for actual wishlist logic
-    toast({
-      title: "Добавлено в избранное",
-      description: `${product.name} добавлен в ваше избранное.`,
-    });
+  const handleToggleWishlist = () => {
+    if (isInWishlist) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Удалено из избранного",
+        description: `${product.name} удален из вашего избранного.`,
+        variant: "destructive" 
+      });
+    } else {
+      addToWishlist(product.id);
+      toast({
+        title: "Добавлено в избранное",
+        description: `${product.name} добавлен в ваше избранное.`,
+      });
+    }
   };
 
   return (
@@ -61,11 +75,14 @@ export function ProductCard({ product }: ProductCardProps) {
           <Button 
             variant="outline" 
             size="icon" 
-            onClick={handleAddToWishlist} 
-            aria-label="Добавить в избранное"
-            className="h-auto aspect-square p-[calc(theme(spacing.1)_+_1px)] sm:p-[calc(theme(spacing.1)_+_3px)]" // Adjusted padding for responsiveness
+            onClick={handleToggleWishlist} 
+            aria-label={isInWishlist ? "Удалить из избранного" : "Добавить в избранное"}
+            className={cn(
+                "h-auto aspect-square p-[calc(theme(spacing.1)_+_1px)] sm:p-[calc(theme(spacing.1)_+_3px)]",
+                isInWishlist ? "border-destructive text-destructive hover:bg-destructive/10" : ""
+            )}
           >
-            <Heart className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Heart className={cn("h-4 w-4 sm:h-5 sm:w-5", isInWishlist ? "fill-destructive" : "")} />
           </Button>
         </div>
       </CardFooter>

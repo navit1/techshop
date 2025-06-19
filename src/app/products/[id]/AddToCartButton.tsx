@@ -6,8 +6,10 @@ import type { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartProvider';
+import { useWishlist } from '@/contexts/WishlistProvider'; // Added
 import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart, Plus, Minus, Heart } from 'lucide-react';
+import { cn } from '@/lib/utils'; // Added
 
 interface AddToCartButtonProps {
   product: Product;
@@ -16,7 +18,10 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ product }: AddToCartButtonProps) {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isProductInWishlist } = useWishlist(); // Added
   const { toast } = useToast();
+
+  const isInWishlist = isProductInWishlist(product.id);
 
   const handleAddToCart = () => {
     if (quantity > 0) {
@@ -29,12 +34,21 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     }
   };
 
-  const handleAddToWishlist = () => {
-    // Placeholder for actual wishlist logic
-    toast({
-      title: "Добавлено в избранное",
-      description: `${product.name} добавлен в ваше избранное.`,
-    });
+  const handleToggleWishlist = () => {
+    if (isInWishlist) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Удалено из избранного",
+        description: `${product.name} удален из вашего избранного.`,
+        variant: "destructive"
+      });
+    } else {
+      addToWishlist(product.id);
+      toast({
+        title: "Добавлено в избранное",
+        description: `${product.name} добавлен в ваше избранное.`,
+      });
+    }
   };
 
   const incrementQuantity = () => {
@@ -91,11 +105,14 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
       <Button 
         variant="outline" 
         size="icon" 
-        onClick={handleAddToWishlist} 
-        aria-label="Добавить в избранное"
-        className="h-10 w-10"
+        onClick={handleToggleWishlist} 
+        aria-label={isInWishlist ? "Удалить из избранного" : "Добавить в избранное"}
+        className={cn(
+            "h-10 w-10",
+            isInWishlist ? "border-destructive text-destructive hover:bg-destructive/10" : ""
+        )}
       >
-        <Heart className="h-5 w-5" />
+        <Heart className={cn("h-5 w-5", isInWishlist ? "fill-destructive" : "")} />
       </Button>
     </div>
   );

@@ -5,6 +5,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CartProvider } from '@/contexts/CartProvider';
+import { WishlistProvider } from '@/contexts/WishlistProvider'; // Added
 import { Toaster } from "@/components/ui/toaster"; // ShadCN Toaster
 
 const geistSans = Geist({
@@ -30,17 +31,17 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
-        <CartProvider>
-          <Header />
-          <main className="flex-grow container mx-auto px-4 py-8">
-            {children}
-          </main>
-          <Footer />
-          <Toaster />
-        </CartProvider>
+        <WishlistProvider> {/* Added WishlistProvider */}
+          <CartProvider>
+            <Header />
+            <main className="flex-grow container mx-auto px-4 py-8">
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+          </CartProvider>
+        </WishlistProvider> {/* Added WishlistProvider */}
       </body>
     </html>
   );
 }
-
-    
