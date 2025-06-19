@@ -7,6 +7,7 @@ import { getProductById } from '@/lib/data';
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { isGoogleAIPluginActive } from '@/ai/genkit'; // Import the flag
 
 interface RecommendedProductsProps {
   currentProductId?: string; // Optional: to exclude current product from recommendations
@@ -22,9 +23,17 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
 
   useEffect(() => {
     const fetchRecommendations = async () => {
+      setIsLoading(true);
+      setError(null);
+
+      if (!isGoogleAIPluginActive) {
+        setError("Функция AI-рекомендаций недоступна. Пожалуйста, проверьте конфигурацию API ключа Google.");
+        setRecommendations([]);
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        setIsLoading(true);
-        setError(null);
         let history: string[] = [];
         if (typeof window !== 'undefined') {
           const storedHistory = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -33,18 +42,8 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
           }
         }
         
-        // Filter out current product ID from history if provided
         const relevantHistory = currentProductId ? history.filter(id => id !== currentProductId) : history;
-
-        if (relevantHistory.length === 0 && !currentProductId) { // If no history and no current product to base on, show nothing or popular
-            setRecommendations([]);
-            setIsLoading(false);
-            return;
-        }
-        
-        // Use current product ID as part of history if history is empty
         const inputHistory = relevantHistory.length > 0 ? relevantHistory : (currentProductId ? [currentProductId] : []);
-
 
         if (inputHistory.length === 0) {
             setRecommendations([]);
@@ -58,7 +57,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
           const recommendedProductDetails = result.recommendedProducts
             .map(id => getProductById(id))
             .filter(p => p !== undefined && p.id !== currentProductId) as Product[];
-          setRecommendations(recommendedProductDetails.slice(0, 4)); // Show up to 4 recommendations
+          setRecommendations(recommendedProductDetails.slice(0, 4));
         } else {
           setRecommendations([]);
         }
@@ -81,7 +80,6 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
       if (storedHistory) {
         history = JSON.parse(storedHistory);
       }
-      // Add to front, remove duplicates, and limit size
       history = [productId, ...history.filter(id => id !== productId)].slice(0, MAX_HISTORY_ITEMS);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
     }
@@ -114,11 +112,16 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
   }
 
   if (error) {
-    return <p className="text-destructive mt-4">{error}</p>;
+    return (
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold mb-6 text-foreground">Вам также может понравиться</h2>
+        <p className="text-destructive mt-4 p-4 bg-destructive/10 rounded-md">{error}</p>
+      </div>
+    );
   }
 
   if (recommendations.length === 0) {
-    return null; // Don't show section if no recommendations
+    return null;
   }
 
   return (
