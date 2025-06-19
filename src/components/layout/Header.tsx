@@ -1,7 +1,7 @@
 
 "use client";
 import Link from 'next/link';
-import { ShoppingCart, List, Heart, User, Menu, ChevronDown, ChevronRight } from 'lucide-react';
+import { ShoppingCart, List, Heart, User, Menu, ChevronDown, ChevronRight, LogIn, UserCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartProvider';
 import { SearchInput } from '@/components/search/SearchInput';
 import {
@@ -9,14 +9,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CatalogDropdown } from '@/components/layout/CatalogDropdown'; // Used for mobile
+import { CatalogDropdown } from '@/components/layout/CatalogDropdown';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAllCategories } from '@/lib/data';
 import type { Category } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
+import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 
 interface PopoverCatalogDropdownProps {
@@ -42,7 +43,6 @@ function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropd
                   className="group font-semibold text-base text-foreground hover:text-primary transition-colors flex items-center justify-between mb-2.5"
                 >
                   <span>{category.name}</span>
-                  {/* Icon can be added if needed e.g. <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors opacity-50 group-hover:opacity-100" /> */}
                 </Link>
                 {subCategories.length > 0 && (
                   <ul className="space-y-1.5">
@@ -73,7 +73,21 @@ export function Header() {
   const { cart } = useCart();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const allCategories = getAllCategories(); 
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setIsLoadingAuth(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const authLinkHref = currentUser ? "/profile" : "/login";
+  const authLinkText = currentUser ? "Профиль" : "Вход";
+  const AuthIcon = currentUser ? UserCircle : LogIn;
 
   return (
     <header className="bg-card shadow-md sticky top-0 z-50 w-full border-b">
@@ -121,10 +135,12 @@ export function Header() {
               <Heart className="h-5 w-5" />
               <span className="text-xs mt-1 group-hover:text-primary transition-colors">Избранное</span>
             </Link>
-            <Link href="/login" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label="Вход">
-              <User className="h-5 w-5" />
-              <span className="text-xs mt-1 group-hover:text-primary transition-colors">Вход</span>
-            </Link>
+            {!isLoadingAuth && (
+                <Link href={authLinkHref} className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label={authLinkText}>
+                  <AuthIcon className="h-5 w-5" />
+                  <span className="text-xs mt-1 group-hover:text-primary transition-colors">{authLinkText}</span>
+                </Link>
+            )}
           </nav>
 
           <div className="md:hidden">
@@ -164,10 +180,12 @@ export function Header() {
                           <Heart className="h-5 w-5 mr-3" />
                           <span>Избранное</span>
                         </Link>
-                        <Link href="/login" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label="Вход" onClick={() => setIsMobileMenuOpen(false)}>
-                          <User className="h-5 w-5 mr-3" />
-                          <span>Вход</span>
-                        </Link>
+                        {!isLoadingAuth && (
+                            <Link href={authLinkHref} className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label={authLinkText} onClick={() => setIsMobileMenuOpen(false)}>
+                              <AuthIcon className="h-5 w-5 mr-3" />
+                              <span>{authLinkText}</span>
+                            </Link>
+                        )}
                       </nav>
                    </div>
                 </div>
