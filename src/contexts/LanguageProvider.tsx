@@ -20,6 +20,7 @@ const dictionaries: Dictionaries = {
   ru: {
     'app.name': 'TechShop',
     'nav.catalog': 'Каталог',
+    'nav.menu_open_aria': 'Открыть меню',
     'nav.cart': 'Корзина',
     'nav.wishlist': 'Избранное',
     'nav.profile': 'Профиль',
@@ -28,6 +29,7 @@ const dictionaries: Dictionaries = {
     'footer.powered_by': 'Работает на Next.js и ShadCN UI',
 
     'search.placeholder': 'Поиск товаров...',
+    'search.submit_aria_label': 'Найти',
     'search.loading': 'Загрузка...',
     'search.no_results_for_query': 'Товары по запросу "{query}" не найдены.',
     'search.show_all_results_for_query': 'Показать все результаты для "{query}"',
@@ -51,7 +53,7 @@ const dictionaries: Dictionaries = {
     'product.add_to_wishlist_aria': 'Добавить в избранное',
     'product.remove_from_wishlist_aria': 'Удалить из избранного',
     'product.toast_added_to_cart_title': 'Добавлено в корзину',
-    'product.toast_added_to_cart_desc': '{name} добавлен в вашу корзину.',
+    'product.toast_added_to_cart_desc': '{name} добавлен в вашу корзину ({count} шт).',
     'product.toast_added_to_wishlist_title': 'Добавлено в избранное',
     'product.toast_added_to_wishlist_desc': '{name} добавлен в ваше избранное.',
     'product.toast_removed_from_wishlist_title': 'Удалено из избранного',
@@ -59,11 +61,14 @@ const dictionaries: Dictionaries = {
     'product.quantity_aria': 'Количество',
     'product.decrease_quantity_aria': 'Уменьшить количество',
     'product.increase_quantity_aria': 'Увеличить количество',
-    'product.page_title': 'Товары - TechShop',
+    'product.page_title': 'Товары', 
     'product.page_description': 'Ознакомьтесь со всеми нашими товарами в TechShop. Фильтруйте по цене, бренду и другим характеристикам.',
     'product.all_products_title': 'Все товары',
     'product.category_not_found_title': 'Категория не найдена',
     'product.search_results_in_category_title': 'Результаты поиска по запросу "{query}" в категории "{categoryName}"',
+    'product.no_products_found_generic': 'Товары не найдены.',
+    'product.no_products_in_category': 'Товары в категории "{categoryName}" не найдены.',
+    'product.product_not_found_title': 'Товар не найден',
 
 
     'filter.sidebar_title': 'Фильтры',
@@ -118,6 +123,8 @@ const dictionaries: Dictionaries = {
     'reviews.rating_required': 'Пожалуйста, поставьте оценку.',
     'reviews.comment_min_length': 'Отзыв должен содержать не менее 10 символов.',
     'reviews.comment_max_length': 'Отзыв не должен превышать 1000 символов.',
+    'user.anonymous': 'Анонимный пользователь',
+
 
     'cart.page_title': 'Ваша корзина',
     'cart.page_description': 'Просмотрите товары в вашей корзине и перейдите к оформлению заказа.',
@@ -217,7 +224,7 @@ const dictionaries: Dictionaries = {
     'checkout.confirmation.button_continue_shopping': 'Продолжить покупки',
     'checkout.confirmation.button_to_profile': 'Перейти в профиль',
 
-    'login.page_title': 'Вход - TechShop',
+    'login.page_title': 'Вход',
     'login.card_title': 'Вход в TechShop',
     'login.card_description': 'Введите свои данные для доступа к аккаунту.',
     'login.email_label': 'Email',
@@ -239,7 +246,7 @@ const dictionaries: Dictionaries = {
     'login.validation_email_invalid': 'Пожалуйста, введите действительный email.',
     'login.validation_password_empty': 'Пароль не может быть пустым.',
 
-    'register.page_title': 'Регистрация - TechShop',
+    'register.page_title': 'Регистрация',
     'register.card_title': 'Регистрация в TechShop',
     'register.card_description': 'Создайте новый аккаунт, чтобы начать покупки.',
     'register.email_label': 'Email',
@@ -265,7 +272,7 @@ const dictionaries: Dictionaries = {
     'register.validation_password_min_length': 'Пароль должен содержать не менее 6 символов.',
     'register.validation_passwords_do_not_match': 'Пароли не совпадают.',
     
-    'wishlist.page_title': 'Избранное - TechShop',
+    'wishlist.page_title': 'Избранное',
     'wishlist.title': 'Избранные товары',
     'wishlist.count_text': 'В избранном: {count} {noun}',
     'wishlist.empty_title': 'Ваше избранное пусто',
@@ -331,6 +338,7 @@ const dictionaries: Dictionaries = {
     'profile.language_kazakh': 'Қазақша',
     'profile.language_change_note': 'Полная смена языка интерфейса будет доступна в следующих обновлениях.',
     'profile.logout': 'Выйти из аккаунта',
+    'profile.logout_success_desc': 'Вы успешно вышли из системы.',
     'profile.redirecting_to_login': 'Перенаправление на страницу входа...',
     'profile.user_avatar_fallback_prefix': 'П',
     'toast.lang_changed_title': 'Настройки языка',
@@ -343,12 +351,60 @@ const dictionaries: Dictionaries = {
 
     'noun.product': { one: 'товар', few: 'товара', many: 'товаров' },
     'noun.review': { one: 'отзыв', few: 'отзыва', many: 'отзывов' },
-    'noun.item': { one: 'товар', few: 'товара', many: 'товаров' }, // Or 'позиция', 'позиции', 'позиций'
+    'noun.item': { one: 'товар', few: 'товара', many: 'товаров' }, 
     'noun.order': { one: 'заказ', few: 'заказа', many: 'заказов' },
+
+    'category.phones-gadgets': 'Телефоны и гаджеты',
+    'category.smartphones': 'Смартфоны',
+    'category.smartphone-accessories': 'Аксессуары для смартфонов',
+    'category.feature-phones': 'Кнопочные телефоны',
+    'category.smartwatches-bands': 'Умные часы и браслеты',
+    'category.laptops-computers': 'Ноутбуки и компьютеры',
+    'category.laptops': 'Ноутбуки',
+    'category.tablets': 'Планшеты',
+    'category.desktops-all-in-ones': 'Настольные ПК и Моноблоки',
+    'category.monitors': 'Мониторы',
+    'category.pc-components': 'Комплектующие для ПК',
+    'category.peripherals-accessories': 'Периферия и аксессуары',
+    'category.audio-devices': 'Аудиотехника',
+    'category.headphones-headsets': 'Наушники и гарнитуры',
+    'category.portable-speakers': 'Портативные колонки',
+    'category.home-audio-systems': 'Домашние аудиосистемы',
+    'category.photo-video': 'Фото и видео',
+    'category.cameras': 'Фотоаппараты',
+    'category.camcorders': 'Видеокамеры',
+    'category.action-cameras': 'Экшн-камеры',
+    'category.drones-quadcopters': 'Дроны и квадрокоптеры',
+    'category.photo-video-accessories': 'Аксессуары для фото и видео',
+    'category.smart-home': 'Умный дом',
+    'category.smart-security': 'Системы безопасности',
+    'category.smart-lighting': 'Умное освещение',
+    'category.smart-plugs-switches': 'Умные розетки и выключатели',
+    'category.smart-climate': 'Климат-контроль',
+
+    'color.midnight black': 'Черный как ночь',
+    'color.nebula blue': 'Туманно-синий',
+    'color.space gray': 'Серый космос',
+    'color.graphite black': 'Графитово-черный',
+    'color.obsidian black': 'Обсидианово-черный',
+    'color.natural titanium': 'Натуральный титан',
+    'color.titanium gray': 'Титановый серый',
+    'color.black': 'Черный',
+    'color.asteroid black': 'Астероидно-черный',
+    'color.starry night': 'Звездная ночь',
+    'color.silver': 'Серебристый',
+    'color.space black': 'Черный космос',
+    'color.blue': 'Синий',
+    'color.eclipse gray': 'Сумрачно-серый',
+    'color.inkwell gray': 'Чернильно-серый',
+    'color.cool silver': 'Холодный серебристый',
+    'color.grey': 'Серый',
+    'color.charcoal': 'Угольный',
   },
   en: {
     'app.name': 'TechShop',
     'nav.catalog': 'Catalog',
+    'nav.menu_open_aria': 'Open menu',
     'nav.cart': 'Cart',
     'nav.wishlist': 'Wishlist',
     'nav.profile': 'Profile',
@@ -357,6 +413,7 @@ const dictionaries: Dictionaries = {
     'footer.powered_by': 'Powered by Next.js and ShadCN UI',
 
     'search.placeholder': 'Search products...',
+    'search.submit_aria_label': 'Submit search',
     'search.loading': 'Loading...',
     'search.no_results_for_query': 'No products found for "{query}".',
     'search.show_all_results_for_query': 'Show all results for "{query}"',
@@ -380,7 +437,7 @@ const dictionaries: Dictionaries = {
     'product.add_to_wishlist_aria': 'Add to wishlist',
     'product.remove_from_wishlist_aria': 'Remove from wishlist',
     'product.toast_added_to_cart_title': 'Added to Cart',
-    'product.toast_added_to_cart_desc': '{name} has been added to your cart.',
+    'product.toast_added_to_cart_desc': '{name} has been added to your cart ({count} item(s)).',
     'product.toast_added_to_wishlist_title': 'Added to Wishlist',
     'product.toast_added_to_wishlist_desc': '{name} has been added to your wishlist.',
     'product.toast_removed_from_wishlist_title': 'Removed from Wishlist',
@@ -388,11 +445,14 @@ const dictionaries: Dictionaries = {
     'product.quantity_aria': 'Quantity',
     'product.decrease_quantity_aria': 'Decrease quantity',
     'product.increase_quantity_aria': 'Increase quantity',
-    'product.page_title': 'Products - TechShop',
+    'product.page_title': 'Products',
     'product.page_description': 'Browse all our products at TechShop. Filter by price, brand, and other features.',
     'product.all_products_title': 'All Products',
     'product.category_not_found_title': 'Category Not Found',
     'product.search_results_in_category_title': 'Search results for "{query}" in "{categoryName}"',
+    'product.no_products_found_generic': 'No products found.',
+    'product.no_products_in_category': 'No products found in category "{categoryName}".',
+    'product.product_not_found_title': 'Product Not Found',
     
     'filter.sidebar_title': 'Filters',
     'filter.reset_all': 'Reset All',
@@ -446,6 +506,8 @@ const dictionaries: Dictionaries = {
     'reviews.rating_required': 'Please provide a rating.',
     'reviews.comment_min_length': 'Review must be at least 10 characters long.',
     'reviews.comment_max_length': 'Review must not exceed 1000 characters.',
+    'user.anonymous': 'Anonymous User',
+
 
     'cart.page_title': 'Your Cart',
     'cart.page_description': 'Review items in your cart and proceed to checkout.',
@@ -545,7 +607,7 @@ const dictionaries: Dictionaries = {
     'checkout.confirmation.button_continue_shopping': 'Continue Shopping',
     'checkout.confirmation.button_to_profile': 'Go to Profile',
 
-    'login.page_title': 'Login - TechShop',
+    'login.page_title': 'Login',
     'login.card_title': 'Login to TechShop',
     'login.card_description': 'Enter your details to access your account.',
     'login.email_label': 'Email',
@@ -567,7 +629,7 @@ const dictionaries: Dictionaries = {
     'login.validation_email_invalid': 'Please enter a valid email.',
     'login.validation_password_empty': 'Password cannot be empty.',
 
-    'register.page_title': 'Register - TechShop',
+    'register.page_title': 'Register',
     'register.card_title': 'Register for TechShop',
     'register.card_description': 'Create a new account to start shopping.',
     'register.email_label': 'Email',
@@ -593,7 +655,7 @@ const dictionaries: Dictionaries = {
     'register.validation_password_min_length': 'Password must be at least 6 characters.',
     'register.validation_passwords_do_not_match': 'Passwords do not match.',
 
-    'wishlist.page_title': 'Wishlist - TechShop',
+    'wishlist.page_title': 'Wishlist',
     'wishlist.title': 'Favorite Products',
     'wishlist.count_text': 'In wishlist: {count} {noun}',
     'wishlist.empty_title': 'Your wishlist is empty',
@@ -659,6 +721,7 @@ const dictionaries: Dictionaries = {
     'profile.language_kazakh': 'Қазақша',
     'profile.language_change_note': 'Full interface language change will be available in future updates.',
     'profile.logout': 'Logout',
+    'profile.logout_success_desc': 'You have been successfully logged out.',
     'profile.redirecting_to_login': 'Redirecting to login page...',
     'profile.user_avatar_fallback_prefix': 'U',
     'toast.lang_changed_title': 'Language Settings',
@@ -673,10 +736,58 @@ const dictionaries: Dictionaries = {
     'noun.review': { one: 'review', few: 'reviews', many: 'reviews' },
     'noun.item': { one: 'item', few: 'items', many: 'items' },
     'noun.order': { one: 'order', few: 'orders', many: 'orders' },
+
+    'category.phones-gadgets': 'Phones & Gadgets',
+    'category.smartphones': 'Smartphones',
+    'category.smartphone-accessories': 'Smartphone Accessories',
+    'category.feature-phones': 'Feature Phones',
+    'category.smartwatches-bands': 'Smartwatches & Bands',
+    'category.laptops-computers': 'Laptops & Computers',
+    'category.laptops': 'Laptops',
+    'category.tablets': 'Tablets',
+    'category.desktops-all-in-ones': 'Desktops & All-in-Ones',
+    'category.monitors': 'Monitors',
+    'category.pc-components': 'PC Components',
+    'category.peripherals-accessories': 'Peripherals & Accessories',
+    'category.audio-devices': 'Audio Devices',
+    'category.headphones-headsets': 'Headphones & Headsets',
+    'category.portable-speakers': 'Portable Speakers',
+    'category.home-audio-systems': 'Home Audio Systems',
+    'category.photo-video': 'Photo & Video',
+    'category.cameras': 'Cameras',
+    'category.camcorders': 'Camcorders',
+    'category.action-cameras': 'Action Cameras',
+    'category.drones-quadcopters': 'Drones & Quadcopters',
+    'category.photo-video-accessories': 'Photo & Video Accessories',
+    'category.smart-home': 'Smart Home',
+    'category.smart-security': 'Smart Security',
+    'category.smart-lighting': 'Smart Lighting',
+    'category.smart-plugs-switches': 'Smart Plugs & Switches',
+    'category.smart-climate': 'Smart Climate Control',
+    
+    'color.midnight black': 'Midnight Black',
+    'color.nebula blue': 'Nebula Blue',
+    'color.space gray': 'Space Gray',
+    'color.graphite black': 'Graphite Black',
+    'color.obsidian black': 'Obsidian Black',
+    'color.natural titanium': 'Natural Titanium',
+    'color.titanium gray': 'Titanium Gray',
+    'color.black': 'Black',
+    'color.asteroid black': 'Asteroid Black',
+    'color.starry night': 'Starry Night',
+    'color.silver': 'Silver',
+    'color.space black': 'Space Black',
+    'color.blue': 'Blue',
+    'color.eclipse gray': 'Eclipse Gray',
+    'color.inkwell gray': 'Inkwell Gray',
+    'color.cool silver': 'Cool Silver',
+    'color.grey': 'Grey',
+    'color.charcoal': 'Charcoal',
   },
   kk: {
     'app.name': 'TechShop',
     'nav.catalog': 'Каталог',
+    'nav.menu_open_aria': 'Мәзірді ашу',
     'nav.cart': 'Себет',
     'nav.wishlist': 'Таңдаулылар',
     'nav.profile': 'Профиль',
@@ -685,6 +796,7 @@ const dictionaries: Dictionaries = {
     'footer.powered_by': 'Next.js және ShadCN UI негізінде жұмыс істейді',
 
     'search.placeholder': 'Тауарларды іздеу...',
+    'search.submit_aria_label': 'Іздеу',
     'search.loading': 'Жүктелуде...',
     'search.no_results_for_query': '"{query}" сұрауы бойынша тауарлар табылмады.',
     'search.show_all_results_for_query': '"{query}" үшін барлық нәтижелерді көрсету',
@@ -708,7 +820,7 @@ const dictionaries: Dictionaries = {
     'product.add_to_wishlist_aria': 'Таңдаулыларға қосу',
     'product.remove_from_wishlist_aria': 'Таңдаулылардан өшіру',
     'product.toast_added_to_cart_title': 'Себетке қосылды',
-    'product.toast_added_to_cart_desc': '{name} сіздің себетіңізге қосылды.',
+    'product.toast_added_to_cart_desc': '{name} сіздің себетіңізге ({count} дана) қосылды.',
     'product.toast_added_to_wishlist_title': 'Таңдаулыларға қосылды',
     'product.toast_added_to_wishlist_desc': '{name} сіздің таңдаулыларыңызға қосылды.',
     'product.toast_removed_from_wishlist_title': 'Таңдаулылардан өшірілді',
@@ -716,11 +828,15 @@ const dictionaries: Dictionaries = {
     'product.quantity_aria': 'Саны',
     'product.decrease_quantity_aria': 'Санын азайту',
     'product.increase_quantity_aria': 'Санын көбейту',
-    'product.page_title': 'Тауарлар - TechShop',
+    'product.page_title': 'Тауарлар',
     'product.page_description': 'TechShop-тағы барлық тауарларымызбен танысыңыз. Баға, бренд және басқа сипаттамалар бойынша сүзгілеңіз.',
     'product.all_products_title': 'Барлық тауарлар',
     'product.category_not_found_title': 'Санат табылмады',
     'product.search_results_in_category_title': '"{query}" сұрауы бойынша "{categoryName}" санатындағы іздеу нәтижелері',
+    'product.no_products_found_generic': 'Тауарлар табылмады.',
+    'product.no_products_in_category': '"{categoryName}" санатында тауарлар табылмады.',
+    'product.product_not_found_title': 'Тауар табылмады',
+
 
     'filter.sidebar_title': 'Сүзгілер',
     'filter.reset_all': 'Барлығын тастау',
@@ -774,6 +890,8 @@ const dictionaries: Dictionaries = {
     'reviews.rating_required': 'Баға қойыңыз.',
     'reviews.comment_min_length': 'Пікір кемінде 10 таңбадан тұруы керек.',
     'reviews.comment_max_length': 'Пікір 1000 таңбадан аспауы керек.',
+    'user.anonymous': 'Анонимді пайдаланушы',
+
 
     'cart.page_title': 'Сіздің себетіңіз',
     'cart.page_description': 'Себеттегі тауарларды қарап шығып, тапсырыс беруге өтіңіз.',
@@ -873,7 +991,7 @@ const dictionaries: Dictionaries = {
     'checkout.confirmation.button_continue_shopping': 'Сатып алуды жалғастыру',
     'checkout.confirmation.button_to_profile': 'Профильге өту',
 
-    'login.page_title': 'Кіру - TechShop',
+    'login.page_title': 'Кіру',
     'login.card_title': 'TechShop-қа кіру',
     'login.card_description': 'Аккаунтыңызға кіру үшін деректеріңізді енгізіңіз.',
     'login.email_label': 'Email',
@@ -895,7 +1013,7 @@ const dictionaries: Dictionaries = {
     'login.validation_email_invalid': 'Жарамды email енгізіңіз.',
     'login.validation_password_empty': 'Құпия сөз бос болмауы керек.',
 
-    'register.page_title': 'Тіркелу - TechShop',
+    'register.page_title': 'Тіркелу',
     'register.card_title': 'TechShop-та тіркелу',
     'register.card_description': 'Сатып алуды бастау үшін жаңа аккаунт жасаңыз.',
     'register.email_label': 'Email',
@@ -921,7 +1039,7 @@ const dictionaries: Dictionaries = {
     'register.validation_password_min_length': 'Құпия сөз кемінде 6 таңбадан тұруы керек.',
     'register.validation_passwords_do_not_match': 'Құпия сөздер сәйкес келмейді.',
 
-    'wishlist.page_title': 'Таңдаулылар - TechShop',
+    'wishlist.page_title': 'Таңдаулылар',
     'wishlist.title': 'Таңдаулы тауарлар',
     'wishlist.count_text': 'Таңдаулыларда: {count} {noun}',
     'wishlist.empty_title': 'Сіздің таңдаулыларыңыз бос',
@@ -987,8 +1105,9 @@ const dictionaries: Dictionaries = {
     'profile.language_kazakh': 'Қазақша',
     'profile.language_change_note': 'Интерфейс тілін толық өзгерту келесі жаңартуларда қолжетімді болады.',
     'profile.logout': 'Шығу',
+    'profile.logout_success_desc': 'Сіз жүйеден сәтті шықтыңыз.',
     'profile.redirecting_to_login': 'Кіру бетіне бағытталуда...',
-    'profile.user_avatar_fallback_prefix': 'П', // (П - Пайдаланушы)
+    'profile.user_avatar_fallback_prefix': 'П', 
     'toast.lang_changed_title': 'Тіл параметрлері',
     'toast.lang_changed_desc_ru': 'Язык изменен на Русский.',
     'toast.lang_changed_desc_en': 'Language changed to English.',
@@ -999,15 +1118,62 @@ const dictionaries: Dictionaries = {
 
     'noun.product': { one: 'тауар', few: 'тауар', many: 'тауарлар' },
     'noun.review': { one: 'пікір', few: 'пікір', many: 'пікірлер' },
-    'noun.item': { one: 'тауар', few: 'тауар', many: 'тауарлар' }, // немесе 'зат', 'заттар'
+    'noun.item': { one: 'тауар', few: 'тауар', many: 'тауарлар' },
     'noun.order': { one: 'тапсырыс', few: 'тапсырыс', many: 'тапсырыстар' },
+
+    'category.phones-gadgets': 'Телефондар мен гаджеттер',
+    'category.smartphones': 'Смартфондар',
+    'category.smartphone-accessories': 'Смартфон аксессуарлары',
+    'category.feature-phones': 'Түймелі телефондар',
+    'category.smartwatches-bands': 'Смарт сағаттар мен білезіктер',
+    'category.laptops-computers': 'Ноутбуктер мен компьютерлер',
+    'category.laptops': 'Ноутбуктер',
+    'category.tablets': 'Планшеттер',
+    'category.desktops-all-in-ones': 'Үстел компьютерлері мен моноблоктар',
+    'category.monitors': 'Мониторлар',
+    'category.pc-components': 'ДК құрамдас бөліктері',
+    'category.peripherals-accessories': 'Периферия және аксессуарлар',
+    'category.audio-devices': 'Аудиотехника',
+    'category.headphones-headsets': 'Құлаққаптар мен гарнитуралар',
+    'category.portable-speakers': 'Портативті колонкалар',
+    'category.home-audio-systems': 'Үй аудиожүйелері',
+    'category.photo-video': 'Фото және видео',
+    'category.cameras': 'Фотокамералар',
+    'category.camcorders': 'Бейнекамералар',
+    'category.action-cameras': 'Экшн-камералар',
+    'category.drones-quadcopters': 'Дрондар мен квадрокоптерлер',
+    'category.photo-video-accessories': 'Фото және видео аксессуарлары',
+    'category.smart-home': 'Ақылды үй',
+    'category.smart-security': 'Қауіпсіздік жүйелері',
+    'category.smart-lighting': 'Ақылды жарықтандыру',
+    'category.smart-plugs-switches': 'Ақылды розеткалар мен ажыратқыштар',
+    'category.smart-climate': 'Климаттық бақылау',
+    
+    'color.midnight black': 'Түн қарасы',
+    'color.nebula blue': 'Тұманды көк',
+    'color.space gray': 'Ғарыш сұры',
+    'color.graphite black': 'Графит қарасы',
+    'color.obsidian black': 'Обсидиан қарасы',
+    'color.natural titanium': 'Табиғи титан',
+    'color.titanium gray': 'Титан сұры',
+    'color.black': 'Қара',
+    'color.asteroid black': 'Астероид қарасы',
+    'color.starry night': 'Жұлдызды түн',
+    'color.silver': 'Күміс',
+    'color.space black': 'Ғарыш қарасы',
+    'color.blue': 'Көк',
+    'color.eclipse gray': 'Тұтылу сұры',
+    'color.inkwell gray': 'Сия сұры',
+    'color.cool silver': 'Салқын күміс',
+    'color.grey': 'Сұр',
+    'color.charcoal': 'Көмір',
   },
 };
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
-  translate: (key: string, params?: Record<string, string | number>) => string;
+  translate: (key: string, params?: Record<string, string | number | undefined>, defaultValue?: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -1015,7 +1181,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const LANGUAGE_STORAGE_KEY = 'appLanguage';
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('ru'); // По умолчанию русский
+  const [language, setLanguageState] = useState<Language>('ru'); 
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -1023,9 +1189,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
     if (storedLanguage && dictionaries[storedLanguage]) {
       setLanguageState(storedLanguage);
-      document.documentElement.lang = storedLanguage; // Set lang attribute on HTML element
-    } else {
-      document.documentElement.lang = 'ru'; // Default lang
     }
   }, []);
 
@@ -1034,16 +1197,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setLanguageState(lang);
       if (isMounted) {
         localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
-        document.documentElement.lang = lang; // Update lang attribute
       }
     }
   }, [isMounted]);
 
-  const translate = useCallback((key: string, params?: Record<string, string | number>): string => {
-    const currentDictionary = dictionaries[language] || dictionaries.ru; // Фоллбэк на русский, если язык не найден
+  const translate = useCallback((key: string, params?: Record<string, string | number | undefined>, defaultValue?: string): string => {
+    const currentDictionary = dictionaries[language] || dictionaries.ru; 
     let translationValue = currentDictionary[key];
 
-    // Handle pluralization if the key maps to an object
     if (typeof translationValue === 'object' && params && typeof params.count === 'number') {
         const count = params.count;
         const n = Math.abs(count) % 100;
@@ -1053,16 +1214,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         else if (n1 === 1) translationValue = translationValue.one;
         else translationValue = translationValue.many;
     }
-
-
-    let translation = typeof translationValue === 'string' ? translationValue : key; // Fallback to key if not a string after plural check
+    
+    let translation = typeof translationValue === 'string' ? translationValue : (defaultValue || key);
 
     if (params) {
       Object.keys(params).forEach(paramKey => {
-        // Skip 'count' for direct replacement if it was used for pluralization
         if (paramKey === 'count' && typeof currentDictionary[key] === 'object') return;
-        const regex = new RegExp(`{${paramKey}}`, 'g');
-        translation = translation.replace(regex, String(params[paramKey]));
+        if (params[paramKey] !== undefined) {
+            const regex = new RegExp(`{${paramKey}}`, 'g');
+            translation = translation.replace(regex, String(params[paramKey]));
+        }
       });
     }
     return translation;
@@ -1073,11 +1234,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         document.documentElement.lang = language;
     }
   }, [language, isMounted]);
-
-  // Предотвращаем рендеринг на сервере с неправильным языком, ждем монтирования на клиенте
-  if (!isMounted && typeof window !== "undefined") { // Check for window to ensure client-side only
-    return null; 
-  }
 
 
   return (
