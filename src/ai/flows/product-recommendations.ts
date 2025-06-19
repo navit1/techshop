@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -48,6 +49,7 @@ export async function productRecommendations(input: ProductRecommendationsInput)
 
 const prompt = ai.definePrompt({
   name: 'productRecommendationsPrompt',
+  model: 'googleai/gemini-2.0-flash', // Explicitly define the model
   input: {schema: ProductRecommendationsInputSchema},
   output: {schema: ProductRecommendationsOutputSchema},
   tools: [shouldIncludeProduct],
