@@ -8,15 +8,18 @@ import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, LogOut, UserCircle, ShoppingBag, Settings, KeyRound, HomeIcon, Edit3 } from "lucide-react";
+import { Loader2, LogOut, UserCircle, ShoppingBag, Settings, KeyRound, HomeIcon, Edit3, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export default function ProfilePage() {
   const router = useRouter();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState("ru"); // Default to Russian
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -27,6 +30,13 @@ export default function ProfilePage() {
       }
       setIsLoading(false);
     });
+
+    // In a real i18n setup, you would load the saved language preference here
+    // For now, this is just for the Select component's state
+    const savedLang = typeof window !== "undefined" ? localStorage.getItem("appLanguage") : null;
+    if (savedLang) {
+      setSelectedLanguage(savedLang);
+    }
 
     return () => unsubscribe();
   }, [router]);
@@ -47,6 +57,18 @@ export default function ProfilePage() {
         variant: "destructive",
       });
     }
+  };
+
+  const handleLanguageChange = (lang: string) => {
+    setSelectedLanguage(lang);
+    // In a real i18n setup, you would save this preference and update the app's language
+    if (typeof window !== "undefined") {
+        localStorage.setItem("appLanguage", lang);
+    }
+    toast({
+      title: "Настройки языка",
+      description: `Язык изменен на ${lang === 'ru' ? 'Русский' : lang === 'en' ? 'English' : 'Қазақша'}. Перезагрузите страницу для применения (имитация).`,
+    });
   };
 
   if (isLoading) {
@@ -117,7 +139,6 @@ export default function ProfilePage() {
           <p className="text-muted-foreground">
             Здесь будет отображаться ваша история заказов. Этот раздел находится в разработке.
           </p>
-          {/* <Button variant="link" className="p-0 h-auto mt-2">Перейти к заказам</Button> */}
         </CardContent>
       </Card>
 
@@ -138,6 +159,34 @@ export default function ProfilePage() {
           </Button>
         </CardContent>
       </Card>
+
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center text-xl">
+            <Globe className="mr-3 h-6 w-6 text-primary" />
+            Настройки языка
+          </CardTitle>
+          <CardDescription>Выберите предпочитаемый язык интерфейса.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div>
+            <Label htmlFor="language-select" className="text-sm font-medium text-muted-foreground">Язык приложения</Label>
+            <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
+              <SelectTrigger id="language-select" className="w-full sm:w-[280px] mt-1">
+                <SelectValue placeholder="Выберите язык" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ru">Русский</SelectItem>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="kk">Қазақша</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Полная смена языка интерфейса будет доступна в следующих обновлениях.
+          </p>
+        </CardContent>
+      </Card>
       
       <Separator />
 
@@ -150,4 +199,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
