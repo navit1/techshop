@@ -9,6 +9,7 @@ export interface Category {
 export interface Review {
   id: string;
   productId: string;
+  userId?: string; // Firebase User ID, optional for now
   userName: string;
   rating: number; // 1-5
   comment: string;
@@ -24,7 +25,7 @@ export interface Product {
   categoryId: string;
   categoryName?: string; // Denormalized for convenience
   stock: number;
-  reviews?: Review[]; // Optional, can be fetched separately
+  // reviews?: Review[]; // Reviews will be fetched or managed separately
   features?: string[];
   attributes?: Record<string, string | string[]>; // For specific filterable attributes like { "Цвет": "Черный", "RAM": "8GB" }
   brand?: string;

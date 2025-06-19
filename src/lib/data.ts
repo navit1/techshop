@@ -221,7 +221,6 @@ export const products: Product[] = [
     brand: 'Apple',
     dateAdded: '2024-03-12T10:30:00Z',
   },
-  // ... (add attributes and dateAdded to other products similarly)
   {
     id: 'prod_el_16',
     name: 'MacBook Pro 16" M3 Max Chip',
@@ -362,11 +361,6 @@ export const products: Product[] = [
     brand: 'Samsung',
     dateAdded: '2024-04-03T11:30:00Z',
   },
-  // Fill in the rest of the products with attributes and dateAdded as needed for variety
-  // ... (Many more products from original list)
-  // Make sure to add attributes like "Цвет", "Память RAM", "Встроенная память", "Тип накопителя", etc.
-  // and a `dateAdded` for all products.
-  // For brevity, I will only add a few more examples here and assume the rest would be filled.
   {
     id: 'prod_el_54',
     name: 'DJI Mavic 3 Pro Drone',
@@ -425,11 +419,10 @@ export const products: Product[] = [
   },
 ];
 
-
-export const reviews: Review[] = [
+let reviews: Review[] = [
   {
     id: 'rev_el_1',
-    productId: 'prod_el_1', // AuraBeat Pro Wireless Headphones
+    productId: 'prod_el_1',
     userName: 'Alice Wonderland',
     rating: 5,
     comment: 'Absolutely love these headphones! The noise cancellation is top-notch and they are so comfortable for long listening sessions.',
@@ -437,7 +430,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_2',
-    productId: 'prod_el_1', // AuraBeat Pro Wireless Headphones
+    productId: 'prod_el_1',
     userName: 'Bob The Builder',
     rating: 4,
     comment: 'Great sound quality and ANC. The battery life is fantastic. A bit on the higher side, but worth it.',
@@ -445,7 +438,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_3',
-    productId: 'prod_el_2', // NovaPhone X2 Ultra Smartphone
+    productId: 'prod_el_2',
     userName: 'Charlie R.',
     rating: 5,
     comment: 'This phone is a beast! Camera is incredible, and it handles everything I throw at it. Display is gorgeous.',
@@ -453,7 +446,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_4',
-    productId: 'prod_el_3', // ZenithBook Air 14" Laptop
+    productId: 'prod_el_3',
     userName: 'Diana P.',
     rating: 4,
     comment: 'Super light and portable, battery lasts all day. Keyboard is comfortable for typing. Screen is crisp.',
@@ -461,7 +454,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_5',
-    productId: 'prod_el_6', // ChronoFit Active Smartwatch
+    productId: 'prod_el_6',
     userName: 'Eddie M.',
     rating: 5,
     comment: 'Best smartwatch I\'ve owned. Tracks everything accurately and the screen is very bright outdoors.',
@@ -469,7 +462,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_6',
-    productId: 'prod_el_4', // SkyHawk Pro Drone
+    productId: 'prod_el_4',
     userName: 'Fiona G.',
     rating: 5,
     comment: 'Incredible drone for the cost. Stable flight and amazing video quality. Easy to learn for beginners too!',
@@ -477,16 +470,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_8',
-    productId: 'prod_el_7', // AuraHome Smart Hub Pro
+    productId: 'prod_el_7',
     userName: 'SmartHomeFan',
     rating: 4,
     comment: 'Connects all my devices seamlessly. App is pretty good, but could use a few more integrations.',
     date: '2024-03-01T12:00:00Z',
   },
-  // Reviews for new smartphones
   {
     id: 'rev_el_9',
-    productId: 'prod_el_9', // Apple iPhone 15 Pro
+    productId: 'prod_el_9',
     userName: 'TechGuru101',
     rating: 5,
     comment: 'The Action Button is a game changer! Performance is buttery smooth.',
@@ -494,7 +486,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_10',
-    productId: 'prod_el_9', // Apple iPhone 15 Pro
+    productId: 'prod_el_9',
     userName: 'AppleFanatic',
     rating: 4,
     comment: 'Great phone, but battery life could be a bit better for heavy users.',
@@ -502,7 +494,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_11',
-    productId: 'prod_el_10', // Samsung Galaxy S24 Ultra
+    productId: 'prod_el_10',
     userName: 'AndroidCentral',
     rating: 5,
     comment: 'Galaxy AI is surprisingly useful. The camera zoom is incredible!',
@@ -510,7 +502,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_12',
-    productId: 'prod_el_10', // Samsung Galaxy S24 Ultra
+    productId: 'prod_el_10',
     userName: 'PenMaster',
     rating: 5,
     comment: 'Love the S Pen integration. This is the ultimate productivity phone.',
@@ -518,7 +510,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_13',
-    productId: 'prod_el_11', // Xiaomi 14 Ultra
+    productId: 'prod_el_11',
     userName: 'PhotoPro',
     rating: 5,
     comment: 'Leica partnership really shines. The camera details are stunning.',
@@ -526,7 +518,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_14',
-    productId: 'prod_el_11', // Xiaomi 14 Ultra
+    productId: 'prod_el_11',
     userName: 'ValueSeeker',
     rating: 4,
     comment: 'Flagship specs without the absolute top-tier price. Great deal.',
@@ -534,7 +526,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_15',
-    productId: 'prod_el_12', // Vivo X100 Pro
+    productId: 'prod_el_12',
     userName: 'PortraitFan',
     rating: 5,
     comment: 'ZEISS portraits are unmatched. Amazing low-light performance.',
@@ -542,7 +534,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_16',
-    productId: 'prod_el_12', // Vivo X100 Pro
+    productId: 'prod_el_12',
     userName: 'SpeedyCharge',
     rating: 4,
     comment: 'Super fast charging is a lifesaver. Display is also beautiful.',
@@ -550,7 +542,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_17',
-    productId: 'prod_el_13', // Realme GT 5 Pro
+    productId: 'prod_el_13',
     userName: 'GamerMobile',
     rating: 5,
     comment: 'Handles all games smoothly. The 144Hz display is a treat.',
@@ -558,16 +550,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_18',
-    productId: 'prod_el_13', // Realme GT 5 Pro
+    productId: 'prod_el_13',
     userName: 'BudgetKing',
     rating: 4,
     comment: 'Incredible value for the performance you get. Solid all-rounder.',
     date: '2024-04-27T19:30:00Z',
   },
-  // Reviews for new laptops
   {
     id: 'rev_el_19',
-    productId: 'prod_el_14', // MacBook Air 13" M3 Chip
+    productId: 'prod_el_14',
     userName: 'StudentLife',
     rating: 5,
     comment: 'Perfect for college! So light and the M3 chip is surprisingly powerful. Battery lasts forever.',
@@ -575,7 +566,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_20',
-    productId: 'prod_el_15', // MacBook Pro 14" M3 Pro Chip
+    productId: 'prod_el_15',
     userName: 'VideoEditorPro',
     rating: 5,
     comment: 'M3 Pro chews through 4K video edits. The XDR display is a dream for color accuracy.',
@@ -583,7 +574,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_21',
-    productId: 'prod_el_18', // ASUS ROG Zephyrus G14
+    productId: 'prod_el_18',
     userName: 'RoadWarriorGamer',
     rating: 5,
     comment: 'Finally, a portable gaming laptop that doesn\'t compromise on power. The Nebula display is stunning!',
@@ -591,23 +582,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_22',
-    productId: 'prod_el_19', // ASUS Zenbook Duo (2024)
+    productId: 'prod_el_19',
     userName: 'MultitaskMaster',
     rating: 4,
     comment: 'The dual screens are a productivity game-changer. A bit of a learning curve but so worth it.',
     date: '2024-05-13T09:00:00Z',
   },
   {
-    id: 'rev_el_23',
-    productId: 'prod_el_22', // Xiaomi Book Pro 14 (2024)
-    userName: 'SleekXiaomiFan',
-    rating: 4,
-    comment: 'Beautiful design and the OLED screen is vibrant. Great performance for its cost bracket.',
-    date: '2024-05-14T11:45:00Z',
-  },
-  {
     id: 'rev_el_24',
-    productId: 'prod_el_26', // HP Spectre x360 14 (2024)
+    productId: 'prod_el_26',
     userName: 'CreativeConvert',
     rating: 5,
     comment: 'This 2-in-1 is pure luxury. The OLED touch display is responsive and the AI features are a nice touch.',
@@ -615,7 +598,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_25',
-    productId: 'prod_el_30', // Lenovo Yoga 9i (14-inch, Gen 9)
+    productId: 'prod_el_30',
     userName: 'AudiophileExec',
     rating: 5,
     comment: 'The rotating soundbar is incredible! Laptop itself is powerful and looks amazing. Perfect for presentations.',
@@ -623,7 +606,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_26',
-    productId: 'prod_el_32', // Lenovo ThinkPad X1 Carbon (Gen 12)
+    productId: 'prod_el_32',
     userName: 'CorporateClimber',
     rating: 5,
     comment: 'The quintessential business laptop. Keyboard is unmatched, and it\'s so light yet durable.',
@@ -631,7 +614,7 @@ export const reviews: Review[] = [
   },
    {
     id: 'rev_el_27',
-    productId: 'prod_el_16', // MacBook Pro 16" M3 Max Chip
+    productId: 'prod_el_16',
     userName: '3DRenderWizard',
     rating: 5,
     comment: 'The M3 Max is an absolute monster for rendering and complex simulations. Worth every KZT for professionals.',
@@ -639,23 +622,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_28',
-    productId: 'prod_el_20', // ASUS Vivobook Pro 16X OLED
+    productId: 'prod_el_20',
     userName: 'DigitalArtist',
     rating: 4,
     comment: 'The 4K OLED display is fantastic for creative work. The DialPad is also quite useful for Adobe apps.',
     date: '2024-05-19T14:30:00Z',
   },
   {
-    id: 'rev_el_29',
-    productId: 'prod_el_23', // Xiaomi Book Air 13
-    userName: 'TravelBlogger',
-    rating: 4,
-    comment: 'Incredibly thin and light, perfect for carrying around. The OLED screen is a nice bonus for its cost.',
-    date: '2024-05-20T09:15:00Z',
-  },
-  {
     id: 'rev_el_30',
-    productId: 'prod_el_28', // HP Omen Transcend 14
+    productId: 'prod_el_28',
     userName: 'StealthyGamer',
     rating: 5,
     comment: 'So light for a gaming laptop! The OLED screen is amazing for games. Doesn\'t scream "gamer" either.',
@@ -663,7 +638,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_31',
-    productId: 'prod_el_31', // Lenovo Legion Pro 7i (Gen 9)
+    productId: 'prod_el_31',
     userName: 'HardcoreGamer',
     rating: 5,
     comment: 'This machine runs everything on ultra settings without breaking a sweat. Cooling is excellent.',
@@ -671,7 +646,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_32',
-    productId: 'prod_el_17', // iMac 24" M3 Chip
+    productId: 'prod_el_17',
     userName: 'HomeOfficeHero',
     rating: 5,
     comment: 'Love the colorful design and the M3 chip is plenty fast for all my work. The display is beautiful.',
@@ -679,23 +654,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_33',
-    productId: 'prod_el_21', // ASUS TUF Gaming A15
+    productId: 'prod_el_21',
     userName: 'BudgetGamer',
     rating: 4,
     comment: 'Solid gaming performance for the cost. It\'s built like a tank, which is reassuring.',
     date: '2024-05-24T15:00:00Z',
   },
   {
-    id: 'rev_el_34',
-    productId: 'prod_el_25', // Xiaomi Gaming Laptop G Pro
-    userName: 'CompetitivePlayer',
-    rating: 4,
-    comment: 'High refresh rate screen is great for competitive games. Performance is solid, but it can get a bit loud.',
-    date: '2024-05-25T18:30:00Z',
-  },
-  {
     id: 'rev_el_35',
-    productId: 'prod_el_27', // HP Envy x360 15
+    productId: 'prod_el_27',
     userName: 'UniStudent',
     rating: 4,
     comment: 'Great all-rounder for university. Good for notes with the touchscreen and powerful enough for assignments.',
@@ -703,7 +670,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_36',
-    productId: 'prod_el_29', // HP Pavilion Aero 13
+    productId: 'prod_el_29',
     userName: 'FrequentFlyer',
     rating: 5,
     comment: 'Can\'t believe how light this is! Makes traveling so much easier. Still has decent power for its size.',
@@ -711,16 +678,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_37',
-    productId: 'prod_el_33', // Lenovo IdeaPad Slim 5 (16-inch AMD)
+    productId: 'prod_el_33',
     userName: 'FamilyUser',
     rating: 4,
     comment: 'Good value laptop for general family use. The large screen is nice for movies and browsing.',
     date: '2024-05-28T16:00:00Z',
   },
-  // Reviews for new Audio products
   {
     id: 'rev_el_38',
-    productId: 'prod_el_34', // Sony WH-1000XM5
+    productId: 'prod_el_34',
     userName: 'AudiophileMike',
     rating: 5,
     comment: 'These are the best noise-canceling headphones, period. Sound is amazing, comfort is top-notch.',
@@ -728,7 +694,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_39',
-    productId: 'prod_el_34', // Sony WH-1000XM5
+    productId: 'prod_el_34',
     userName: 'FrequentTraveler',
     rating: 5,
     comment: 'A must-have for flights. Blocks out all engine noise and the battery lasts forever.',
@@ -736,31 +702,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_40',
-    productId: 'prod_el_35', // Bose QuietComfort Ultra Headphones
+    productId: 'prod_el_35',
     userName: 'BoseFanatic',
     rating: 5,
     comment: 'Bose does it again! The immersive audio is a game-changer and they are so comfortable.',
     date: '2024-06-03T14:15:00Z',
   },
   {
-    id: 'rev_el_41',
-    productId: 'prod_el_36', // Apple AirPods Max
-    userName: 'AppleEcosystemUser',
-    rating: 4,
-    comment: 'Incredible sound and seamless integration with Apple devices. The price tag is high, but the quality is there.',
-    date: '2024-06-04T09:00:00Z',
-  },
-  {
-    id: 'rev_el_42',
-    productId: 'prod_el_37', // Sennheiser Momentum 4 Wireless
-    userName: 'MusicLoverSarah',
-    rating: 5,
-    comment: 'The battery life is insane! 60 hours is no joke. Sound quality is classic Sennheiser, warm and detailed.',
-    date: '2024-06-05T16:45:00Z',
-  },
-  {
     id: 'rev_el_43',
-    productId: 'prod_el_39', // Sony WF-1000XM5 Earbuds
+    productId: 'prod_el_39',
     userName: 'CommuterPro',
     rating: 5,
     comment: 'Best earbuds for noise cancellation on my daily commute. Sound quality is fantastic for such small buds.',
@@ -768,7 +718,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_44',
-    productId: 'prod_el_40', // Bose QuietComfort Ultra Earbuds
+    productId: 'prod_el_40',
     userName: 'GymRat',
     rating: 4,
     comment: 'Secure fit for workouts and the immersive audio makes my playlists sound amazing. ANC is top-tier.',
@@ -776,23 +726,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_45',
-    productId: 'prod_el_41', // Apple AirPods Pro (2nd Gen)
+    productId: 'prod_el_41',
     userName: 'EverydayiOSUser',
     rating: 5,
     comment: 'The convenience and sound quality are unmatched in the Apple ecosystem. Touch controls are improved.',
     date: '2024-06-08T12:10:00Z',
   },
   {
-    id: 'rev_el_46',
-    productId: 'prod_el_44', // Anker Soundcore Liberty 4 NC
-    userName: 'BudgetAudiophile',
-    rating: 5,
-    comment: 'Amazing value! The noise cancellation is surprisingly good for the cost and the battery life is excellent.',
-    date: '2024-06-09T15:00:00Z',
-  },
-  {
     id: 'rev_el_47',
-    productId: 'prod_el_45', // Audio-Technica ATH-M50xBT2
+    productId: 'prod_el_45',
     userName: 'StudioEngineer',
     rating: 4,
     comment: 'Great to have the M50x sound wirelessly. Solid build and long battery life for studio or casual listening.',
@@ -800,7 +742,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_48',
-    productId: 'prod_el_46', // Beats Studio Pro
+    productId: 'prod_el_46',
     userName: 'BeatsFan',
     rating: 4,
     comment: 'Classic Beats sound with improved ANC and spatial audio. Lossless via USB-C is a nice touch.',
@@ -808,7 +750,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_49',
-    productId: 'prod_el_49', // Samsung Galaxy Buds2 Pro
+    productId: 'prod_el_49',
     userName: 'SamsungUser',
     rating: 5,
     comment: 'Perfect companion for my Galaxy phone. The 24-bit audio sounds great and ANC is solid.',
@@ -816,7 +758,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_50',
-    productId: 'prod_el_50', // Google Pixel Buds Pro
+    productId: 'prod_el_50',
     userName: 'AndroidDev',
     rating: 4,
     comment: 'Seamless integration with Pixel and Android. ANC is good and Google Assistant works flawlessly.',
@@ -824,7 +766,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_51',
-    productId: 'prod_el_51', // JBL Charge 5
+    productId: 'prod_el_51',
     userName: 'PartyStarter',
     rating: 5,
     comment: 'This speaker is LOUD and the bass is punchy. Waterproof and can charge my phone, perfect for outdoors!',
@@ -832,7 +774,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_52',
-    productId: 'prod_el_52', // Bose SoundLink Flex
+    productId: 'prod_el_52',
     userName: 'HikerDave',
     rating: 5,
     comment: 'Super rugged and sounds amazing for its size. Clips easily to my backpack. Bose quality shines through.',
@@ -840,16 +782,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_53',
-    productId: 'prod_el_53', // Sony LinkBuds S
+    productId: 'prod_el_53',
     userName: 'ComfortSeeker',
     rating: 4,
     comment: 'So light and comfortable I forget I\'m wearing them! ANC is decent and they sound great.',
     date: '2024-06-16T14:00:00Z',
   },
-  // Reviews for new Cameras & Drones
   {
     id: 'rev_el_54',
-    productId: 'prod_el_54', // DJI Mavic 3 Pro
+    productId: 'prod_el_54',
     userName: 'ProAerialVid',
     rating: 5,
     comment: 'The triple camera system is incredible. Hasselblad quality is unmatched. Worth the investment.',
@@ -857,7 +798,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_55',
-    productId: 'prod_el_55', // DJI Mini 4 Pro
+    productId: 'prod_el_55',
     userName: 'TravelDronePilot',
     rating: 5,
     comment: 'Perfect travel drone! So small yet packed with features. Obstacle sensing is a lifesaver.',
@@ -865,7 +806,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_56',
-    productId: 'prod_el_58', // Sony Alpha 7 IV
+    productId: 'prod_el_58',
     userName: 'HybridShooter',
     rating: 5,
     comment: 'Amazing for both photos and video. The autofocus is lightning fast and accurate.',
@@ -873,7 +814,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_57',
-    productId: 'prod_el_59', // Canon EOS R6 Mark II
+    productId: 'prod_el_59',
     userName: 'EventPhotog',
     rating: 4,
     comment: 'Great all-rounder for events. Handles low light well and the AF is reliable.',
@@ -881,7 +822,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_58',
-    productId: 'prod_el_62', // GoPro HERO12 Black
+    productId: 'prod_el_62',
     userName: 'Adventure Junkie',
     rating: 5,
     comment: 'HyperSmooth 6.0 is mind-blowing! Super stable footage no matter what I do. Battery life is better too.',
@@ -889,7 +830,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_59',
-    productId: 'prod_el_63', // Sony ZV-E10
+    productId: 'prod_el_63',
     userName: 'VlogStar',
     rating: 4,
     comment: 'Great for vlogging! The flip screen and product showcase mode are super handy. Kit lens is decent to start.',
@@ -897,7 +838,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_60',
-    productId: 'prod_el_67', // DJI Osmo Action 4
+    productId: 'prod_el_67',
     userName: 'UnderwaterExplorer',
     rating: 5,
     comment: 'Low light performance is noticeably better than previous action cams. 10-bit color is great for grading.',
@@ -905,7 +846,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_61',
-    productId: 'prod_el_69', // Insta360 X3
+    productId: 'prod_el_69',
     userName: '360Creator',
     rating: 5,
     comment: 'So much fun to shoot with! The invisible selfie stick is magic and the app makes editing easy.',
@@ -913,7 +854,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_62',
-    productId: 'prod_el_73', // DJI RS 3 Mini
+    productId: 'prod_el_73',
     userName: 'IndieFilmmaker',
     rating: 4,
     comment: 'Super lightweight gimbal that punches above its weight. Perfect for smaller mirrorless setups.',
@@ -921,7 +862,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_63',
-    productId: 'prod_el_56', // DJI Air 3
+    productId: 'prod_el_56',
     userName: 'AerialHobbyist',
     rating: 5,
     comment: 'The dual cameras are very versatile. Great flight time and reliable transmission.',
@@ -929,7 +870,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_64',
-    productId: 'prod_el_60', // Nikon Z8
+    productId: 'prod_el_60',
     userName: 'WildlifePhotogPro',
     rating: 5,
     comment: 'The Z8 is a beast for wildlife. Fast AF, incredible resolution, and robust build.',
@@ -937,16 +878,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_65',
-    productId: 'prod_el_61', // Fujifilm X-T5
+    productId: 'prod_el_61',
     userName: 'StreetStyleSnapper',
     rating: 5,
     comment: 'Love the retro dials and Fuji colors. The high-res sensor captures amazing detail.',
     date: '2024-07-12T11:00:00Z',
   },
-  // Reviews for new Wearable Technology
   {
     id: 'rev_el_66',
-    productId: 'prod_el_74', // Apple Watch Series 9
+    productId: 'prod_el_74',
     userName: 'AppleWatchFan',
     rating: 5,
     comment: 'The double tap gesture is surprisingly useful! Brighter screen is great outdoors.',
@@ -954,7 +894,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_67',
-    productId: 'prod_el_74', // Apple Watch Series 9
+    productId: 'prod_el_74',
     userName: 'FitnessFreak',
     rating: 4,
     comment: 'Solid health tracking and love the ECG feature. Battery still needs daily charging for heavy use.',
@@ -962,7 +902,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_68',
-    productId: 'prod_el_75', // Samsung Galaxy Watch 6 Classic
+    productId: 'prod_el_75',
     userName: 'GalaxyUser007',
     rating: 5,
     comment: 'The rotating bezel is back and it\'s amazing! Watch feels premium and works seamlessly with my Samsung phone.',
@@ -970,7 +910,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_69',
-    productId: 'prod_el_75', // Samsung Galaxy Watch 6 Classic
+    productId: 'prod_el_75',
     userName: 'HealthNut',
     rating: 4,
     comment: 'BIA sensor is interesting. Sleep tracking is very detailed. Wish it had a bit more third-party app support.',
@@ -978,7 +918,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_70',
-    productId: 'prod_el_76', // Fitbit Charge 6
+    productId: 'prod_el_76',
     userName: 'CasualTracker',
     rating: 5,
     comment: 'Perfect for my needs. Accurate tracking, Google Maps is handy, and the battery lasts for days!',
@@ -986,7 +926,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_71',
-    productId: 'prod_el_76', // Fitbit Charge 6
+    productId: 'prod_el_76',
     userName: 'RunnerGirl',
     rating: 4,
     comment: 'Good GPS for runs. Heart rate on equipment is a cool feature. The screen is a bit small for some notifications.',
@@ -994,7 +934,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_72',
-    productId: 'prod_el_77', // Garmin Venu 3
+    productId: 'prod_el_77',
     userName: 'SeriousAthlete',
     rating: 5,
     comment: 'Garmin\'s health and fitness metrics are unparalleled. Venu 3 has a beautiful AMOLED screen and great battery life.',
@@ -1002,7 +942,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_73',
-    productId: 'prod_el_77', // Garmin Venu 3
+    productId: 'prod_el_77',
     userName: 'SmartwatchExplorer',
     rating: 4,
     comment: 'Love the call functionality and the animated workouts. The Garmin ecosystem is robust.',
@@ -1010,7 +950,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_74',
-    productId: 'prod_el_78', // Xiaomi Smart Band 8 Pro
+    productId: 'prod_el_78',
     userName: 'BudgetWearableFan',
     rating: 5,
     comment: 'Incredible value for money! Large screen, GPS, and tons of features for a fraction of the cost of others.',
@@ -1018,7 +958,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_75',
-    productId: 'prod_el_78', // Xiaomi Smart Band 8 Pro
+    productId: 'prod_el_78',
     userName: 'StyleConsciousUser',
     rating: 4,
     comment: 'Looks very sleek and the display is vibrant. Tracking is good for general fitness.',
@@ -1026,7 +966,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_76',
-    productId: 'prod_el_79', // Google Pixel Watch 2
+    productId: 'prod_el_79',
     userName: 'PixelPowerUser',
     rating: 4,
     comment: 'Much improved performance over the first gen. Fitbit integration is seamless. Battery is better but still needs a daily charge.',
@@ -1034,7 +974,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_77',
-    productId: 'prod_el_80', // Amazfit Balance
+    productId: 'prod_el_80',
     userName: 'ZenMaster',
     rating: 5,
     comment: 'The readiness score and AI coach are genuinely helpful. Great battery life and a beautiful display.',
@@ -1042,16 +982,15 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_78',
-    productId: 'prod_el_81', // Huawei Watch GT 4
+    productId: 'prod_el_81',
     userName: 'GlobalUser',
     rating: 4,
     comment: 'Stunning design and incredible battery life. Health tracking is comprehensive. App availability can be a limitation.',
     date: '2024-08-13T16:50:00Z',
   },
-  // Reviews for new Smart Home Devices
   {
     id: 'rev_el_79',
-    productId: 'prod_el_82', // Amazon Echo Dot (5th Gen)
+    productId: 'prod_el_82',
     userName: 'AlexaFan',
     rating: 5,
     comment: 'Sound is much better on this gen! Alexa is responsive as always. Great value.',
@@ -1059,7 +998,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_80',
-    productId: 'prod_el_82', // Amazon Echo Dot (5th Gen)
+    productId: 'prod_el_82',
     userName: 'MusicLover',
     rating: 4,
     comment: 'Good for background music and controlling smart lights. Vocals are clear.',
@@ -1067,7 +1006,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_81',
-    productId: 'prod_el_83', // Google Nest Hub (2nd Gen)
+    productId: 'prod_el_83',
     userName: 'GoogleHomeUser',
     rating: 5,
     comment: 'Perfect kitchen companion. Love the display for recipes and controlling my Nest devices. Sleep sensing is a cool bonus.',
@@ -1075,7 +1014,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_82',
-    productId: 'prod_el_84', // Philips Hue Starter Kit
+    productId: 'prod_el_84',
     userName: 'LightingEnthusiast',
     rating: 5,
     comment: 'Hue lights are amazing! So many colors and scenes to choose from. Easy to set up and expand.',
@@ -1083,7 +1022,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_83',
-    productId: 'prod_el_85', // Ring Video Doorbell Pro 2
+    productId: 'prod_el_85',
     userName: 'SecurityConscious',
     rating: 4,
     comment: 'Great video quality and the 3D motion detection works well. Subscription is a bit of an expense but worth it for features.',
@@ -1091,7 +1030,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_84',
-    productId: 'prod_el_86', // Wyze Cam v3 Pro
+    productId: 'prod_el_86',
     userName: 'BudgetSecurity',
     rating: 5,
     comment: 'Can\'t beat the value for a 2K camera with color night vision. Works surprisingly well.',
@@ -1099,7 +1038,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_85',
-    productId: 'prod_el_87', // TP-Link Kasa Smart Plug Mini
+    productId: 'prod_el_87',
     userName: 'AutomationGeek',
     rating: 5,
     comment: 'These smart plugs are a staple in my smart home. Reliable and easy to use with Alexa.',
@@ -1107,7 +1046,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_86',
-    productId: 'prod_el_88', // Ecobee Smart Thermostat Premium
+    productId: 'prod_el_88',
     userName: 'EnergySaver',
     rating: 5,
     comment: 'Love this thermostat! Already seeing savings on my energy bill. The SmartSensor is great for balancing temperature.',
@@ -1115,7 +1054,7 @@ export const reviews: Review[] = [
   },
   {
     id: 'rev_el_87',
-    productId: 'prod_el_89', // Arlo Pro 4 Spotlight Camera
+    productId: 'prod_el_89',
     userName: 'HomeWatcher',
     rating: 4,
     comment: 'Good quality wire-free cameras. Spotlight is bright and deters well. Battery life is decent.',
@@ -1123,7 +1062,22 @@ export const reviews: Review[] = [
   },
 ];
 
-// Helper functions to get data
+export const addReview = (reviewData: {
+  productId: string;
+  userName: string;
+  rating: number;
+  comment: string;
+  userId?: string; // Optional userId
+}): Review => {
+  const newReview: Review = {
+    id: `rev_el_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    ...reviewData,
+    date: new Date().toISOString(),
+  };
+  reviews.unshift(newReview); // Add to the beginning to show newest first
+  return newReview;
+};
+
 export const getProductById = (id: string): Product | undefined =>
   products.find(p => p.id === id);
 
@@ -1131,14 +1085,12 @@ export const getReviewsByProductId = (productId: string): Review[] =>
   reviews.filter(r => r.productId === productId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export const getProductsByCategoryId = (categoryId: string): Product[] => {
-  // Find all category IDs that are children of the given categoryId, or the categoryId itself
   const categoryIdsToMatch: string[] = [categoryId];
   let subCategoriesToExplore = categories.filter(c => c.parentId === categoryId);
   
   while (subCategoriesToExplore.length > 0) {
     const currentSubCategoryIds = subCategoriesToExplore.map(sc => sc.id);
     categoryIdsToMatch.push(...currentSubCategoryIds);
-    // Find next level of subcategories
     subCategoriesToExplore = categories.filter(c => c.parentId && currentSubCategoryIds.includes(c.parentId));
   }
   return products.filter(p => categoryIdsToMatch.includes(p.categoryId));

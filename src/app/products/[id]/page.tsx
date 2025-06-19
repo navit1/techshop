@@ -3,9 +3,9 @@ import { getProductById, getReviewsByProductId } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StarRating } from '@/components/products/StarRating';
-import { ReviewItem } from '@/components/products/ReviewItem';
 import { RecommendedProducts } from '@/components/products/RecommendedProducts';
-import { AddToCartButton } from './AddToCartButton'; // Client component for adding to cart
+import { ProductReviewManagement } from '@/components/products/ProductReviewManagement'; // Changed
+import { AddToCartButton } from './AddToCartButton'; 
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tag, Package, ListChecks, TruckIcon, CreditCardIcon } from 'lucide-react';
@@ -29,9 +29,10 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     notFound();
   }
 
-  const reviews = getReviewsByProductId(product.id);
-  const averageRating = reviews.length > 0 
-    ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+  // Initial reviews fetched on the server
+  const initialReviews = getReviewsByProductId(product.id);
+  const averageRating = initialReviews.length > 0 
+    ? initialReviews.reduce((sum, review) => sum + review.rating, 0) / initialReviews.length
     : 0;
 
   return (
@@ -49,8 +50,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
               <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground">{product.name}</CardTitle>
               {product.brand && <p className="text-sm text-muted-foreground">Бренд: {product.brand}</p>}
               <div className="flex items-center space-x-2 mt-2">
-                <StarRating rating={averageRating} />
-                <span className="text-sm text-muted-foreground">({reviews.length} {getReviewNoun(reviews.length)})</span>
+                <StarRating rating={averageRating} size="md" />
+                <span className="text-sm text-muted-foreground">({initialReviews.length} {getReviewNoun(initialReviews.length)})</span>
               </div>
             </CardHeader>
 
@@ -91,19 +92,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
       <Separator />
 
-      {/* Reviews Section */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-6 text-foreground">Отзывы покупателей</h2>
-        {reviews.length > 0 ? (
-          <div className="space-y-6">
-            {reviews.map(review => (
-              <ReviewItem key={review.id} review={review} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">Отзывов на этот товар пока нет. Будьте первым!</p>
-        )}
-      </section>
+      {/* Reviews Section - managed by client component */}
+      <ProductReviewManagement productId={product.id} initialReviews={initialReviews} />
       
       <Separator />
 
