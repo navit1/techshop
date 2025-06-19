@@ -69,6 +69,8 @@ export default function RegisterPage() {
         errorMessage = "Некорректный формат email.";
       } else if (error.code === "auth/api-key-not-valid") {
         errorMessage = "Ошибка конфигурации Firebase: недействительный API ключ. Пожалуйста, проверьте файл src/lib/firebase.ts и ваши переменные окружения (.env.local), чтобы убедиться, что указан правильный API ключ вашего Firebase проекта.";
+      } else if (error.code === "auth/operation-not-allowed") {
+        errorMessage = "Ошибка регистрации: вход по email/паролю не включен в вашем Firebase проекте. Пожалуйста, включите его в консоли Firebase -> Authentication -> Sign-in method.";
       }
       
       toast({
