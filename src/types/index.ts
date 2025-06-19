@@ -35,3 +35,25 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+export interface ShippingAddress {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+export interface PaymentMethod {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+export interface CheckoutData {
+  shippingAddress: ShippingAddress | null;
+  paymentMethod: PaymentMethod | null;
+}

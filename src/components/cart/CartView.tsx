@@ -6,7 +6,7 @@ import { CartItem } from './CartItem';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, CreditCard } from 'lucide-react'; // Added CreditCard
 import { getItemNoun } from '@/lib/i18nUtils';
 
 export function CartView() {
@@ -52,8 +52,16 @@ export function CartView() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-3">
-            <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
-              Перейти к оформлению
+            <Button 
+              asChild 
+              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" 
+              size="lg"
+              disabled={itemCount === 0}
+            >
+              <Link href="/checkout/shipping">
+                <CreditCard className="mr-2 h-5 w-5" />
+                Перейти к оформлению
+              </Link>
             </Button>
             <Button variant="outline" onClick={clearCart} className="w-full">
               Очистить корзину
@@ -64,4 +72,3 @@ export function CartView() {
     </div>
   );
 }
-
