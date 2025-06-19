@@ -5,8 +5,8 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { useOrder } from "@/contexts/OrderProvider"; // Added
-import type { Order as OrderType } from "@/types"; // Added
+import { useOrder } from "@/contexts/OrderProvider";
+import type { Order as OrderType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { getOrderNoun, getItemNoun } from "@/lib/i18nUtils"; // Added
+import { getOrderNoun, getItemNoun } from "@/lib/i18nUtils";
 import {
   Accordion,
   AccordionContent,
@@ -30,10 +30,10 @@ export default function ProfilePage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("ru");
-  const { getOrdersByCurrentUser } = useOrder(); // Added
+  const { getOrdersByCurrentUser } = useOrder();
 
   const userOrders = useMemo(() => {
-    if (user) { // Only get orders if user is loaded
+    if (user) {
         return getOrdersByCurrentUser();
     }
     return [];
