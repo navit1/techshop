@@ -4,6 +4,7 @@ import ProductDetailClient from '@/components/products/ProductDetailClient'; // 
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton'; // For loading state - can be simple skeleton here
 
+
 // Add an async function generateStaticParams to fetch all product IDs for static export
 export async function generateStaticParams(): Promise<{ id: string }[]> {
   const allProducts = getAllProducts(); // Assuming getAllProducts returns an array of products with id
@@ -28,14 +29,18 @@ function SearchResultGridSkeleton() {
   );
 }
 
+type PageProps = {
+  searchParams: Promise<any>;
+};
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  // In a server component, you can directly access params.id
-  const id = params.id;
+export default async function SearchPage({ searchParams }: PageProps) {
+  const params = await searchParams; // Теперь params — объект с неизвестным типом
+  const id = Array.isArray(params.id) 
+    ? params.id[0] || "" 
+    : params.id || ""; // Проверяем тип id
 
   return (
     <Suspense fallback={<SearchResultGridSkeleton />}>
-      {/* Render the client component and pass the id */}
       <ProductDetailClient id={id} />
     </Suspense>
   );
