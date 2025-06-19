@@ -1,7 +1,7 @@
 
 "use client"; // Making this a client component to use useLanguage for full translation.
 import { useEffect, useState } from 'react';
-import { getProductById, getReviewsByProductId } from '@/lib/data';
+import { getProductById, getReviewsByProductId, getAllProducts } from '@/lib/data';
 import { notFound, useParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StarRating } from '@/components/products/StarRating';
@@ -27,6 +27,15 @@ import { Skeleton } from '@/components/ui/skeleton'; // For loading state
 //     description: product.description,
 //   };
 // }
+
+// Add an async function generateStaticParams to fetch all product IDs for static export
+export async function generateStaticParams(): Promise<{ id: string }[]> {
+  const allProducts = getAllProducts(); // Assuming getAllProducts returns an array of products with id
+
+  return allProducts.map(product => ({
+    id: product.id.toString(), // Return an array of objects with the 'id' parameter as string
+  }));
+}
 
 export default function ProductDetailPage() {
   const params = useParams();
