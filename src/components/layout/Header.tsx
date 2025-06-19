@@ -1,7 +1,7 @@
 
 "use client";
 import Link from 'next/link';
-import { ShoppingCart, List, Heart, User, Menu, ChevronDown, ChevronRight, LogIn, UserCircle } from 'lucide-react';
+import { ShoppingCart, List, Heart, User, Menu, ChevronDown, LogIn, UserCircle } from 'lucide-react'; // Removed ChevronRight
 import { useCart } from '@/contexts/CartProvider';
 import { SearchInput } from '@/components/search/SearchInput';
 import {
@@ -18,7 +18,7 @@ import type { Category } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-
+import { useLanguage, type Language } from '@/contexts/LanguageProvider'; // Added useLanguage
 
 interface PopoverCatalogDropdownProps {
   onLinkClick?: () => void;
@@ -71,6 +71,7 @@ function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropd
 
 export function Header() {
   const { cart } = useCart();
+  const { translate } = useLanguage(); // Added useLanguage
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -86,7 +87,7 @@ export function Header() {
   }, []);
 
   const authLinkHref = currentUser ? "/profile" : "/login";
-  const authLinkText = currentUser ? "Профиль" : "Вход";
+  const authLinkTextKey = currentUser ? "nav.profile" : "nav.login";
   const AuthIcon = currentUser ? UserCircle : LogIn;
 
   return (
@@ -95,15 +96,15 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <Link href="/" className="text-2xl font-bold text-primary hover:text-primary/80 transition-colors">
-            TechShop
+            {translate('app.name')}
           </Link>
 
           <div className="hidden md:block">
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="ghost" className="flex items-center text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm" aria-label="Каталог">
+                <Button variant="ghost" className="flex items-center text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm" aria-label={translate('nav.catalog')}>
                   <List className="h-5 w-5 mr-2" />
-                  <span>Каталог</span>
+                  <span>{translate('nav.catalog')}</span>
                   <ChevronDown className="h-4 w-4 ml-1 opacity-75" />
                 </Button>
               </PopoverTrigger>
@@ -120,7 +121,7 @@ export function Header() {
 
         <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
           <nav className="hidden md:flex items-center space-x-3 sm:space-x-4">
-            <Link href="/cart" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors relative px-1 py-1 group" aria-label="Корзина">
+            <Link href="/cart" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors relative px-1 py-1 group" aria-label={translate('nav.cart')}>
               <div className="relative">
                 <ShoppingCart className="h-5 w-5" />
                 {itemCount > 0 && (
@@ -129,16 +130,16 @@ export function Header() {
                   </span>
                 )}
               </div>
-              <span className="text-xs mt-1 group-hover:text-primary transition-colors">Корзина</span>
+              <span className="text-xs mt-1 group-hover:text-primary transition-colors">{translate('nav.cart')}</span>
             </Link>
-            <Link href="/wishlist" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label="Избранное">
+            <Link href="/wishlist" className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label={translate('nav.wishlist')}>
               <Heart className="h-5 w-5" />
-              <span className="text-xs mt-1 group-hover:text-primary transition-colors">Избранное</span>
+              <span className="text-xs mt-1 group-hover:text-primary transition-colors">{translate('nav.wishlist')}</span>
             </Link>
             {!isLoadingAuth && (
-                <Link href={authLinkHref} className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label={authLinkText}>
+                <Link href={authLinkHref} className="flex flex-col items-center justify-center text-foreground hover:text-primary transition-colors px-1 py-1 group" aria-label={translate(authLinkTextKey)}>
                   <AuthIcon className="h-5 w-5" />
-                  <span className="text-xs mt-1 group-hover:text-primary transition-colors">{authLinkText}</span>
+                  <span className="text-xs mt-1 group-hover:text-primary transition-colors">{translate(authLinkTextKey)}</span>
                 </Link>
             )}
           </nav>
@@ -146,7 +147,7 @@ export function Header() {
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Открыть меню">
+                <Button variant="ghost" size="icon" aria-label={translate('nav.catalog')}>
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -154,36 +155,36 @@ export function Header() {
                 <div className="flex flex-col h-full">
                    <div className="p-4 border-b">
                      <Link href="/" className="text-xl font-bold text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-                        TechShop
+                        {translate('app.name')}
                      </Link>
                    </div>
                    <div className="p-4 flex-grow overflow-y-auto">
                       <div className="mb-6">
                          <SearchInput />
                       </div>
-                      <h3 className="text-lg font-semibold mb-2 px-2 text-foreground">Каталог</h3>
+                      <h3 className="text-lg font-semibold mb-2 px-2 text-foreground">{translate('nav.catalog')}</h3>
                       <div className="border rounded-md">
                         <CatalogDropdown categories={allCategories} onLinkClick={() => setIsMobileMenuOpen(false)} />
                       </div>
 
                       <nav className="mt-8 flex flex-col space-y-4 border-t pt-6">
-                        <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label="Корзина" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Link href="/cart" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label={translate('nav.cart')} onClick={() => setIsMobileMenuOpen(false)}>
                           <ShoppingCart className="h-5 w-5 mr-3" />
-                          <span>Корзина</span>
+                          <span>{translate('nav.cart')}</span>
                            {itemCount > 0 && (
                               <span className="ml-auto bg-accent text-accent-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
                                 {itemCount}
                               </span>
                            )}
                         </Link>
-                        <Link href="/wishlist" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label="Избранное" onClick={() => setIsMobileMenuOpen(false)}>
+                        <Link href="/wishlist" className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label={translate('nav.wishlist')} onClick={() => setIsMobileMenuOpen(false)}>
                           <Heart className="h-5 w-5 mr-3" />
-                          <span>Избранное</span>
+                          <span>{translate('nav.wishlist')}</span>
                         </Link>
                         {!isLoadingAuth && (
-                            <Link href={authLinkHref} className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label={authLinkText} onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link href={authLinkHref} className="flex items-center text-foreground hover:text-primary transition-colors text-lg" aria-label={translate(authLinkTextKey)} onClick={() => setIsMobileMenuOpen(false)}>
                               <AuthIcon className="h-5 w-5 mr-3" />
-                              <span>{authLinkText}</span>
+                              <span>{translate(authLinkTextKey)}</span>
                             </Link>
                         )}
                       </nav>

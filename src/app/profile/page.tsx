@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { getOrderNoun, getItemNoun } from "@/lib/i18nUtils";
+import { getOrderNoun, getItemNoun } from '@/lib/i18nUtils';
 import {
   Accordion,
   AccordionContent,
@@ -23,14 +23,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import Link from "next/link";
+import { useLanguage, type Language } from '@/contexts/LanguageProvider';
 
 export default function ProfilePage() {
   const router = useRouter();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedLanguage, setSelectedLanguage] = useState("ru");
   const { getOrdersByCurrentUser } = useOrder();
+  const { language, setLanguage, translate } = useLanguage();
 
   const userOrders = useMemo(() => {
     if (user) {
@@ -50,11 +51,6 @@ export default function ProfilePage() {
       setIsLoading(false);
     });
 
-    const savedLang = typeof window !== "undefined" ? localStorage.getItem("appLanguage") : null;
-    if (savedLang) {
-      setSelectedLanguage(savedLang);
-    }
-
     return () => unsubscribe();
   }, [router]);
 
@@ -62,7 +58,7 @@ export default function ProfilePage() {
     try {
       await signOut(auth);
       toast({
-        title: "Выход выполнен",
+        title: translate('profile.logout'),
         description: "Вы успешно вышли из системы.",
       });
       router.push("/login");
@@ -76,25 +72,26 @@ export default function ProfilePage() {
     }
   };
 
-  const handleLanguageChange = (lang: string) => {
-    setSelectedLanguage(lang);
-    if (typeof window !== "undefined") {
-        localStorage.setItem("appLanguage", lang);
-    }
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    let toastDescKey = 'toast.lang_changed_desc_ru';
+    if (lang === 'en') toastDescKey = 'toast.lang_changed_desc_en';
+    if (lang === 'kk') toastDescKey = 'toast.lang_changed_desc_kk';
+    
     toast({
-      title: "Настройки языка",
-      description: `Язык изменен на ${lang === 'ru' ? 'Русский' : lang === 'en' ? 'English' : 'Қазақша'}. Перезагрузите страницу для применения (имитация).`,
+      title: translate('toast.lang_changed_title'),
+      description: translate(toastDescKey),
     });
   };
   
   const getOrderStatusText = (status: OrderType['status']) => {
     switch (status) {
-      case 'pending': return 'В ожидании';
-      case 'processing': return 'В обработке';
-      case 'shipped': return 'Отправлен';
-      case 'delivered': return 'Доставлен';
-      case 'cancelled': return 'Отменен';
-      default: return 'Неизвестен';
+      case 'pending': return translate('profile.order_status_pending');
+      case 'processing': return translate('profile.order_status_processing');
+      case 'shipped': return translate('profile.order_status_shipped');
+      case 'delivered': return translate('profile.order_status_delivered');
+      case 'cancelled': return translate('profile.order_status_cancelled');
+      default: return translate('profile.order_status_unknown');
     }
   };
 
@@ -124,32 +121,32 @@ export default function ProfilePage() {
           <AvatarFallback className="text-3xl">{userInitial}</AvatarFallback>
         </Avatar>
         <h1 className="text-3xl font-bold text-foreground">
-          Добро пожаловать, {user.displayName || user.email}!
+          {translate('profile.welcome')}, {user.displayName || user.email}!
         </h1>
-        <p className="text-muted-foreground">Управляйте вашей информацией, заказами и настройками.</p>
+        <p className="text-muted-foreground">{translate('profile.manage_info')}</p>
       </div>
 
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <UserCircle className="mr-3 h-6 w-6 text-primary" />
-            Личная информация
+            {translate('profile.personal_info')}
           </CardTitle>
-          <CardDescription>Ваши основные данные учетной записи.</CardDescription>
+          <CardDescription>{translate('profile.personal_info_desc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground">Email</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">{translate('profile.email')}</h3>
             <p className="text-lg text-foreground">{user.email}</p>
           </div>
           {user.displayName && (
             <div>
-              <h3 className="text-sm font-medium text-muted-foreground">Имя</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">{translate('profile.name')}</h3>
               <p className="text-lg text-foreground">{user.displayName}</p>
             </div>
           )}
           <Button variant="outline" className="w-full sm:w-auto justify-start" disabled>
-            <Edit3 className="mr-2 h-4 w-4" /> Редактировать профиль (в разработке)
+            <Edit3 className="mr-2 h-4 w-4" /> {translate('profile.edit_profile_wip')}
           </Button>
         </CardContent>
       </Card>
@@ -158,13 +155,13 @@ export default function ProfilePage() {
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <ListOrdered className="mr-3 h-6 w-6 text-primary" />
-            История заказов ({userOrders.length} {getOrderNoun(userOrders.length)})
+            {translate('profile.order_history')} ({userOrders.length} {getOrderNoun(userOrders.length)})
           </CardTitle>
-          <CardDescription>Просмотр ваших прошлых и текущих заказов.</CardDescription>
+          <CardDescription>{translate('profile.order_history_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           {userOrders.length === 0 ? (
-            <p className="text-muted-foreground">У вас пока нет размещенных заказов.</p>
+            <p className="text-muted-foreground">{translate('profile.no_orders')}</p>
           ) : (
             <Accordion type="multiple" className="w-full">
               {userOrders.map((order) => (
@@ -178,10 +175,10 @@ export default function ProfilePage() {
                   <AccordionContent className="space-y-3 pt-2">
                     <div className="text-sm space-y-1">
                        <p><strong>Статус:</strong> <span className="font-medium">{getOrderStatusText(order.status)}</span></p>
-                       <p><strong>Сумма:</strong> <span className="font-semibold text-primary">₸{order.totalPrice.toFixed(2)}</span> ({order.items.length} {getItemNoun(order.items.length)})</p>
+                       <p><strong>{translate('profile.order_total_amount')}:</strong> <span className="font-semibold text-primary">₸{order.totalPrice.toFixed(2)}</span> ({order.items.length} {getItemNoun(order.items.length)})</p>
                     </div>
                     <Separator/>
-                    <h4 className="font-medium text-foreground">Товары:</h4>
+                    <h4 className="font-medium text-foreground">{translate('profile.order_items_label')}</h4>
                     <ul className="space-y-2 text-xs">
                       {order.items.map(item => (
                         <li key={item.productId} className="flex justify-between items-center">
@@ -200,12 +197,12 @@ export default function ProfilePage() {
                       ))}
                     </ul>
                     <Separator/>
-                     <h4 className="font-medium text-foreground mt-2">Доставка:</h4>
+                     <h4 className="font-medium text-foreground mt-2">{translate('profile.order_shipping_label')}</h4>
                      <div className="text-xs text-muted-foreground">
                         <p>{order.shippingAddress.fullName}, {order.shippingAddress.phoneNumber}</p>
                         <p>{order.shippingAddress.addressLine1}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}</p>
                      </div>
-                     <h4 className="font-medium text-foreground mt-2">Оплата:</h4>
+                     <h4 className="font-medium text-foreground mt-2">{translate('profile.order_payment_label')}</h4>
                      <p className="text-xs text-muted-foreground">{order.paymentMethod.name}</p>
                   </AccordionContent>
                 </AccordionItem>
@@ -219,16 +216,16 @@ export default function ProfilePage() {
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <Settings className="mr-3 h-6 w-6 text-primary" />
-            Настройки аккаунта
+            {translate('profile.account_settings')}
           </CardTitle>
-          <CardDescription>Управление параметрами вашей учетной записи.</CardDescription>
+          <CardDescription>{translate('profile.account_settings_desc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <Button variant="outline" className="w-full justify-start" disabled>
-            <KeyRound className="mr-2 h-4 w-4" /> Изменить пароль (в разработке)
+            <KeyRound className="mr-2 h-4 w-4" /> {translate('profile.change_password_wip')}
           </Button>
           <Button variant="outline" className="w-full justify-start" disabled>
-            <HomeIcon className="mr-2 h-4 w-4" /> Управление адресами (в разработке)
+            <HomeIcon className="mr-2 h-4 w-4" /> {translate('profile.manage_addresses_wip')}
           </Button>
         </CardContent>
       </Card>
@@ -237,26 +234,26 @@ export default function ProfilePage() {
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <Globe className="mr-3 h-6 w-6 text-primary" />
-            Настройки языка
+            {translate('profile.language_settings')}
           </CardTitle>
-          <CardDescription>Выберите предпочитаемый язык интерфейса.</CardDescription>
+          <CardDescription>{translate('profile.language_settings_desc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
-            <Label htmlFor="language-select" className="text-sm font-medium text-muted-foreground">Язык приложения</Label>
-            <Select value={selectedLanguage} onValueChange={handleLanguageChange}>
+            <Label htmlFor="language-select" className="text-sm font-medium text-muted-foreground">{translate('profile.app_language')}</Label>
+            <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
               <SelectTrigger id="language-select" className="w-full sm:w-[280px] mt-1">
-                <SelectValue placeholder="Выберите язык" />
+                <SelectValue placeholder={translate('profile.select_language')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ru">Русский</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="kk">Қазақша</SelectItem>
+                <SelectItem value="ru">{translate('profile.language_russian')}</SelectItem>
+                <SelectItem value="en">{translate('profile.language_english')}</SelectItem>
+                <SelectItem value="kk">{translate('profile.language_kazakh')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <p className="text-xs text-muted-foreground">
-            Полная смена языка интерфейса будет доступна в следующих обновлениях.
+            {translate('profile.language_change_note')}
           </p>
         </CardContent>
       </Card>
@@ -266,9 +263,11 @@ export default function ProfilePage() {
       <div className="text-center">
         <Button onClick={handleLogout} variant="destructive" size="lg" className="w-full max-w-xs">
           <LogOut className="mr-2 h-5 w-5" />
-          Выйти из аккаунта
+          {translate('profile.logout')}
         </Button>
       </div>
     </div>
   );
 }
+
+    
