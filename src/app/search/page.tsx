@@ -1,13 +1,15 @@
-"use client"
+"use client";
 
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 import SearchResultHandler from '@/components/search/SearchResultHandler'; // Import the new client component
-import { useSearchParams } from 'next/navigation'; // Still need this to get the initial query on the server
-
+import SearchResultHandlerClient from '@/components/search/SearchResultHandlerClient'; // Import the new client component
+import { useSearchParams } from 'next/navigation';
 // export const metadata = { // Metadata for client components is usually handled differently or in layout
 //   title: 'Результаты поиска - TechShop',
+
+export const dynamic = "force-dynamic";
 //   description: 'Результаты поиска товаров в TechShop.',
 // };
 
@@ -27,14 +29,13 @@ function SearchResultGridSkeleton() {
   );
 }
 
-export default function SearchPage() {
-  const { translate } = useLanguage(); // Get translate function
+export default function SearchPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+  const { translate } = useLanguage();
 
-  // Use useSearchParams directly here for the initial check if needed for server rendering
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get('q')?.toLowerCase() || '';
+  // Access search parameters directly from the prop
+  const searchQuery = (searchParams.q as string)?.toLowerCase() || '';
 
-  if (!searchQuery) {
+  if (!searchQuery) { // Removed the conditional check for clarity in the diff, but it should remain in your code
      return (
       <div className="space-y-8 text-center">
         <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{translate('search.title')}</h1>
@@ -46,9 +47,11 @@ export default function SearchPage() {
   }
 
   return (
-    // Wrap the client component in Suspense
-    <Suspense fallback={<SearchResultGridSkeleton />}>
-      <SearchResultHandler />
-    </Suspense>
+    <div className="container mx-auto px-4 py-8">
+      <Suspense fallback={<SearchResultGridSkeleton />}>
+        {/* Pass the searchParams prop to the client component */}
+        <SearchResultHandlerClient searchParams={searchParams} />
+      </Suspense>
+    </div>
   );
 }
