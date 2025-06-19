@@ -12,8 +12,6 @@ export async function generateStaticParams(): Promise<{ id: string }[]> {
     id: product.id.toString(), // Return an array of objects with the 'id' parameter as string
   }));
 }
-
-// You might still need a loading skeleton for the initial render
 function SearchResultGridSkeleton() {
   return (
     <>
@@ -34,14 +32,6 @@ function SearchResultGridSkeleton() {
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   // In a server component, you can directly access params.id
   const id = params.id;
-
-  // You might do server-side data fetching here if needed before passing to client component
-  // const product = await getProductById(id);
-
-  // If product is not found on the server, you can call notFound() here
-  // if (!product) {
-  //   notFound();
-  // }
 
   return (
     <Suspense fallback={<SearchResultGridSkeleton />}>
