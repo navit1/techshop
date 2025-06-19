@@ -4,18 +4,20 @@
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartProvider';
 import { useCheckout } from '@/contexts/CheckoutProvider';
+import { useOrder } from '@/contexts/OrderProvider'; // Added
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Loader2, ChevronLeft, CheckCircle, ShoppingBag, Home, CreditCard, User, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getProductNoun } from '@/lib/i18nUtils';
+import { getProductNoun, getItemNoun } from '@/lib/i18nUtils'; // Added getItemNoun
 
 export default function ReviewPage() {
   const router = useRouter();
   const { cart, totalPrice, itemCount, clearCart } = useCart();
   const { checkoutData, clearCheckoutData, isInitialized } = useCheckout();
+  const { addOrder } = useOrder(); // Added
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   useEffect(() => {
@@ -32,20 +34,25 @@ export default function ReviewPage() {
 
 
   const handlePlaceOrder = async () => {
+    if (!checkoutData.shippingAddress || !checkoutData.paymentMethod || itemCount === 0) {
+        // Should not happen if checks above and in layout are working
+        console.error("Missing order data, cannot place order.");
+        return;
+    }
     setIsPlacingOrder(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Simulate API call if needed, but for now, just process client-side
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Shorter delay
 
-    const orderId = `TECHSHOP-${Date.now().toString().slice(-6)}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+    // Add order to OrderProvider
+    const newOrderId = addOrder(cart, totalPrice, checkoutData.shippingAddress, checkoutData.paymentMethod);
     
     clearCart();
     clearCheckoutData();
     setIsPlacingOrder(false);
-    router.push(`/checkout/confirmation?orderId=${orderId}`);
+    router.push(`/checkout/confirmation?orderId=${newOrderId}`);
   };
 
   if (!isInitialized || !checkoutData.shippingAddress || !checkoutData.paymentMethod) {
-    // This case should be handled by the useEffect redirect, but as a fallback:
     return (
         <div className="flex justify-center items-center p-8">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -66,7 +73,7 @@ export default function ReviewPage() {
         {/* Cart Items Summary */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><ShoppingBag className="mr-2 h-5 w-5 text-primary" />Товары в корзине ({itemCount} {getProductNoun(itemCount)})</CardTitle>
+            <CardTitle className="text-lg flex items-center"><ShoppingBag className="mr-2 h-5 w-5 text-primary" />Товары в корзине ({itemCount} {getItemNoun(itemCount)})</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {cart.map(item => (
@@ -128,7 +135,7 @@ export default function ReviewPage() {
         </Button>
         <Button 
             onClick={handlePlaceOrder} 
-            disabled={isPlacingOrder || itemCount === 0}
+            disabled={isPlacingOrder || itemCount === 0 || !checkoutData.shippingAddress || !checkoutData.paymentMethod}
             className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground"
             size="lg"
         >

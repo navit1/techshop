@@ -57,3 +57,24 @@ export interface CheckoutData {
   shippingAddress: ShippingAddress | null;
   paymentMethod: PaymentMethod | null;
 }
+
+// Defines the structure of an item within an order
+export interface OrderItem {
+  productId: string;
+  name: string;
+  price: number; // Price at the time of order
+  quantity: number;
+  imageUrl?: string;
+}
+
+// Defines the structure of an order
+export interface Order {
+  id: string; // Unique order ID
+  firebaseUserId?: string; // ID of the Firebase user who placed the order (optional for prototype)
+  date: string; // ISO date string of when the order was placed
+  items: OrderItem[];
+  totalPrice: number;
+  shippingAddress: ShippingAddress;
+  paymentMethod: PaymentMethod;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'; // Order status
+}

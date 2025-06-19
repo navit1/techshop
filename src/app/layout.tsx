@@ -6,7 +6,8 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { CartProvider } from '@/contexts/CartProvider';
 import { WishlistProvider } from '@/contexts/WishlistProvider';
-import { CheckoutProvider } from '@/contexts/CheckoutProvider'; // Added
+import { CheckoutProvider } from '@/contexts/CheckoutProvider';
+import { OrderProvider } from '@/contexts/OrderProvider'; // Added OrderProvider
 import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
@@ -34,14 +35,16 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <WishlistProvider>
           <CartProvider>
-            <CheckoutProvider> {/* Added CheckoutProvider */}
-              <Header />
-              <main className="flex-grow container mx-auto px-4 py-8">
-                {children}
-              </main>
-              <Footer />
-              <Toaster />
-            </CheckoutProvider> {/* Added CheckoutProvider */}
+            <CheckoutProvider>
+              <OrderProvider> {/* Added OrderProvider */}
+                <Header />
+                <main className="flex-grow container mx-auto px-4 py-8">
+                  {children}
+                </main>
+                <Footer />
+                <Toaster />
+              </OrderProvider> {/* Added OrderProvider */}
+            </CheckoutProvider>
           </CartProvider>
         </WishlistProvider>
       </body>

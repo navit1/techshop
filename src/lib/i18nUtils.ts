@@ -18,5 +18,10 @@ export function getReviewNoun(count: number): string {
 
 export function getItemNoun(count: number): string {
   // For cart items, "товар" or "позиция" can be used. "товар" is consistent.
+  // Also used for order items.
   return getPluralNoun(count, "товар", "товара", "товаров");
+}
+
+export function getOrderNoun(count: number): string {
+  return getPluralNoun(count, "заказ", "заказа", "заказов");
 }
