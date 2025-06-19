@@ -1,11 +1,11 @@
 
 "use client";
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react'; // Added useEffect
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, ShoppingBag, Home } from 'lucide-react';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'; // Removed unused Card, CardHeader, CardTitle
+import { CheckCircle, ShoppingBag, User } from 'lucide-react'; // Added User import
 import Link from 'next/link';
 
 function ConfirmationContent() {
@@ -13,16 +13,20 @@ function ConfirmationContent() {
   const router = useRouter();
   const orderId = searchParams.get('orderId');
 
+  useEffect(() => {
+    if (!orderId && typeof window !== "undefined") {
+      router.replace('/');
+    }
+  }, [orderId, router]);
+
   if (!orderId) {
     // This case should ideally not happen if redirected correctly
     // Potentially redirect to home or cart if no order ID
-    if (typeof window !== "undefined") {
-        router.replace('/');
-    }
+    // Content displayed while useEffect handles redirection
     return (
         <div className="text-center py-10">
             <h1 className="text-2xl font-semibold">Ошибка</h1>
-            <p className="text-muted-foreground">Номер заказа не найден.</p>
+            <p className="text-muted-foreground">Номер заказа не найден. Перенаправление...</p>
             <Button asChild className="mt-6">
               <Link href="/">На главную</Link>
             </Button>

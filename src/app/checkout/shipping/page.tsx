@@ -13,6 +13,7 @@ import type { ShippingAddress } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronRight, Home } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect } from 'react'; // Added import
 
 const shippingAddressSchema = z.object({
   fullName: z.string().min(2, { message: "Полное имя обязательно." }),

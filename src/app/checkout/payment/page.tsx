@@ -13,6 +13,7 @@ import type { PaymentMethod } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight, CreditCard, QrCode } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect } from 'react'; // Added import
 
 const paymentMethods: PaymentMethod[] = [
   { id: 'cod', name: 'Картой или наличными при получении', description: 'Оплатите заказ курьеру или в пункте выдачи.' },
