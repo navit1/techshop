@@ -7,7 +7,7 @@ import { getProductById } from '@/lib/data';
 import React, { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { isGoogleAIPluginActive } from '@/ai/genkit'; // Import the flag
+// Removed: import { isGoogleAIPluginActive } from '@/ai/genkit'; 
 
 interface RecommendedProductsProps {
   currentProductId?: string; // Optional: to exclude current product from recommendations
@@ -26,12 +26,8 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
       setIsLoading(true);
       setError(null);
 
-      if (!isGoogleAIPluginActive) {
-        setError("Функция AI-рекомендаций недоступна. Пожалуйста, проверьте конфигурацию API ключа Google.");
-        setRecommendations([]);
-        setIsLoading(false);
-        return;
-      }
+      // Removed the check for isGoogleAIPluginActive. 
+      // The try-catch block below will handle failures if the AI flow cannot execute.
 
       try {
         let history: string[] = [];
@@ -63,7 +59,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
         }
       } catch (e) {
         console.error("Failed to fetch recommendations:", e);
-        setError("Не удалось загрузить рекомендации в данный момент.");
+        setError("AI-рекомендации в данный момент недоступны. Убедитесь, что сервис настроен правильно, или попробуйте позже.");
         setRecommendations([]);
       } finally {
         setIsLoading(false);
@@ -121,7 +117,7 @@ export function RecommendedProducts({ currentProductId }: RecommendedProductsPro
   }
 
   if (recommendations.length === 0) {
-    return null;
+    return null; // Don't render the section if there are no recommendations and no error
   }
 
   return (

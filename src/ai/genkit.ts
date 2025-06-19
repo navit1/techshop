@@ -4,7 +4,7 @@ import {googleAI} from '@genkit-ai/googleai';
 
 const activePlugins: GenkitPlugin[] = [];
 let defaultModel: string | undefined = undefined;
-export let isGoogleAIPluginActive = false; // Export a flag
+// Removed: export let isGoogleAIPluginActive = false; 
 
 // Плагин googleAI() автоматически ищет ключ API в переменных окружения:
 // GOOGLE_API_KEY или GOOGLE_GENERATIVE_AI_API_KEY
@@ -13,10 +13,10 @@ const googleApiKey = process.env.GOOGLE_API_KEY || process.env.GOOGLE_GENERATIVE
 if (googleApiKey) {
   activePlugins.push(googleAI());
   defaultModel = 'googleai/gemini-2.0-flash';
-  isGoogleAIPluginActive = true; // Set flag to true
+  // Removed: isGoogleAIPluginActive = true; 
   console.log('Плагин Google AI успешно инициализирован с API-ключом.');
 } else {
-  isGoogleAIPluginActive = false; // Explicitly set to false
+  // Removed: isGoogleAIPluginActive = false; 
   console.warn(
     'Переменные окружения GOOGLE_API_KEY или GOOGLE_GENERATIVE_AI_API_KEY не установлены. ' +
     'Функции Google AI будут отключены. Рекомендации по продуктам и другие AI-возможности могут не работать. ' +
