@@ -50,15 +50,7 @@ export function CheckoutStepper({ steps, currentStepId, className }: CheckoutSte
                 </>
               )}
 
-              {/* Separator */}
-              {stepIdx !== steps.length - 1 ? (
-                <div className={cn(
-                    "absolute inset-0 left-auto top-1/2 h-0.5 w-full -translate-y-1/2 transform ",
-                    stepIdx < currentStepIndex ? "bg-primary" : "bg-border"
-                  )} 
-                  aria-hidden="true" 
-                />
-              ) : null}
+              {/* Separator was here, now removed */}
             </div>
           </li>
         ))}
@@ -66,3 +58,4 @@ export function CheckoutStepper({ steps, currentStepId, className }: CheckoutSte
     </nav>
   );
 }
+
