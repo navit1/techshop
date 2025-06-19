@@ -1,6 +1,4 @@
 
-'use server';
-
 import {genkit, type GenkitPlugin} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
 
@@ -29,3 +27,4 @@ export const ai = genkit({
   // telemetry: false, // Раскомментируйте, если хотите отключить телеметрию для локальной разработки
   // enableTracing: true, // Раскомментируйте для включения трассировки
 });
+
