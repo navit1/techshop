@@ -2,13 +2,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Added for redirection
-import { useState } from "react"; // Added for loading state
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react"; // Added useEffect
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { signInWithEmailAndPassword } from "firebase/auth"; // Firebase auth
-import { auth } from "@/lib/firebase"; // Firebase auth instance
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,19 +22,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react"; // Loader icon
-
-const loginSchema = z.object({
-  email: z.string().email({ message: "Пожалуйста, введите действительный email." }),
-  password: z.string().min(1, { message: "Пароль не может быть пустым." }),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { Loader2 } from "lucide-react";
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { translate } = useLanguage(); // Get translate function
+
+  useEffect(() => {
+    document.title = `${translate('login.page_title')} - ${translate('app.name')}`;
+  }, [translate]);
+
+  const loginSchema = z.object({
+    email: z.string().email({ message: translate('login.validation_email_invalid') }),
+    password: z.string().min(1, { message: translate('login.validation_password_empty') }),
+  });
+
+  type LoginFormValues = z.infer<typeof loginSchema>;
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -49,26 +55,26 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast({
-        title: "Успешный вход!",
-        description: "Вы успешно вошли в систему.",
+        title: translate('login.toast_success_title'),
+        description: translate('login.toast_success_desc'),
       });
-      router.push("/"); // Redirect to homepage after successful login
+      router.push("/"); 
     } catch (error: any) {
       console.error("Login error:", error);
-      let errorMessage = "Произошла ошибка при входе. Попробуйте еще раз.";
+      let errorMessageKey = 'login.toast_error_generic_desc';
       if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password" || error.code === "auth/invalid-credential") {
-        errorMessage = "Неверный email или пароль. Пожалуйста, проверьте введенные данные.";
+        errorMessageKey = 'login.toast_error_invalid_credentials_desc';
       } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Некорректный формат email.";
+        errorMessageKey = 'login.toast_error_invalid_email_desc';
       } else if (error.code === "auth/too-many-requests") {
-        errorMessage = "Слишком много попыток входа. Пожалуйста, попробуйте позже.";
+        errorMessageKey = 'login.toast_error_too_many_requests_desc';
       } else if (error.code === "auth/api-key-not-valid") {
-        errorMessage = "Ошибка конфигурации Firebase: недействительный API ключ. Пожалуйста, проверьте файл src/lib/firebase.ts и ваши переменные окружения (.env.local).";
+        errorMessageKey = 'login.toast_error_firebase_api_key_invalid';
       }
       
       toast({
-        title: "Ошибка входа",
-        description: errorMessage,
+        title: translate('login.toast_error_title'),
+        description: translate(errorMessageKey),
         variant: "destructive",
       });
     } finally {
@@ -80,8 +86,8 @@ export default function LoginPage() {
     <div className="flex justify-center items-center py-12">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Вход в TechShop</CardTitle>
-          <CardDescription>Введите свои данные для доступа к аккаунту.</CardDescription>
+          <CardTitle className="text-3xl font-bold">{translate('login.card_title')}</CardTitle>
+          <CardDescription>{translate('login.card_description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -91,9 +97,9 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{translate('login.email_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} disabled={isLoading} />
+                      <Input placeholder={translate('login.email_placeholder')} {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,9 +110,9 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Пароль</FormLabel>
+                    <FormLabel>{translate('login.password_label')}</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                      <Input type="password" placeholder={translate('login.password_placeholder')} {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,14 +120,14 @@ export default function LoginPage() {
               />
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isLoading ? "Вход..." : "Войти"}
+                {isLoading ? translate('login.loading_button') : translate('login.submit_button')}
               </Button>
             </form>
           </Form>
           <div className="mt-6 text-center text-sm">
-            Нет аккаунта?{" "}
+            {translate('login.no_account_text')}{" "}
             <Link href="/register" className="font-medium text-primary hover:underline">
-              Зарегистрироваться
+              {translate('login.register_link')}
             </Link>
           </div>
         </CardContent>

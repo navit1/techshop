@@ -3,12 +3,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Added useEffect
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase"; // Import Firebase auth instance
+import { auth } from "@/lib/firebase";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,22 +23,28 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-
-const registerSchema = z.object({
-  email: z.string().email({ message: "Пожалуйста, введите действительный email." }),
-  password: z.string().min(6, { message: "Пароль должен содержать не менее 6 символов." }),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "Пароли не совпадают.",
-  path: ["confirmPassword"],
-});
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 export default function RegisterPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { translate } = useLanguage(); // Get translate function
+
+  useEffect(() => {
+    document.title = `${translate('register.page_title')} - ${translate('app.name')}`;
+  }, [translate]);
+
+  const registerSchema = z.object({
+    email: z.string().email({ message: translate('register.validation_email_invalid') }),
+    password: z.string().min(6, { message: translate('register.validation_password_min_length') }),
+    confirmPassword: z.string(),
+  }).refine(data => data.password === data.confirmPassword, {
+    message: translate('register.validation_passwords_do_not_match'),
+    path: ["confirmPassword"],
+  });
+
+  type RegisterFormValues = z.infer<typeof registerSchema>;
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -54,28 +60,28 @@ export default function RegisterPage() {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       toast({
-        title: "Успешная регистрация!",
-        description: "Вы успешно зарегистрированы. Теперь вы можете войти.",
+        title: translate('register.toast_success_title'),
+        description: translate('register.toast_success_desc'),
       });
-      router.push("/login"); // Redirect to login page after successful registration
+      router.push("/login"); 
     } catch (error: any) {
       console.error("Registration error:", error);
-      let errorMessage = "Произошла ошибка при регистрации. Попробуйте еще раз.";
+      let errorMessageKey = 'register.toast_error_generic_desc';
       if (error.code === "auth/email-already-in-use") {
-        errorMessage = "Этот email уже используется. Пожалуйста, используйте другой email или войдите.";
+        errorMessageKey = 'register.toast_error_email_in_use_desc';
       } else if (error.code === "auth/weak-password") {
-        errorMessage = "Пароль слишком слабый. Пожалуйста, используйте более надежный пароль (минимум 6 символов).";
+        errorMessageKey = 'register.toast_error_weak_password_desc';
       } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Некорректный формат email.";
+        errorMessageKey = 'register.toast_error_invalid_email_desc';
       } else if (error.code === "auth/api-key-not-valid") {
-        errorMessage = "Ошибка конфигурации Firebase: недействительный API ключ. Пожалуйста, проверьте файл src/lib/firebase.ts и ваши переменные окружения (.env.local), чтобы убедиться, что указан правильный API ключ вашего Firebase проекта.";
+        errorMessageKey = 'register.toast_error_firebase_api_key_invalid';
       } else if (error.code === "auth/operation-not-allowed") {
-        errorMessage = "Ошибка регистрации: вход по email/паролю не включен в вашем Firebase проекте. Пожалуйста, включите его в консоли Firebase -> Authentication -> Sign-in method.";
+        errorMessageKey = 'register.toast_error_operation_not_allowed';
       }
       
       toast({
-        title: "Ошибка регистрации",
-        description: errorMessage,
+        title: translate('register.toast_error_title'),
+        description: translate(errorMessageKey),
         variant: "destructive",
       });
     } finally {
@@ -87,8 +93,8 @@ export default function RegisterPage() {
     <div className="flex justify-center items-center py-12">
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Регистрация в TechShop</CardTitle>
-          <CardDescription>Создайте новый аккаунт, чтобы начать покупки.</CardDescription>
+          <CardTitle className="text-3xl font-bold">{translate('register.card_title')}</CardTitle>
+          <CardDescription>{translate('register.card_description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -98,9 +104,9 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{translate('register.email_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} disabled={isLoading} />
+                      <Input placeholder={translate('register.email_placeholder')} {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,9 +117,9 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Пароль</FormLabel>
+                    <FormLabel>{translate('register.password_label')}</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                      <Input type="password" placeholder={translate('register.password_placeholder')} {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -124,9 +130,9 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Подтвердите пароль</FormLabel>
+                    <FormLabel>{translate('register.confirm_password_label')}</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
+                      <Input type="password" placeholder={translate('register.confirm_password_placeholder')} {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,14 +140,14 @@ export default function RegisterPage() {
               />
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isLoading ? "Регистрация..." : "Зарегистрироваться"}
+                {isLoading ? translate('register.loading_button') : translate('register.submit_button')}
               </Button>
             </form>
           </Form>
           <div className="mt-6 text-center text-sm">
-            Уже есть аккаунт?{" "}
+            {translate('register.has_account_text')}{" "}
             <Link href="/login" className="font-medium text-primary hover:underline">
-              Войти
+              {translate('register.login_link')}
             </Link>
           </div>
         </CardContent>

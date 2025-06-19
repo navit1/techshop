@@ -1,7 +1,7 @@
 
 "use client";
 import Link from 'next/link';
-import { ShoppingCart, List, Heart, User, Menu, ChevronDown, LogIn, UserCircle } from 'lucide-react'; // Removed ChevronRight
+import { ShoppingCart, List, Heart, Menu, ChevronDown, LogIn, UserCircle } from 'lucide-react';
 import { useCart } from '@/contexts/CartProvider';
 import { SearchInput } from '@/components/search/SearchInput';
 import {
@@ -18,7 +18,7 @@ import type { Category } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { useLanguage, type Language } from '@/contexts/LanguageProvider'; // Added useLanguage
+import { useLanguage } from '@/contexts/LanguageProvider';
 
 interface PopoverCatalogDropdownProps {
   onLinkClick?: () => void;
@@ -28,6 +28,7 @@ interface PopoverCatalogDropdownProps {
 function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropdownProps) {
   const mainCategories = categories.filter(c => !c.parentId);
   const getSubCategories = (parentId: string) => categories.filter(c => c.parentId === parentId);
+  const { translate } = useLanguage(); // Use translate for category names if they are keys
 
   return (
     <div className="bg-card text-card-foreground shadow-lg rounded-b-md md:rounded-md border border-t-0 md:border-t">
@@ -42,7 +43,8 @@ function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropd
                   onClick={onLinkClick}
                   className="group font-semibold text-base text-foreground hover:text-primary transition-colors flex items-center justify-between mb-2.5"
                 >
-                  <span>{category.name}</span>
+                  {/* Assuming category names are translated if keys like `category.${category.slug}` exist */}
+                  <span>{translate(`category.${category.slug}`, {defaultValue: category.name})}</span>
                 </Link>
                 {subCategories.length > 0 && (
                   <ul className="space-y-1.5">
@@ -53,7 +55,7 @@ function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropd
                           onClick={onLinkClick}
                           className="block text-sm text-muted-foreground hover:text-primary transition-colors py-1 hover:bg-muted/50 rounded-md px-2"
                         >
-                          {subCategory.name}
+                          {translate(`category.${subCategory.slug}`, {defaultValue: subCategory.name})}
                         </Link>
                       </li>
                     ))}
@@ -71,7 +73,7 @@ function PopoverCatalogDropdown({ categories, onLinkClick }: PopoverCatalogDropd
 
 export function Header() {
   const { cart } = useCart();
-  const { translate } = useLanguage(); // Added useLanguage
+  const { translate } = useLanguage();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -147,7 +149,7 @@ export function Header() {
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label={translate('nav.catalog')}>
+                <Button variant="ghost" size="icon" aria-label={translate('nav.menu_open_aria') || 'Open menu'}>
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -198,3 +200,4 @@ export function Header() {
     </header>
   );
 }
+

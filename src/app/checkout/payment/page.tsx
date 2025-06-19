@@ -13,23 +13,25 @@ import type { PaymentMethod } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight, CreditCard, QrCode } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect } from 'react'; // Added import
-
-const paymentMethods: PaymentMethod[] = [
-  { id: 'cod', name: 'Картой или наличными при получении', description: 'Оплатите заказ курьеру или в пункте выдачи.' },
-  { id: 'kaspi_qr', name: 'Kaspi QR (имитация)', description: 'Отсканируйте QR-код через приложение Kaspi.kz (имитация).' },
-  { id: 'card_online', name: 'Банковской картой онлайн (имитация)', description: 'Безопасная оплата картой Visa/Mastercard (имитация).' },
-];
-
-const paymentSchema = z.object({
-  paymentMethodId: z.string().min(1, { message: "Пожалуйста, выберите способ оплаты." }),
-});
-
-type PaymentFormValues = z.infer<typeof paymentSchema>;
+import { useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 export default function PaymentPage() {
   const router = useRouter();
   const { checkoutData, setPaymentMethod, isInitialized } = useCheckout();
+  const { translate } = useLanguage(); // Get translate function
+
+  const paymentMethods: PaymentMethod[] = [
+    { id: 'cod', name: translate('checkout.payment.method_cod_name'), description: translate('checkout.payment.method_cod_desc') },
+    { id: 'kaspi_qr', name: translate('checkout.payment.method_kaspi_name'), description: translate('checkout.payment.method_kaspi_desc') },
+    { id: 'card_online', name: translate('checkout.payment.method_card_online_name'), description: translate('checkout.payment.method_card_online_desc') },
+  ];
+
+  const paymentSchema = z.object({
+    paymentMethodId: z.string().min(1, { message: translate('checkout.payment.validation_method_required') }),
+  });
+
+  type PaymentFormValues = z.infer<typeof paymentSchema>;
 
   const form = useForm<PaymentFormValues>({
     resolver: zodResolver(paymentSchema),
@@ -53,7 +55,7 @@ export default function PaymentPage() {
   };
 
   if (!isInitialized) {
-    return null; // Or a loader
+    return null; 
   }
   
   const getIconForPaymentMethod = (id: string) => {
@@ -66,8 +68,8 @@ export default function PaymentPage() {
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="p-0 mb-6">
-        <CardTitle className="text-2xl font-semibold text-foreground">Способ оплаты</CardTitle>
-        <CardDescription>Выберите, как вы хотите оплатить ваш заказ.</CardDescription>
+        <CardTitle className="text-2xl font-semibold text-foreground">{translate('checkout.payment.title')}</CardTitle>
+        <CardDescription>{translate('checkout.payment.description')}</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <Form {...form}>
@@ -77,7 +79,7 @@ export default function PaymentPage() {
               name="paymentMethodId"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel className="text-base">Выберите способ оплаты:</FormLabel>
+                  <FormLabel className="text-base">{translate('checkout.payment.select_method_label')}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -108,11 +110,11 @@ export default function PaymentPage() {
               <Button variant="outline" asChild>
                 <Link href="/checkout/shipping">
                   <ChevronLeft className="mr-2 h-4 w-4" />
-                  Назад к доставке
+                  {translate('checkout.payment.button_back_to_shipping')}
                 </Link>
               </Button>
               <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                Продолжить к проверке <ChevronRight className="ml-2 h-4 w-4" />
+                {translate('checkout.payment.button_to_review')} <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </form>

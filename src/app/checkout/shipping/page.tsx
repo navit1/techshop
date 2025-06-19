@@ -13,24 +13,26 @@ import type { ShippingAddress } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronRight, Home } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect } from 'react'; // Added import
-
-const shippingAddressSchema = z.object({
-  fullName: z.string().min(2, { message: "Полное имя обязательно." }),
-  email: z.string().email({ message: "Введите действительный email." }),
-  phoneNumber: z.string().min(5, { message: "Номер телефона обязателен." }).regex(/^\+?[0-9\s\-()]+$/, { message: "Неверный формат номера телефона."}),
-  addressLine1: z.string().min(5, { message: "Адрес (строка 1) обязателен." }),
-  addressLine2: z.string().optional(),
-  city: z.string().min(2, { message: "Город обязателен." }),
-  postalCode: z.string().min(3, { message: "Почтовый индекс обязателен." }),
-  country: z.string().min(2, { message: "Страна обязательна." }),
-});
-
-type ShippingFormValues = z.infer<typeof shippingAddressSchema>;
+import { useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 export default function ShippingPage() {
   const router = useRouter();
   const { checkoutData, setShippingAddress, isInitialized } = useCheckout();
+  const { translate } = useLanguage(); // Get translate function
+
+  const shippingAddressSchema = z.object({
+    fullName: z.string().min(2, { message: translate('checkout.shipping.validation_fullname_required') }),
+    email: z.string().email({ message: translate('checkout.shipping.validation_email_invalid') }),
+    phoneNumber: z.string().min(5, { message: translate('checkout.shipping.validation_phone_required') }).regex(/^\+?[0-9\s\-()]+$/, { message: translate('checkout.shipping.validation_phone_invalid')}),
+    addressLine1: z.string().min(5, { message: translate('checkout.shipping.validation_address1_required') }),
+    addressLine2: z.string().optional(),
+    city: z.string().min(2, { message: translate('checkout.shipping.validation_city_required') }),
+    postalCode: z.string().min(3, { message: translate('checkout.shipping.validation_postal_code_required') }),
+    country: z.string().min(2, { message: translate('checkout.shipping.validation_country_required') }),
+  });
+  
+  type ShippingFormValues = z.infer<typeof shippingAddressSchema>;
 
   const form = useForm<ShippingFormValues>({
     resolver: zodResolver(shippingAddressSchema),
@@ -42,7 +44,7 @@ export default function ShippingPage() {
       addressLine2: '',
       city: '',
       postalCode: '',
-      country: 'Казахстан', // Default country
+      country: translate('checkout.shipping.country_value_default'), // Default country
     },
   });
   
@@ -59,14 +61,14 @@ export default function ShippingPage() {
   };
 
   if (!isInitialized) {
-    return null; // Or a loader, handled by layout
+    return null; 
   }
 
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="p-0 mb-6">
-        <CardTitle className="text-2xl font-semibold text-foreground">Адрес доставки</CardTitle>
-        <CardDescription>Введите информацию для доставки вашего заказа.</CardDescription>
+        <CardTitle className="text-2xl font-semibold text-foreground">{translate('checkout.shipping.title')}</CardTitle>
+        <CardDescription>{translate('checkout.shipping.description')}</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <Form {...form}>
@@ -77,9 +79,9 @@ export default function ShippingPage() {
                 name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Полное имя</FormLabel>
+                    <FormLabel>{translate('checkout.shipping.full_name_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Иван Иванов" {...field} />
+                      <Input placeholder={translate('checkout.shipping.full_name_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -90,9 +92,9 @@ export default function ShippingPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{translate('checkout.shipping.email_label')}</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="you@example.com" {...field} />
+                      <Input type="email" placeholder={translate('checkout.shipping.email_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,9 +106,9 @@ export default function ShippingPage() {
               name="phoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Номер телефона</FormLabel>
+                  <FormLabel>{translate('checkout.shipping.phone_label')}</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="+7 (700) 123-45-67" {...field} />
+                    <Input type="tel" placeholder={translate('checkout.shipping.phone_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -117,9 +119,9 @@ export default function ShippingPage() {
               name="addressLine1"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Адрес (строка 1)</FormLabel>
+                  <FormLabel>{translate('checkout.shipping.address1_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="ул. Абая, 123" {...field} />
+                    <Input placeholder={translate('checkout.shipping.address1_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,9 +132,9 @@ export default function ShippingPage() {
               name="addressLine2"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Адрес (строка 2, необязательно)</FormLabel>
+                  <FormLabel>{translate('checkout.shipping.address2_label')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="кв. 45, подъезд 2" {...field} />
+                    <Input placeholder={translate('checkout.shipping.address2_placeholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,9 +146,9 @@ export default function ShippingPage() {
                 name="city"
                 render={({ field }) => (
                   <FormItem className="md:col-span-2">
-                    <FormLabel>Город</FormLabel>
+                    <FormLabel>{translate('checkout.shipping.city_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Алматы" {...field} />
+                      <Input placeholder={translate('checkout.shipping.city_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -157,9 +159,9 @@ export default function ShippingPage() {
                 name="postalCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Почтовый индекс</FormLabel>
+                    <FormLabel>{translate('checkout.shipping.postal_code_label')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="050000" {...field} />
+                      <Input placeholder={translate('checkout.shipping.postal_code_placeholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -171,7 +173,7 @@ export default function ShippingPage() {
                 name="country"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Страна</FormLabel>
+                    <FormLabel>{translate('checkout.shipping.country_label')}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -183,11 +185,11 @@ export default function ShippingPage() {
               <Button variant="outline" asChild>
                 <Link href="/cart">
                   <Home className="mr-2 h-4 w-4" />
-                  Вернуться в корзину
+                  {translate('checkout.shipping.button_back_to_cart')}
                 </Link>
               </Button>
               <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                Продолжить к оплате <ChevronRight className="ml-2 h-4 w-4" />
+                {translate('checkout.shipping.button_to_payment')} <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </form>

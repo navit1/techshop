@@ -9,10 +9,10 @@ import type { Review } from '@/types';
 import { ReviewItem } from './ReviewItem';
 import { ReviewForm } from './ReviewForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getReviewNoun } from '@/lib/i18nUtils';
+import { getPluralNoun } from '@/lib/i18nUtils';
 import { MessageSquareText, UserCheck } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 interface ProductReviewManagementProps {
   productId: string;
@@ -24,6 +24,7 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const { getOrdersByCurrentUser } = useOrder();
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  const { translate } = useLanguage(); // Get translate function
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -51,7 +52,6 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
   }, [currentUser, reviews, productId]);
 
   const handleReviewSubmitted = (newReview: Review) => {
-    // Add to the beginning to show newest first, matching getReviewsByProductId sort order
     setReviews(prevReviews => [newReview, ...prevReviews]);
   };
   
@@ -59,21 +59,31 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
     : 0;
 
+  const reviewNoun = getPluralNoun(
+    reviews.length,
+    translate('noun.review.one'),
+    translate('noun.review.few'),
+    translate('noun.review.many')
+  );
 
   const renderReviewFormSection = () => {
     if (isLoadingAuth) {
-      return <p className="text-sm text-muted-foreground">Проверка статуса авторизации...</p>;
+      return <p className="text-sm text-muted-foreground">{translate('reviews.loading_auth_status')}</p>;
     }
 
     if (!currentUser) {
       return (
         <Card className="mt-6 bg-secondary/30">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><MessageSquareText className="w-5 h-5 mr-2 text-primary"/>Хотите оставить отзыв?</CardTitle>
+            <CardTitle className="text-lg flex items-center"><MessageSquareText className="w-5 h-5 mr-2 text-primary"/>{translate('reviews.login_prompt_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-3">
-              <Link href="/login" className="text-primary hover:underline font-semibold">Войдите</Link> или <Link href="/register" className="text-primary hover:underline font-semibold">зарегистрируйтесь</Link>, чтобы поделиться своим мнением о товаре.
+              {translate('reviews.login_prompt_text_before_links')}
+              <Link href="/login" className="text-primary hover:underline font-semibold">{translate('reviews.login_prompt_login_link')}</Link>
+              {translate('reviews.login_prompt_text_between_links')}
+              <Link href="/register" className="text-primary hover:underline font-semibold">{translate('reviews.login_prompt_register_link')}</Link>
+              {translate('reviews.login_prompt_text_after_links')}
             </p>
           </CardContent>
         </Card>
@@ -84,11 +94,11 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
       return (
         <Card className="mt-6 bg-secondary/30">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><MessageSquareText className="w-5 h-5 mr-2 text-primary"/>Поделитесь мнением</CardTitle>
+            <CardTitle className="text-lg flex items-center"><MessageSquareText className="w-5 h-5 mr-2 text-primary"/>{translate('reviews.purchase_required_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              Вы сможете оставить отзыв на этот товар после его покупки.
+              {translate('reviews.purchase_required_text')}
             </p>
           </CardContent>
         </Card>
@@ -99,10 +109,10 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
       return (
         <Card className="mt-6 bg-green-50 border border-green-200">
            <CardHeader>
-            <CardTitle className="text-lg flex items-center text-green-700"><UserCheck className="w-5 h-5 mr-2"/>Спасибо за ваш отзыв!</CardTitle>
+            <CardTitle className="text-lg flex items-center text-green-700"><UserCheck className="w-5 h-5 mr-2"/>{translate('reviews.already_reviewed_title')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-green-600">Вы уже оставили отзыв на этот товар.</p>
+            <p className="text-sm text-green-600">{translate('reviews.already_reviewed_text')}</p>
           </CardContent>
         </Card>
       );
@@ -111,8 +121,8 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
     return (
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle className="text-xl">Оставить отзыв</CardTitle>
-          <CardDescription>Поделитесь своим мнением о товаре с другими покупателями.</CardDescription>
+          <CardTitle className="text-xl">{translate('reviews.leave_review_title')}</CardTitle>
+          <CardDescription>{translate('reviews.leave_review_description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <ReviewForm productId={productId} onReviewSubmitted={handleReviewSubmitted} />
@@ -124,9 +134,9 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
   return (
     <section className="space-y-8">
       <div>
-        <h2 className="text-2xl font-semibold mb-1 text-foreground">Отзывы покупателей ({reviews.length} {getReviewNoun(reviews.length)})</h2>
+        <h2 className="text-2xl font-semibold mb-1 text-foreground">{translate('reviews.title', { count: reviews.length, noun: reviewNoun })}</h2>
         {reviews.length > 0 && (
-             <p className="text-sm text-muted-foreground">Средняя оценка: {averageRating.toFixed(1)} из 5</p>
+             <p className="text-sm text-muted-foreground">{translate('reviews.average_rating', { rating: averageRating.toFixed(1) })}</p>
         )}
        
         {reviews.length > 0 ? (
@@ -136,7 +146,7 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
             ))}
           </div>
         ) : (
-          <p className="text-muted-foreground mt-6">Отзывов на этот товар пока нет.</p>
+          <p className="text-muted-foreground mt-6">{translate('reviews.no_reviews')}</p>
         )}
       </div>
       

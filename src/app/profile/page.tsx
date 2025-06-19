@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { getOrderNoun, getItemNoun } from '@/lib/i18nUtils';
+import { getPluralNoun } from '@/lib/i18nUtils';
 import {
   Accordion,
   AccordionContent,
@@ -40,7 +40,6 @@ export default function ProfilePage() {
     return [];
   }, [user, getOrdersByCurrentUser]);
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -50,23 +49,30 @@ export default function ProfilePage() {
       }
       setIsLoading(false);
     });
-
     return () => unsubscribe();
   }, [router]);
+
+  useEffect(() => {
+    if (user) {
+      document.title = `${translate('profile.welcome')}, ${user.displayName || user.email} - ${translate('app.name')}`;
+    } else if (!isLoading) {
+      document.title = `${translate('nav.profile')} - ${translate('app.name')}`;
+    }
+  }, [user, isLoading, translate]);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
       toast({
-        title: translate('profile.logout'),
-        description: "Вы успешно вышли из системы.",
+        title: translate('toast.logout_success_title'),
+        description: translate('profile.logout_success_desc', { defaultValue: "You have been successfully logged out."}),
       });
       router.push("/login");
     } catch (error) {
       console.error("Logout error:", error);
       toast({
-        title: "Ошибка выхода",
-        description: "Не удалось выйти из системы. Попробуйте еще раз.",
+        title: translate('toast.logout_error_title'),
+        description: translate('toast.logout_error_desc'),
         variant: "destructive",
       });
     }
@@ -85,15 +91,23 @@ export default function ProfilePage() {
   };
   
   const getOrderStatusText = (status: OrderType['status']) => {
-    switch (status) {
-      case 'pending': return translate('profile.order_status_pending');
-      case 'processing': return translate('profile.order_status_processing');
-      case 'shipped': return translate('profile.order_status_shipped');
-      case 'delivered': return translate('profile.order_status_delivered');
-      case 'cancelled': return translate('profile.order_status_cancelled');
-      default: return translate('profile.order_status_unknown');
-    }
+    return translate(`profile.order_status_${status}`, {defaultValue: status});
   };
+
+  const orderNoun = getPluralNoun(
+    userOrders.length,
+    translate('noun.order.one'),
+    translate('noun.order.few'),
+    translate('noun.order.many')
+  );
+
+  const getItemNounForOrder = (count: number) => getPluralNoun(
+    count,
+    translate('noun.item.one'),
+    translate('noun.item.few'),
+    translate('noun.item.many')
+  );
+
 
   if (isLoading) {
     return (
@@ -106,12 +120,12 @@ export default function ProfilePage() {
   if (!user) {
     return (
          <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
-            <p>Перенаправление на страницу входа...</p>
+            <p>{translate('profile.redirecting_to_login')}</p>
          </div>
     );
   }
   
-  const userInitial = user.displayName?.[0] || user.email?.[0]?.toUpperCase() || "П";
+  const userInitial = user.displayName?.[0] || user.email?.[0]?.toUpperCase() || translate('profile.user_avatar_fallback_prefix');
 
   return (
     <div className="max-w-3xl mx-auto py-8 space-y-8 px-4">
@@ -155,7 +169,7 @@ export default function ProfilePage() {
         <CardHeader>
           <CardTitle className="flex items-center text-xl">
             <ListOrdered className="mr-3 h-6 w-6 text-primary" />
-            {translate('profile.order_history')} ({userOrders.length} {getOrderNoun(userOrders.length)})
+            {translate('profile.order_history')} {translate('profile.order_history_count', { count: userOrders.length, noun: orderNoun })}
           </CardTitle>
           <CardDescription>{translate('profile.order_history_desc')}</CardDescription>
         </CardHeader>
@@ -168,14 +182,14 @@ export default function ProfilePage() {
                 <AccordionItem value={order.id} key={order.id}>
                   <AccordionTrigger>
                     <div className="flex justify-between w-full pr-2">
-                      <span className="font-semibold text-primary">Заказ #{order.id.substring(order.id.length - 7)}</span>
+                      <span className="font-semibold text-primary">{translate('profile.order_label_prefix')}{order.id.substring(order.id.length - 7)}</span>
                       <span className="text-sm text-muted-foreground">{new Date(order.date).toLocaleDateString()}</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3 pt-2">
                     <div className="text-sm space-y-1">
-                       <p><strong>Статус:</strong> <span className="font-medium">{getOrderStatusText(order.status)}</span></p>
-                       <p><strong>{translate('profile.order_total_amount')}:</strong> <span className="font-semibold text-primary">₸{order.totalPrice.toFixed(2)}</span> ({order.items.length} {getItemNoun(order.items.length)})</p>
+                       <p><strong>{translate('profile.order_status_label')}</strong> <span className="font-medium">{getOrderStatusText(order.status)}</span></p>
+                       <p><strong>{translate('profile.order_total_amount')}:</strong> <span className="font-semibold text-primary">₸{order.totalPrice.toFixed(2)}</span> ({order.items.length} {getItemNounForOrder(order.items.length)})</p>
                     </div>
                     <Separator/>
                     <h4 className="font-medium text-foreground">{translate('profile.order_items_label')}</h4>
@@ -203,7 +217,7 @@ export default function ProfilePage() {
                         <p>{order.shippingAddress.addressLine1}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}</p>
                      </div>
                      <h4 className="font-medium text-foreground mt-2">{translate('profile.order_payment_label')}</h4>
-                     <p className="text-xs text-muted-foreground">{order.paymentMethod.name}</p>
+                     <p className="text-xs text-muted-foreground">{order.paymentMethod.name}</p> {/* Payment method name comes from data, could be a key too */}
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -269,5 +283,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
-    

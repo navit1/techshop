@@ -1,8 +1,10 @@
 
+"use client"; // Mark as client component
 import type { Category } from '@/types';
 import Link from 'next/link';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 interface CatalogDropdownProps {
   onLinkClick?: () => void;
@@ -10,6 +12,7 @@ interface CatalogDropdownProps {
 }
 
 export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProps) {
+  const { translate } = useLanguage(); // Get translate function
   const mainCategories = categories.filter(c => !c.parentId);
   const getSubCategories = (parentId: string) => categories.filter(c => c.parentId === parentId);
 
@@ -26,7 +29,8 @@ export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProp
                   onClick={onLinkClick}
                   className="group flex items-center justify-between p-2.5 rounded-md text-sm font-semibold text-foreground hover:bg-muted hover:text-primary transition-colors"
                 >
-                  <span>{category.name}</span>
+                  {/* Translate category name, providing original name as fallback if key doesn't exist */}
+                  <span>{translate(`category.${category.slug}`, { defaultValue: category.name })}</span>
                   {subCategories.length > 0 && (
                     <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors opacity-75" />
                   )}
@@ -40,7 +44,7 @@ export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProp
                           onClick={onLinkClick}
                           className="group flex items-center justify-between p-2 rounded-md text-xs font-medium text-muted-foreground hover:bg-muted/70 hover:text-primary transition-colors"
                         >
-                          <span>{subCategory.name}</span>
+                          <span>{translate(`category.${subCategory.slug}`, { defaultValue: subCategory.name })}</span>
                            <ChevronRight className="h-3 w-3 text-muted-foreground/50 group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100" />
                         </Link>
                       </li>

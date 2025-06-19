@@ -5,10 +5,11 @@ import type { Product } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartProvider';
-import { useWishlist } from '@/contexts/WishlistProvider'; // Added
+import { useWishlist } from '@/contexts/WishlistProvider';
 import { useToast } from "@/hooks/use-toast";
 import { ShoppingCart, Heart } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Added for cn utility
+import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 interface ProductCardProps {
   product: Product;
@@ -16,16 +17,17 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
-  const { addToWishlist, removeFromWishlist, isProductInWishlist } = useWishlist(); // Added wishlist hooks
+  const { addToWishlist, removeFromWishlist, isProductInWishlist } = useWishlist();
   const { toast } = useToast();
+  const { translate } = useLanguage(); // Get translate function
 
   const isInWishlist = isProductInWishlist(product.id);
 
   const handleAddToCart = () => {
     addToCart(product);
     toast({
-      title: "Добавлено в корзину",
-      description: `${product.name} добавлен в вашу корзину.`,
+      title: translate('product.toast_added_to_cart_title'),
+      description: translate('product.toast_added_to_cart_desc', { name: product.name }),
     });
   };
 
@@ -33,15 +35,15 @@ export function ProductCard({ product }: ProductCardProps) {
     if (isInWishlist) {
       removeFromWishlist(product.id);
       toast({
-        title: "Удалено из избранного",
-        description: `${product.name} удален из вашего избранного.`,
+        title: translate('product.toast_removed_from_wishlist_title'),
+        description: translate('product.toast_removed_from_wishlist_desc', { name: product.name }),
         variant: "destructive" 
       });
     } else {
       addToWishlist(product.id);
       toast({
-        title: "Добавлено в избранное",
-        description: `${product.name} добавлен в ваше избранное.`,
+        title: translate('product.toast_added_to_wishlist_title'),
+        description: translate('product.toast_added_to_wishlist_desc', { name: product.name }),
       });
     }
   };
@@ -59,7 +61,8 @@ export function ProductCard({ product }: ProductCardProps) {
         </Link>
       </CardHeader>
       <CardContent className="p-2 sm:p-3 flex-grow">
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1">{product.categoryName}</p>
+        {/* Product category can be translated if keys like `category.cat_sub_1_1` exist */}
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">{translate(`category.${product.categoryId}`, { defaultValue: product.categoryName })}</p>
         <p className="text-lg sm:text-xl font-bold text-primary mt-1 sm:mt-2">₸{product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-2 sm:p-3 border-t mt-auto">
@@ -70,13 +73,13 @@ export function ProductCard({ product }: ProductCardProps) {
             disabled={product.stock === 0}
           >
             <ShoppingCart className="mr-2 h-4 w-4" /> 
-            {product.stock === 0 ? 'Нет в наличии' : 'В корзину'}
+            {product.stock === 0 ? translate('product.availability_out_of_stock') : translate('product.add_to_cart')}
           </Button>
           <Button 
             variant="outline" 
             size="icon" 
             onClick={handleToggleWishlist} 
-            aria-label={isInWishlist ? "Удалить из избранного" : "Добавить в избранное"}
+            aria-label={isInWishlist ? translate('product.remove_from_wishlist_aria') : translate('product.add_to_wishlist_aria')}
             className={cn(
                 "h-auto aspect-square p-[calc(theme(spacing.1)_+_1px)] sm:p-[calc(theme(spacing.1)_+_3px)]",
                 isInWishlist ? "border-destructive text-destructive hover:bg-destructive/10" : ""

@@ -17,18 +17,20 @@ import {
 } from "@/components/ui/accordion";
 import { XIcon, FilterIcon } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
+import { useLanguage } from '@/contexts/LanguageProvider';
 
 interface FilterSidebarProps {
-  products: Product[]; // Products in the current category/view
-  allProductsForCategory: Product[]; // All products for the base category to derive filter options
+  products: Product[]; 
+  allProductsForCategory: Product[]; 
 }
 
 const MIN_PRICE_DEFAULT = 0;
-const MAX_PRICE_DEFAULT = 5000000; // Arbitrary high max, adjust as needed
+const MAX_PRICE_DEFAULT = 5000000; 
 
 export function FilterSidebar({ products, allProductsForCategory }: FilterSidebarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { translate } = useLanguage();
 
   const [priceRange, setPriceRange] = useState<[number, number]>([
     parseInt(searchParams.get('minPrice') || String(MIN_PRICE_DEFAULT), 10),
@@ -43,7 +45,6 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
 
   const [minPriceInput, setMinPriceInput] = useState(String(priceRange[0]));
   const [maxPriceInput, setMaxPriceInput] = useState(String(priceRange[1]));
-
 
   const availableBrands = useMemo(() => {
     const brands = new Set<string>();
@@ -66,7 +67,6 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
   const minPossiblePrice = useMemo(() => Math.min(...allProductsForCategory.map(p => p.price), MIN_PRICE_DEFAULT) || MIN_PRICE_DEFAULT, [allProductsForCategory]);
   const maxPossiblePrice = useMemo(() => Math.max(...allProductsForCategory.map(p => p.price), MAX_PRICE_DEFAULT) || MAX_PRICE_DEFAULT, [allProductsForCategory]);
 
-
   useEffect(() => {
     setMinPriceInput(String(priceRange[0]));
     setMaxPriceInput(String(priceRange[1]));
@@ -79,7 +79,6 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
     setSelectedBrands(searchParams.get('brands')?.split(',').filter(Boolean) || []);
     setSelectedColors(searchParams.get('colors')?.split(',').filter(Boolean) || []);
   }, [searchParams, minPossiblePrice, maxPossiblePrice]);
-
 
   const applyFilters = (newFilters: { price?: [number, number], brands?: string[], colors?: string[] }) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -95,7 +94,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
       if (newFilters.colors.length > 0) params.set('colors', newFilters.colors.join(',')); else params.delete('colors');
     }
     
-    router.push(`?${params.toString()}`, { scroll: false });
+    router.push(`/products?${params.toString()}`, { scroll: false });
   };
   
   const handlePriceInputChange = () => {
@@ -137,7 +136,13 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
     params.delete('maxPrice');
     params.delete('brands');
     params.delete('colors');
-    router.push(`?${params.toString()}`, { scroll: false });
+    // Keep category and search query if they exist
+    const category = searchParams.get('category');
+    const q = searchParams.get('q');
+    if (category) params.set('category', category);
+    if (q) params.set('q', q);
+
+    router.push(`/products?${params.toString()}`, { scroll: false });
     
     setPriceRange([minPossiblePrice, maxPossiblePrice]);
     setSelectedBrands([]);
@@ -151,23 +156,22 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
     return allProductsForCategory.filter(p => p.attributes?.["Цвет"] === color).length;
   };
 
-
   return (
     <div className="w-full h-full flex flex-col">
       <div className="flex justify-between items-center p-4 border-b flex-shrink-0">
         <h3 className="text-base font-semibold text-foreground flex items-center"> 
           <FilterIcon className="w-5 h-5 mr-2" />
-          Фильтры
+          {translate('filter.sidebar_title')}
         </h3>
         <Button variant="ghost" size="sm" onClick={resetFilters} className="text-xs px-2">
-          Сбросить все
+          {translate('filter.reset_all')}
         </Button>
       </div>
       
       <ScrollArea className="flex-1 pr-3 pt-4 overflow-y-auto"> 
         <Accordion type="multiple" defaultValue={['price', 'brand', 'color']} className="w-full">
           <AccordionItem value="price">
-            <AccordionTrigger className="text-base font-semibold hover:no-underline">Цена</AccordionTrigger> 
+            <AccordionTrigger className="text-base font-semibold hover:no-underline">{translate('filter.price_label')}</AccordionTrigger> 
             <AccordionContent className="space-y-4 pt-2">
               <Slider
                 value={priceRange}
@@ -184,9 +188,9 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
                   value={minPriceInput}
                   onChange={(e) => setMinPriceInput(e.target.value)}
                   onBlur={handlePriceInputChange}
-                  placeholder="От"
+                  placeholder={translate('filter.min_price_aria')} // Assuming this key exists or add a new one
                   className="w-full sm:flex-1" 
-                  aria-label="Минимальная цена"
+                  aria-label={translate('filter.min_price_aria')}
                 />
                 <span className="text-muted-foreground hidden sm:inline">-</span> 
                 <Input
@@ -194,9 +198,9 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
                   value={maxPriceInput}
                   onChange={(e) => setMaxPriceInput(e.target.value)}
                   onBlur={handlePriceInputChange}
-                  placeholder="До"
+                  placeholder={translate('filter.max_price_aria')} // Assuming this key exists or add a new one
                   className="w-full sm:flex-1" 
-                  aria-label="Максимальная цена"
+                  aria-label={translate('filter.max_price_aria')}
                 />
               </div>
             </AccordionContent>
@@ -204,7 +208,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
 
           {availableBrands.length > 0 && (
             <AccordionItem value="brand">
-              <AccordionTrigger className="text-base font-semibold hover:no-underline">Бренд</AccordionTrigger> 
+              <AccordionTrigger className="text-base font-semibold hover:no-underline">{translate('filter.brand_label')}</AccordionTrigger> 
               <AccordionContent className="space-y-2 pt-2">
                 {availableBrands.map(brand => (
                   <div key={brand} className="flex items-center space-x-2">
@@ -225,7 +229,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
           
           {availableColors.length > 0 && (
             <AccordionItem value="color">
-              <AccordionTrigger className="text-base font-semibold hover:no-underline">Цвет</AccordionTrigger> 
+              <AccordionTrigger className="text-base font-semibold hover:no-underline">{translate('filter.color_label')}</AccordionTrigger> 
               <AccordionContent className="space-y-2 pt-2">
                 {availableColors.map(color => (
                   <div key={color} className="flex items-center space-x-2">
@@ -235,7 +239,7 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
                       onCheckedChange={(checked) => handleColorChange(color, !!checked)}
                     />
                     <Label htmlFor={`color-${color}`} className="font-normal flex-grow cursor-pointer">
-                      {color}
+                      {translate(`color.${color.toLowerCase()}`, {defaultValue: color})}
                        <span className="text-xs text-muted-foreground ml-1">({getColorProductCount(color)})</span>
                     </Label>
                   </div>
@@ -243,12 +247,8 @@ export function FilterSidebar({ products, allProductsForCategory }: FilterSideba
               </AccordionContent>
             </AccordionItem>
           )}
-          
         </Accordion>
       </ScrollArea>
     </div>
   );
-
-    
-
-    
+}

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 export type SortOption = 
   | 'popularity' 
@@ -18,14 +19,12 @@ export type SortOption =
   | 'name-asc' 
   | 'name-desc';
 
-interface SortDropdownProps {
-  // onSortChange: (value: SortOption) => void; // This will be handled by URL now
-  // currentSort: SortOption; // This will be read from URL
-}
+interface SortDropdownProps {}
 
 export function SortDropdown({}: SortDropdownProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { translate } = useLanguage(); // Get translate function
   const currentSort = (searchParams.get('sort') as SortOption) || 'popularity';
 
   const handleSortChange = (value: SortOption) => {
@@ -35,25 +34,33 @@ export function SortDropdown({}: SortDropdownProps) {
     } else {
       params.set('sort', value);
     }
-    router.push(`?${params.toString()}`, { scroll: false });
+    router.push(`/products?${params.toString()}`, { scroll: false });
   };
+
+  const sortOptionsMap: {value: SortOption, labelKey: string }[] = [
+    { value: 'popularity', labelKey: 'sort.popularity' },
+    { value: 'price-asc', labelKey: 'sort.price_asc' },
+    { value: 'price-desc', labelKey: 'sort.price_desc' },
+    { value: 'newest', labelKey: 'sort.newest' },
+    { value: 'name-asc', labelKey: 'sort.name_asc' },
+    { value: 'name-desc', labelKey: 'sort.name_desc' },
+  ];
 
   return (
     <div className="flex items-center gap-2">
       <label htmlFor="sort-select" className="text-sm font-medium text-muted-foreground whitespace-nowrap">
-        Сортировать по:
+        {translate('sort.label')}
       </label>
-      <Select onValueChange={handleSortChange} value={currentSort} name="sort-select" aria-label="Sort products by">
+      <Select onValueChange={handleSortChange} value={currentSort} name="sort-select" aria-label={translate('sort.label')}>
         <SelectTrigger className="w-auto sm:w-[200px] bg-card">
-          <SelectValue placeholder="Выберите сортировку" />
+          <SelectValue placeholder={translate('sort.placeholder')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="popularity">Популярности</SelectItem>
-          <SelectItem value="price-asc">Цена: по возрастанию</SelectItem>
-          <SelectItem value="price-desc">Цена: по убыванию</SelectItem>
-          <SelectItem value="newest">Новизне</SelectItem>
-          <SelectItem value="name-asc">Название: А-Я</SelectItem>
-          <SelectItem value="name-desc">Название: Я-А</SelectItem>
+          {sortOptionsMap.map(option => (
+            <SelectItem key={option.value} value={option.value}>
+              {translate(option.labelKey)}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

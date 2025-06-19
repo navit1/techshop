@@ -4,21 +4,23 @@
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartProvider';
 import { useCheckout } from '@/contexts/CheckoutProvider';
-import { useOrder } from '@/contexts/OrderProvider'; // Added
+import { useOrder } from '@/contexts/OrderProvider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Loader2, ChevronLeft, CheckCircle, ShoppingBag, Home, CreditCard, User, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getProductNoun, getItemNoun } from '@/lib/i18nUtils'; // Added getItemNoun
+import { getPluralNoun } from '@/lib/i18nUtils';
+import { useLanguage } from '@/contexts/LanguageProvider';
 
 export default function ReviewPage() {
   const router = useRouter();
   const { cart, totalPrice, itemCount, clearCart } = useCart();
   const { checkoutData, clearCheckoutData, isInitialized } = useCheckout();
-  const { addOrder } = useOrder(); // Added
+  const { addOrder } = useOrder();
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const { translate } = useLanguage();
 
   useEffect(() => {
     if (isInitialized) {
@@ -35,15 +37,12 @@ export default function ReviewPage() {
 
   const handlePlaceOrder = async () => {
     if (!checkoutData.shippingAddress || !checkoutData.paymentMethod || itemCount === 0) {
-        // Should not happen if checks above and in layout are working
-        console.error("Missing order data, cannot place order.");
+        console.error(translate('checkout.review.error_missing_data'));
         return;
     }
     setIsPlacingOrder(true);
-    // Simulate API call if needed, but for now, just process client-side
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Shorter delay
+    await new Promise(resolve => setTimeout(resolve, 1000)); 
 
-    // Add order to OrderProvider
     const newOrderId = addOrder(cart, totalPrice, checkoutData.shippingAddress, checkoutData.paymentMethod);
     
     clearCart();
@@ -56,47 +55,46 @@ export default function ReviewPage() {
     return (
         <div className="flex justify-center items-center p-8">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="ml-2">Загрузка данных заказа...</p>
+            <p className="ml-2">{translate('checkout.loading_data')}</p>
         </div>
     );
   }
 
   const { shippingAddress, paymentMethod } = checkoutData;
+  const itemNounText = getPluralNoun(itemCount, translate('noun.item.one'), translate('noun.item.few'), translate('noun.item.many'));
 
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="p-0 mb-6">
-        <CardTitle className="text-2xl font-semibold text-foreground">Проверка заказа</CardTitle>
-        <CardDescription>Пожалуйста, проверьте все детали вашего заказа перед подтверждением.</CardDescription>
+        <CardTitle className="text-2xl font-semibold text-foreground">{translate('checkout.review.title')}</CardTitle>
+        <CardDescription>{translate('checkout.review.description')}</CardDescription>
       </CardHeader>
       <CardContent className="p-0 space-y-6">
-        {/* Cart Items Summary */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><ShoppingBag className="mr-2 h-5 w-5 text-primary" />Товары в корзине ({itemCount} {getItemNoun(itemCount)})</CardTitle>
+            <CardTitle className="text-lg flex items-center"><ShoppingBag className="mr-2 h-5 w-5 text-primary" />{translate('checkout.review.cart_items_title', {count: itemCount, noun: itemNounText})}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {cart.map(item => (
               <div key={item.id} className="flex justify-between items-center text-sm">
                 <div>
                   <p className="font-medium text-foreground">{item.name} (x{item.quantity})</p>
-                  <p className="text-xs text-muted-foreground">Артикул: {item.sku || 'N/A'}</p>
+                  <p className="text-xs text-muted-foreground">{translate('product.sku')}: {item.sku || 'N/A'}</p>
                 </div>
                 <p className="text-foreground">₸{(item.price * item.quantity).toFixed(2)}</p>
               </div>
             ))}
             <Separator />
             <div className="flex justify-between font-semibold text-base text-primary">
-              <p>Подытог:</p>
+              <p>{translate('checkout.review.subtotal_label')}</p>
               <p>₸{totalPrice.toFixed(2)}</p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Shipping Address Summary */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><Home className="mr-2 h-5 w-5 text-primary" />Адрес доставки</CardTitle>
+            <CardTitle className="text-lg flex items-center"><Home className="mr-2 h-5 w-5 text-primary" />{translate('checkout.review.shipping_address_title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-1 text-sm text-foreground">
             <p className="flex items-center"><User className="mr-2 h-4 w-4 text-muted-foreground" />{shippingAddress.fullName}</p>
@@ -108,10 +106,9 @@ export default function ReviewPage() {
           </CardContent>
         </Card>
 
-        {/* Payment Method Summary */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center"><CreditCard className="mr-2 h-5 w-5 text-primary" />Способ оплаты</CardTitle>
+            <CardTitle className="text-lg flex items-center"><CreditCard className="mr-2 h-5 w-5 text-primary" />{translate('checkout.review.payment_method_title')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-foreground">{paymentMethod.name}</p>
@@ -119,10 +116,9 @@ export default function ReviewPage() {
           </CardContent>
         </Card>
         
-        {/* Total Price */}
         <div className="text-right py-4">
-            <p className="text-sm text-muted-foreground">Доставка: Рассчитывается (0 ₸ для имитации)</p>
-            <p className="text-2xl font-bold text-primary mt-1">Итого к оплате: ₸{totalPrice.toFixed(2)}</p>
+            <p className="text-sm text-muted-foreground">{translate('checkout.review.shipping_cost_label')} {translate('checkout.review.shipping_cost_value')}</p>
+            <p className="text-2xl font-bold text-primary mt-1">{translate('checkout.review.total_payable_label')} ₸{totalPrice.toFixed(2)}</p>
         </div>
 
       </CardContent>
@@ -130,7 +126,7 @@ export default function ReviewPage() {
         <Button variant="outline" asChild className="w-full sm:w-auto">
           <Link href="/checkout/payment">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            Назад к оплате
+            {translate('checkout.review.button_back_to_payment')}
           </Link>
         </Button>
         <Button 
@@ -144,7 +140,7 @@ export default function ReviewPage() {
           ) : (
             <CheckCircle className="mr-2 h-5 w-5" />
           )}
-          {isPlacingOrder ? 'Размещение...' : 'Разместить заказ'}
+          {isPlacingOrder ? translate('checkout.review.button_placing_order') : translate('checkout.review.button_place_order')}
         </Button>
       </CardFooter>
     </Card>

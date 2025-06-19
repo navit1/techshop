@@ -13,6 +13,7 @@ import { Search as SearchIcon, Loader2, Eye } from 'lucide-react';
 import type { Product } from '@/types';
 import { getAllProducts } from '@/lib/data';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 const DEBOUNCE_DELAY = 300;
 const MAX_PREVIEW_RESULTS = 5;
@@ -25,6 +26,7 @@ export function SearchInput() {
   const [isLoadingPreview, setIsLoadingPreview] = useState(false);
   const router = useRouter();
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const { translate } = useLanguage(); // Get translate function
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -45,18 +47,21 @@ export function SearchInput() {
     }
 
     setIsLoadingPreview(true);
-    const allProducts = getAllProducts();
-    const query = debouncedSearchTerm.toLowerCase();
-    const filteredProducts = allProducts.filter(product =>
-      product.name.toLowerCase().includes(query) ||
-      product.description.toLowerCase().includes(query) ||
-      product.categoryName?.toLowerCase().includes(query) ||
-      product.brand?.toLowerCase().includes(query)
-    ).slice(0, MAX_PREVIEW_RESULTS);
+    // Simulate a slight delay for a better UX if results are fetched fast
+    setTimeout(() => {
+      const allProducts = getAllProducts();
+      const query = debouncedSearchTerm.toLowerCase();
+      const filteredProducts = allProducts.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.categoryName?.toLowerCase().includes(query) ||
+        product.brand?.toLowerCase().includes(query)
+      ).slice(0, MAX_PREVIEW_RESULTS);
 
-    setPreviewResults(filteredProducts);
-    setShowPreview(true);
-    setIsLoadingPreview(false);
+      setPreviewResults(filteredProducts);
+      setShowPreview(true);
+      setIsLoadingPreview(false);
+    }, 150); // Short delay
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
@@ -94,14 +99,14 @@ export function SearchInput() {
       <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
         <Input
           type="search"
-          placeholder="Поиск товаров..."
+          placeholder={translate('search.placeholder')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleInputFocus}
           className="bg-background focus-visible:ring-primary"
-          aria-label="Поиск товаров"
+          aria-label={translate('search.placeholder')}
         />
-        <Button type="submit" variant="ghost" size="icon" aria-label="Выполнить поиск">
+        <Button type="submit" variant="ghost" size="icon" aria-label={translate('search.submit_aria_label', {defaultValue: 'Submit search'})}>
           <SearchIcon className="h-5 w-5 text-foreground hover:text-primary" />
         </Button>
       </form>
@@ -112,11 +117,11 @@ export function SearchInput() {
             {isLoadingPreview && (
               <div className="p-4 flex items-center justify-center text-muted-foreground">
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                <span>Загрузка...</span>
+                <span>{translate('search.loading')}</span>
               </div>
             )}
             {!isLoadingPreview && previewResults.length === 0 && debouncedSearchTerm.trim() && (
-              <p className="p-4 text-sm text-muted-foreground text-center">Товары по запросу "{debouncedSearchTerm}" не найдены.</p>
+              <p className="p-4 text-sm text-muted-foreground text-center">{translate('search.no_results_for_query', { query: debouncedSearchTerm })}</p>
             )}
             {!isLoadingPreview && previewResults.length > 0 && (
               <ul className="divide-y divide-border">
@@ -151,7 +156,7 @@ export function SearchInput() {
                   }}
                 >
                   <Eye className="mr-2 h-4 w-4" />
-                  Показать все результаты для "{debouncedSearchTerm.length > 20 ? debouncedSearchTerm.substring(0,20) + '...' : debouncedSearchTerm}"
+                  {translate('search.show_all_results_for_query', { query: debouncedSearchTerm.length > 20 ? debouncedSearchTerm.substring(0,20) + '...' : debouncedSearchTerm })}
                 </Button>
               </div>
             )}

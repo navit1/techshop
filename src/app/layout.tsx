@@ -21,9 +21,10 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+// Metadata can also be made dynamic based on language later if needed
 export const metadata: Metadata = {
-  title: 'TechShop - Ваш магазин современной электроники',
-  description: 'Откройте для себя новейшие гаджеты, электронику и аксессуары в TechShop. Качественные товары по отличным ценам.',
+  title: 'TechShop - Your Modern Electronics Store', // Default title, can be overridden by pages
+  description: 'Discover the latest gadgets, electronics, and accessories at TechShop. Quality products at great prices.',
 };
 
 export default function RootLayout({
@@ -31,10 +32,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // The lang attribute will be set by LanguageProvider on the client side
   return (
-    <html lang="ru">
+    <html lang="ru"> {/* Default lang, will be updated by client-side LanguageProvider */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
-        <LanguageProvider> {/* Added LanguageProvider */}
+        <LanguageProvider>
           <WishlistProvider>
             <CartProvider>
               <CheckoutProvider>
@@ -49,7 +51,7 @@ export default function RootLayout({
               </CheckoutProvider>
             </CartProvider>
           </WishlistProvider>
-        </LanguageProvider> {/* Added LanguageProvider */}
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -14,13 +14,7 @@ import { addReview } from '@/lib/data';
 import type { Review } from '@/types';
 import { auth } from '@/lib/firebase';
 import { Loader2 } from 'lucide-react';
-
-const reviewSchema = z.object({
-  rating: z.number().min(1, "Пожалуйста, поставьте оценку.").max(5),
-  comment: z.string().min(10, { message: "Отзыв должен содержать не менее 10 символов." }).max(1000, { message: "Отзыв не должен превышать 1000 символов." }),
-});
-
-type ReviewFormValues = z.infer<typeof reviewSchema>;
+import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 interface ReviewFormProps {
   productId: string;
@@ -31,6 +25,16 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = auth.currentUser;
+  const { translate } = useLanguage(); // Get translate function
+
+  const reviewSchema = z.object({
+    rating: z.number().min(1, translate('reviews.rating_required')).max(5),
+    comment: z.string()
+      .min(10, { message: translate('reviews.comment_min_length') })
+      .max(1000, { message: translate('reviews.comment_max_length') }),
+  });
+
+  type ReviewFormValues = z.infer<typeof reviewSchema>;
 
   const form = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewSchema),
@@ -43,8 +47,8 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
   const onSubmit = async (data: ReviewFormValues) => {
     if (!currentUser) {
       toast({
-        title: "Ошибка",
-        description: "Вы должны быть авторизованы, чтобы оставить отзыв.",
+        title: translate('reviews.toast_error_title'),
+        description: translate('reviews.toast_auth_error_desc'),
         variant: "destructive",
       });
       return;
@@ -53,26 +57,24 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
     try {
       const newReviewData = {
         productId,
-        userName: currentUser.displayName || currentUser.email || 'Анонимный пользователь',
+        userName: currentUser.displayName || currentUser.email || translate('user.anonymous', {defaultValue: 'Anonymous User'}),
         userId: currentUser.uid,
         rating: data.rating,
         comment: data.comment,
       };
-      // Simulate API call delay if needed, but addReview is synchronous for now
-      // await new Promise(resolve => setTimeout(resolve, 500)); 
       const submittedReview = addReview(newReviewData);
       
       onReviewSubmitted(submittedReview);
       toast({
-        title: "Отзыв добавлен!",
-        description: "Спасибо за ваш отзыв.",
+        title: translate('reviews.toast_submitted_title'),
+        description: translate('reviews.toast_submitted_desc'),
       });
       form.reset();
     } catch (error) {
       console.error("Error submitting review:", error);
       toast({
-        title: "Ошибка",
-        description: "Не удалось добавить отзыв. Пожалуйста, попробуйте еще раз.",
+        title: translate('reviews.toast_error_title'),
+        description: translate('reviews.toast_error_desc'),
         variant: "destructive",
       });
     } finally {
@@ -88,7 +90,7 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
           name="rating"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ваша оценка</FormLabel>
+              <FormLabel>{translate('reviews.your_rating_label')}</FormLabel>
               <FormControl>
                 <StarRating 
                   rating={field.value} 
@@ -106,9 +108,9 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
           name="comment"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ваш отзыв</FormLabel>
+              <FormLabel>{translate('reviews.your_comment_label')}</FormLabel>
               <FormControl>
-                <Textarea placeholder="Напишите, что вы думаете о товаре..." {...field} rows={4} />
+                <Textarea placeholder={translate('reviews.comment_placeholder')} {...field} rows={4} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +118,7 @@ export function ReviewForm({ productId, onReviewSubmitted }: ReviewFormProps) {
         />
         <Button type="submit" disabled={isLoading} className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground">
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isLoading ? 'Отправка...' : 'Оставить отзыв'}
+          {isLoading ? translate('reviews.submitting_button') : translate('reviews.submit_button')}
         </Button>
       </form>
     </Form>
