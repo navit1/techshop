@@ -3,7 +3,6 @@ import { getProductById, getReviewsByProductId } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { StarRating } from '@/components/products/StarRating';
-import { RecommendedProducts } from '@/components/products/RecommendedProducts';
 import { ProductReviewManagement } from '@/components/products/ProductReviewManagement'; // Changed
 import { AddToCartButton } from './AddToCartButton'; 
 import { Separator } from '@/components/ui/separator';
@@ -97,8 +96,6 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       
       <Separator />
 
-      {/* AI Recommended Products */}
-      <RecommendedProducts currentProductId={product.id} />
     </div>
   );
 }

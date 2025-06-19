@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ProductCard } from '@/components/products/ProductCard';
 import { getAllProducts, getProductById } from '@/lib/data';
-import { RecommendedProducts } from '@/components/products/RecommendedProducts';
 import { Card, CardContent } from '@/components/ui/card';
 import { Truck, ShieldCheck, Sparkles, Smartphone, Gift, ShoppingBag } from 'lucide-react';
 
@@ -126,8 +125,6 @@ export default function HomePage() {
         </div>
       </section>
       
-      {/* AI Recommendations can be added here if desired for the homepage */}
-      {/* <RecommendedProducts /> */}
     </div>
   );
 }
