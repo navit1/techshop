@@ -2,15 +2,18 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase"; // Import Firebase auth instance
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const registerSchema = z.object({
   email: z.string().email({ message: "Пожалуйста, введите действительный email." }),
@@ -26,13 +30,16 @@ const registerSchema = z.object({
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: "Пароли не совпадают.",
-  path: ["confirmPassword"], // path to show error under confirmPassword field
+  path: ["confirmPassword"],
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -42,13 +49,34 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(data: RegisterFormValues) {
-    // TODO: Implement actual registration logic here
-    console.log("Registration data:", data);
-    toast({
-      title: "Попытка регистрации",
-      description: "Логика регистрации еще не реализована. Данные выведены в консоль.",
-    });
+  async function onSubmit(data: RegisterFormValues) {
+    setIsLoading(true);
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      toast({
+        title: "Успешная регистрация!",
+        description: "Вы успешно зарегистрированы. Теперь вы можете войти.",
+      });
+      router.push("/login"); // Redirect to login page after successful registration
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      let errorMessage = "Произошла ошибка при регистрации. Попробуйте еще раз.";
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "Этот email уже используется. Пожалуйста, используйте другой email или войдите.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "Пароль слишком слабый. Пожалуйста, используйте более надежный пароль (минимум 6 символов).";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Некорректный формат email.";
+      }
+      
+      toast({
+        title: "Ошибка регистрации",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -68,7 +96,7 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} />
+                      <Input placeholder="you@example.com" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -81,7 +109,7 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Пароль</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -94,14 +122,15 @@ export default function RegisterPage() {
                   <FormItem>
                     <FormLabel>Подтвердите пароль</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="••••••••" {...field} disabled={isLoading} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                Зарегистрироваться
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading ? "Регистрация..." : "Зарегистрироваться"}
               </Button>
             </form>
           </Form>
