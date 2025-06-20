@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   // The lang attribute will be set by LanguageProvider on the client side
   return (
-    <html lang="ru"> {/* Default lang, will be updated by client-side LanguageProvider */}
+    <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
         <LanguageProvider>
           <WishlistProvider>
