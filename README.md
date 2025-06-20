@@ -17,12 +17,6 @@ Below is an example of how user, product, and order data could be structured, fo
       "displayName": "Ali Torebek",
       "createdAt": "2024-01-15T09:30:00Z"
     },
-    "user_firebase_uid_2": {
-      "uid": "user_firebase_uid_2",
-      "email": "anothercustomer@example.com",
-      "displayName": "Aisha Serik",
-      "createdAt": "2024-02-10T14:00:00Z"
-    }
   },
   "products": {
     "prod_el_1": {
@@ -89,36 +83,6 @@ Below is an example of how user, product, and order data could be structured, fo
       },
       "status": "pending"
     },
-    "TECHSHOP-SAMPLE-002": {
-      "id": "TECHSHOP-SAMPLE-002",
-      "firebaseUserId": "user_firebase_uid_2",
-      "date": "2024-06-21T11:45:00Z",
-      "items": [
-        {
-          "productId": "prod_el_14",
-          "name": "MacBook Air 13\" M3 Chip",
-          "price": 494550,
-          "quantity": 1,
-          "imageUrl": "https://placehold.co/100x100.png"
-        }
-      ],
-      "totalPrice": 494550,
-      "shippingAddress": {
-        "fullName": "Aisha Serik",
-        "email": "anothercustomer@example.com",
-        "phoneNumber": "+77779876543",
-        "addressLine1": "Satpayev St 111",
-        "city": "Astana",
-        "postalCode": "010000",
-        "country": "Казахстан"
-      },
-      "paymentMethod": {
-        "id": "kaspi_qr",
-        "name": "Kaspi QR (имитация)",
-        "description": "Отсканируйте QR-код через приложение Kaspi.kz (имитация)."
-      },
-      "status": "processing"
     }
   }
-}
 ```
