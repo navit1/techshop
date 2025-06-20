@@ -7,8 +7,8 @@ import { ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 
 interface CatalogDropdownProps {
-  onLinkClick?: () => void;
   categories: Category[];
+  onLinkClick?: () => void; // Prop definition remains, but we won't use it directly on Links for now
 }
 
 export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProps) {
@@ -16,9 +16,17 @@ export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProp
   const mainCategories = categories.filter(c => !c.parentId);
   const getSubCategories = (parentId: string) => categories.filter(c => c.parentId === parentId);
 
+  // Helper function to handle link clicks if needed in the future,
+  // for now, navigation will be primary.
+  const handleLinkClick = () => {
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  };
+
   return (
     <div className="bg-card text-card-foreground">
-      {/* ScrollArea component removed, parent in Header.tsx will handle scrolling */}
+      {/* Parent in Header.tsx will handle scrolling */}
       <div className="p-3 space-y-1">
         {mainCategories.map((category) => {
           const subCategories = getSubCategories(category.id);
@@ -26,7 +34,7 @@ export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProp
             <div key={category.id}>
               <Link
                 href={`/products?category=${category.slug}`}
-                onClick={onLinkClick}
+                onClick={handleLinkClick} // Using the wrapper which calls the passed onLinkClick
                 className="group flex items-center justify-between p-2.5 rounded-md text-sm font-semibold text-foreground hover:bg-muted hover:text-primary transition-colors"
               >
                 {/* Translate category name, providing original name as fallback if key doesn't exist */}
@@ -41,7 +49,7 @@ export function CatalogDropdown({ categories, onLinkClick }: CatalogDropdownProp
                     <li key={subCategory.id}>
                       <Link
                         href={`/products?category=${subCategory.slug}`}
-                        onClick={onLinkClick}
+                        onClick={handleLinkClick} // Using the wrapper which calls the passed onLinkClick
                         className="group flex items-center justify-between p-2 rounded-md text-xs font-medium text-muted-foreground hover:bg-muted/70 hover:text-primary transition-colors"
                       >
                         <span>{translate(`category.${subCategory.slug}`, undefined, { defaultValue: subCategory.name })}</span>
