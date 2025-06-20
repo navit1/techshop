@@ -4,6 +4,7 @@ import { getAllProducts } from '@/lib/data';
 import ProductDetailClient from '@/components/products/ProductDetailClient';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Card } from '@/components/ui/card';
 
 export async function generateStaticParams(): Promise<{ id: string }[]> {
   const allProducts = getAllProducts();
@@ -39,14 +40,8 @@ function ProductDetailSkeleton() {
   );
 }
 
-// Props for the page component, expecting `id` from dynamic route segment
-interface ProductPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function ProductPage({ params }: ProductPageProps) {
+// Using inline type for params directly
+export default async function ProductPage({ params }: { params: { id: string } }) {
   const id = params.id;
 
   if (!id) {
@@ -61,6 +56,3 @@ export default async function ProductPage({ params }: ProductPageProps) {
     </Suspense>
   );
 }
-
-// Re-add Card import needed for ProductDetailSkeleton
-import { Card } from '@/components/ui/card';
