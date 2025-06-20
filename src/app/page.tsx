@@ -1,32 +1,24 @@
 
-"use client"; // Make it a client component to use useLanguage
+"use client";
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ProductCard } from '@/components/products/ProductCard';
 import { getAllProducts, getProductById } from '@/lib/data';
-import type { Product } from '@/types'; // Import Product type
+import type { Product } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Truck, ShieldCheck, Sparkles, Smartphone, Gift, ShoppingBag } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
+import { useLanguage } from '@/contexts/LanguageProvider';
 
 export default function HomePage() {
-  const { translate } = useLanguage(); // Get translate function
+  const { translate } = useLanguage();
   const allProducts = getAllProducts();
 
-  const modifyProductIfTargetCategory = (product: Product): Product => {
-    if (product.categoryId === 'cat_sub_2_1') {
-      return { ...product, categoryName: "почему здесь не правильно показывают текст" };
-    }
-    return product;
-  };
+  // Removed modifyProductIfTargetCategory function and its usage
+  // Category display is now handled consistently by ProductCard via translations
 
-  const featuredProductsRaw = allProducts.slice(0, 4);
-  const featuredProducts = featuredProductsRaw.map(modifyProductIfTargetCategory);
-
-  const newArrivalsRaw = allProducts.slice(-4).reverse();
-  const newArrivals = newArrivalsRaw.map(modifyProductIfTargetCategory);
-
+  const featuredProducts = allProducts.slice(0, 4);
+  const newArrivals = allProducts.slice(-4).reverse();
   const specialOfferProduct1 = getProductById('prod_el_2');
 
   return (
@@ -103,13 +95,13 @@ export default function HomePage() {
           </Button>
         </div>
       </section>
-      
+
       {/* Special Offers / Promotional Banners Section */}
       <section className="space-y-8">
         <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">{translate('homepage.special_offers_title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Banner 1: Smartphone Sale */}
-          <Link href="/products?category=smartphones-accessories" className="block group">
+          <Link href="/products?category=smartphones" className="block group">
             <Card className="bg-primary/10 hover:bg-primary/20 transition-all duration-300 shadow-lg overflow-hidden h-full">
               <CardContent className="p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
                 <Smartphone className="h-16 w-16 text-primary mb-4 group-hover:scale-110 transition-transform" />
@@ -129,7 +121,7 @@ export default function HomePage() {
                 <CardContent className="p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
                   <Gift className="h-16 w-16 text-accent mb-4 group-hover:scale-110 transition-transform" />
                   <h3 className="text-2xl font-bold text-accent mb-2">{translate('homepage.promo_hot_deal_title')}</h3>
-                  <p className="text-foreground/80 mb-2 flex-grow">{specialOfferProduct1.name}</p> {/* Product name itself is not translated here, assuming it's fixed data */}
+                  <p className="text-foreground/80 mb-2 flex-grow">{specialOfferProduct1.name}</p>
                   <p className="text-lg font-semibold text-accent mb-4">{translate('homepage.promo_hot_deal_price_prefix')} ₸{specialOfferProduct1.price.toFixed(2)}</p>
                   <Button variant="outline" className="bg-transparent border-accent text-accent hover:bg-accent hover:text-accent-foreground mt-auto">
                     {translate('homepage.promo_hot_deal_button')}

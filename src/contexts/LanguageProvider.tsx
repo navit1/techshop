@@ -3,19 +3,16 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 
-// Определяем доступные языки
 export type Language = 'ru' | 'en' | 'kk';
 
-// Структура для словарей переводов
 type Translations = {
-  [key: string]: string | { one: string; few: string; many: string }; // Allow objects for pluralization
+  [key: string]: string | { one: string; few: string; many: string };
 };
 
 type Dictionaries = {
   [lang in Language]: Translations;
 };
 
-// Базовые словари
 const dictionaries: Dictionaries = {
   ru: {
     'app.name': 'TechShop',
@@ -44,7 +41,7 @@ const dictionaries: Dictionaries = {
     'product.characteristics': 'Характеристики',
     'product.sku': 'Артикул',
     'product.availability': 'Наличие',
-    'product.availability_available': '{stock} доступно',
+    'product.availability_available': '{stock} {noun} доступно',
     'product.availability_out_of_stock': 'Нет в наличии',
     'product.add_to_cart': 'В корзину',
     'product.go_to_product': 'К товару',
@@ -61,7 +58,7 @@ const dictionaries: Dictionaries = {
     'product.quantity_aria': 'Количество',
     'product.decrease_quantity_aria': 'Уменьшить количество',
     'product.increase_quantity_aria': 'Увеличить количество',
-    'product.page_title': 'Товары', 
+    'product.page_title': 'Товары',
     'product.page_description': 'Ознакомьтесь со всеми нашими товарами в TechShop. Фильтруйте по цене, бренду и другим характеристикам.',
     'product.all_products_title': 'Все товары',
     'product.category_not_found_title': 'Категория не найдена',
@@ -84,6 +81,10 @@ const dictionaries: Dictionaries = {
     'filter.brand_filter_label': 'Бренд: {brand}',
     'filter.color_filter_label': 'Цвет: {color}',
     'filter.mobile_filters_button': 'Фильтры',
+    'filter.category_filter_title': 'Фильтр по категориям',
+    'filter.select_category_placeholder': 'Выберите категорию',
+    'filter.all_categories': 'Все категории',
+
 
     'sort.label': 'Сортировать по:',
     'sort.placeholder': 'Выберите сортировку',
@@ -155,7 +156,7 @@ const dictionaries: Dictionaries = {
     'checkout.redirect_to_cart_empty': 'Корзина пуста. Перенаправление в корзину...',
     'checkout.redirect_to_shipping_no_address': 'Адрес доставки не указан. Перенаправление...',
     'checkout.redirect_to_payment_no_method': 'Способ оплаты не выбран. Перенаправление...',
-    
+
     'checkout.shipping.title': 'Адрес доставки',
     'checkout.shipping.description': 'Введите информацию для доставки вашего заказа.',
     'checkout.shipping.full_name_label': 'Полное имя',
@@ -271,14 +272,14 @@ const dictionaries: Dictionaries = {
     'register.validation_email_invalid': 'Пожалуйста, введите действительный email.',
     'register.validation_password_min_length': 'Пароль должен содержать не менее 6 символов.',
     'register.validation_passwords_do_not_match': 'Пароли не совпадают.',
-    
+
     'wishlist.page_title': 'Избранное',
     'wishlist.title': 'Избранные товары',
     'wishlist.count_text': 'В избранном: {count} {noun}',
     'wishlist.empty_title': 'Ваше избранное пусто',
     'wishlist.empty_description': 'Добавляйте товары в избранное, нажимая на сердечко рядом с ними.',
     'wishlist.button_go_shopping': 'Перейти к покупкам',
-    
+
     'homepage.hero_title': 'Добро пожаловать в TechShop',
     'homepage.hero_subtitle': 'Ваш главный поставщик новейшей и лучшей электроники. Откройте мир инноваций!',
     'homepage.hero_button': 'В магазин электроники',
@@ -351,7 +352,7 @@ const dictionaries: Dictionaries = {
 
     'noun.product': { one: 'товар', few: 'товара', many: 'товаров' },
     'noun.review': { one: 'отзыв', few: 'отзыва', many: 'отзывов' },
-    'noun.item': { one: 'товар', few: 'товара', many: 'товаров' }, 
+    'noun.item': { one: 'товар', few: 'товара', many: 'товаров' },
     'noun.order': { one: 'заказ', few: 'заказа', many: 'заказов' },
 
     'category.phones-gadgets': 'Телефоны и гаджеты',
@@ -428,7 +429,7 @@ const dictionaries: Dictionaries = {
     'product.characteristics': 'Features',
     'product.sku': 'SKU',
     'product.availability': 'Availability',
-    'product.availability_available': '{stock} available',
+    'product.availability_available': '{stock} {noun} available',
     'product.availability_out_of_stock': 'Out of stock',
     'product.add_to_cart': 'Add to Cart',
     'product.go_to_product': 'View Product',
@@ -453,7 +454,7 @@ const dictionaries: Dictionaries = {
     'product.no_products_found_generic': 'No products found.',
     'product.no_products_in_category': 'No products found in category "{categoryName}".',
     'product.product_not_found_title': 'Product Not Found',
-    
+
     'filter.sidebar_title': 'Filters',
     'filter.reset_all': 'Reset All',
     'filter.price_label': 'Price',
@@ -467,6 +468,9 @@ const dictionaries: Dictionaries = {
     'filter.brand_filter_label': 'Brand: {brand}',
     'filter.color_filter_label': 'Color: {color}',
     'filter.mobile_filters_button': 'Filters',
+    'filter.category_filter_title': 'Filter by Category',
+    'filter.select_category_placeholder': 'Select category',
+    'filter.all_categories': 'All Categories',
 
     'sort.label': 'Sort by:',
     'sort.placeholder': 'Select sorting',
@@ -580,7 +584,7 @@ const dictionaries: Dictionaries = {
     'checkout.payment.button_back_to_shipping': 'Back to Shipping',
     'checkout.payment.button_to_review': 'Continue to Review',
     'checkout.payment.validation_method_required': 'Please select a payment method.',
-    
+
     'checkout.review.title': 'Review Order',
     'checkout.review.description': 'Please check all your order details before confirming.',
     'checkout.review.cart_items_title': 'Items in Cart ({count} {noun})',
@@ -661,7 +665,7 @@ const dictionaries: Dictionaries = {
     'wishlist.empty_title': 'Your wishlist is empty',
     'wishlist.empty_description': 'Add products to your wishlist by clicking the heart icon next to them.',
     'wishlist.button_go_shopping': 'Go Shopping',
-    
+
     'homepage.hero_title': 'Welcome to TechShop',
     'homepage.hero_subtitle': 'Your premier destination for the latest and greatest in electronics. Discover a world of innovation!',
     'homepage.hero_button': 'Shop Electronics',
@@ -764,7 +768,7 @@ const dictionaries: Dictionaries = {
     'category.smart-lighting': 'Smart Lighting',
     'category.smart-plugs-switches': 'Smart Plugs & Switches',
     'category.smart-climate': 'Smart Climate Control',
-    
+
     'color.midnight black': 'Midnight Black',
     'color.nebula blue': 'Nebula Blue',
     'color.space gray': 'Space Gray',
@@ -811,7 +815,7 @@ const dictionaries: Dictionaries = {
     'product.characteristics': 'Сипаттамалары',
     'product.sku': 'Артикул',
     'product.availability': 'Қолжетімділігі',
-    'product.availability_available': '{stock} қолжетімді',
+    'product.availability_available': '{stock} {noun} қолжетімді',
     'product.availability_out_of_stock': 'Қоймада жоқ',
     'product.add_to_cart': 'Себетке салу',
     'product.go_to_product': 'Тауарға өту',
@@ -851,6 +855,9 @@ const dictionaries: Dictionaries = {
     'filter.brand_filter_label': 'Бренд: {brand}',
     'filter.color_filter_label': 'Түсі: {color}',
     'filter.mobile_filters_button': 'Сүзгілер',
+    'filter.category_filter_title': 'Санат бойынша сүзгілеу',
+    'filter.select_category_placeholder': 'Санатты таңдаңыз',
+    'filter.all_categories': 'Барлық санаттар',
 
     'sort.label': 'Сұрыптау:',
     'sort.placeholder': 'Сұрыптауды таңдаңыз',
@@ -911,7 +918,7 @@ const dictionaries: Dictionaries = {
     'cart.item_quantity_aria': 'Тауар саны',
     'cart.toast_item_removed_title': 'Тауар өшірілді',
     'cart.toast_item_removed_desc': '{name} сіздің себетіңізден өшірілді.',
-    
+
     'checkout.page_title': 'Тапсырысты рәсімдеу',
     'checkout.step_shipping': 'Жеткізу',
     'checkout.step_payment': 'Төлем',
@@ -1107,7 +1114,7 @@ const dictionaries: Dictionaries = {
     'profile.logout': 'Шығу',
     'profile.logout_success_desc': 'Сіз жүйеден сәтті шықтыңыз.',
     'profile.redirecting_to_login': 'Кіру бетіне бағытталуда...',
-    'profile.user_avatar_fallback_prefix': 'П', 
+    'profile.user_avatar_fallback_prefix': 'П',
     'toast.lang_changed_title': 'Тіл параметрлері',
     'toast.lang_changed_desc_ru': 'Язык изменен на Русский.',
     'toast.lang_changed_desc_en': 'Language changed to English.',
@@ -1148,7 +1155,7 @@ const dictionaries: Dictionaries = {
     'category.smart-lighting': 'Ақылды жарықтандыру',
     'category.smart-plugs-switches': 'Ақылды розеткалар мен ажыратқыштар',
     'category.smart-climate': 'Климаттық бақылау',
-    
+
     'color.midnight black': 'Түн қарасы',
     'color.nebula blue': 'Тұманды көк',
     'color.space gray': 'Ғарыш сұры',
@@ -1173,15 +1180,27 @@ const dictionaries: Dictionaries = {
 interface LanguageContextType {
   language: Language;
   setLanguage: (language: Language) => void;
-  translate: (key: string, params?: Record<string, string | number | undefined>, defaultValue?: string) => string;
+  translate: (key: string, params?: Record<string, string | number | undefined>, options?: { defaultValue?: string }) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const LANGUAGE_STORAGE_KEY = 'appLanguage';
 
+// Helper function for pluralization, moved from i18nUtils to be co-located.
+function getPluralNoun(count: number, one: string, few: string, many: string): string {
+  const n = Math.abs(count) % 100;
+  const n1 = n % 10;
+
+  if (n > 10 && n < 20) return many;
+  if (n1 > 1 && n1 < 5) return few;
+  if (n1 === 1) return one;
+  return many;
+}
+
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('ru'); 
+  const [language, setLanguageState] = useState<Language>('ru');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -1189,51 +1208,49 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language | null;
     if (storedLanguage && dictionaries[storedLanguage]) {
       setLanguageState(storedLanguage);
+      document.documentElement.lang = storedLanguage;
+    } else {
+      document.documentElement.lang = 'ru'; // Default if nothing stored
     }
   }, []);
 
   const setLanguage = useCallback((lang: Language) => {
     if (dictionaries[lang]) {
       setLanguageState(lang);
-      if (isMounted) {
+      if (typeof window !== "undefined") {
         localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+        document.documentElement.lang = lang;
       }
     }
-  }, [isMounted]);
+  }, []);
 
-  const translate = useCallback((key: string, params?: Record<string, string | number | undefined>, defaultValue?: string): string => {
-    const currentDictionary = dictionaries[language] || dictionaries.ru; 
+  const translate = useCallback((key: string, params?: Record<string, string | number | undefined>, options?: { defaultValue?: string }): string => {
+    const currentDictionary = dictionaries[language] || dictionaries.ru;
     let translationValue = currentDictionary[key];
+    const defaultValue = options?.defaultValue;
+
+    if (translationValue === undefined) {
+        return defaultValue !== undefined ? defaultValue : key;
+    }
 
     if (typeof translationValue === 'object' && params && typeof params.count === 'number') {
         const count = params.count;
-        const n = Math.abs(count) % 100;
-        const n1 = n % 10;
-        if (n > 10 && n < 20) translationValue = translationValue.many;
-        else if (n1 > 1 && n1 < 5) translationValue = translationValue.few;
-        else if (n1 === 1) translationValue = translationValue.one;
-        else translationValue = translationValue.many;
+        translationValue = getPluralNoun(count, translationValue.one, translationValue.few, translationValue.many);
     }
-    
-    let translation = typeof translationValue === 'string' ? translationValue : (defaultValue || key);
+
+    let translationString = typeof translationValue === 'string' ? translationValue : (defaultValue !== undefined ? defaultValue : key);
+
 
     if (params) {
       Object.keys(params).forEach(paramKey => {
-        if (paramKey === 'count' && typeof currentDictionary[key] === 'object') return;
         if (params[paramKey] !== undefined) {
             const regex = new RegExp(`{${paramKey}}`, 'g');
-            translation = translation.replace(regex, String(params[paramKey]));
+            translationString = translationString.replace(regex, String(params[paramKey]));
         }
       });
     }
-    return translation;
+    return translationString;
   }, [language]);
-
-  useEffect(() => {
-    if (isMounted) {
-        document.documentElement.lang = language;
-    }
-  }, [language, isMounted]);
 
 
   return (
@@ -1250,5 +1267,3 @@ export function useLanguage() {
   }
   return context;
 }
-
-    

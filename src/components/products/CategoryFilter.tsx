@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Category } from '@/types';
+import { useLanguage } from '@/contexts/LanguageProvider';
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -18,9 +19,9 @@ interface CategoryFilterProps {
 export function CategoryFilter({ categories: allCategories }: CategoryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentCategory = searchParams.get('category') || 'all';
+  const { translate } = useLanguage();
+  const currentCategorySlug = searchParams.get('category') || 'all';
 
-  // Фильтруем категории, чтобы оставить только родительские (без parentId)
   const mainCategories = allCategories.filter(category => !category.parentId);
 
   const handleCategoryChange = (slug: string) => {
@@ -30,24 +31,22 @@ export function CategoryFilter({ categories: allCategories }: CategoryFilterProp
     } else {
       params.set('category', slug);
     }
-    // Сбрасываем параметр 'q' (поисковый запрос) при изменении категории,
-    // чтобы избежать ситуаций, когда поиск применяется к новой категории без явного ввода пользователя
     params.delete('q');
     router.push(`/products?${params.toString()}`);
   };
 
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-semibold mb-2 text-foreground">Фильтр по категориям</h3>
-      <Select onValueChange={handleCategoryChange} defaultValue={currentCategory}>
+      <h3 className="text-lg font-semibold mb-2 text-foreground">{translate('filter.category_filter_title')}</h3>
+      <Select onValueChange={handleCategoryChange} value={currentCategorySlug}>
         <SelectTrigger className="w-full sm:w-[280px] md:w-[320px] bg-card">
-          <SelectValue placeholder="Выберите категорию" />
+          <SelectValue placeholder={translate('filter.select_category_placeholder')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Все категории</SelectItem>
+          <SelectItem value="all">{translate('filter.all_categories')}</SelectItem>
           {mainCategories.map(category => (
             <SelectItem key={category.id} value={category.slug}>
-              {category.name}
+              {translate(`category.${category.slug}`, { defaultValue: category.name })}
             </SelectItem>
           ))}
         </SelectContent>

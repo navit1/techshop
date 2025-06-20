@@ -1,9 +1,9 @@
-"use client"; // Making this a client component to use useLanguage for full translation.
-import { useEffect, useState } from 'react';
-import { getProductById, getReviewsByProductId } from '@/lib/data';
-import { notFound, useParams } from 'next/navigation'; // useParams might not be needed if id is passed as prop
+
+"use client";
+import { useEffect, useState, useMemo } from 'react';
+import { getProductById, getReviewsByProductId, getAllCategories } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { StarRating } from '@/components/products/StarRating'; // Assuming StarRating is in the same directory structure relative to this new file
+import { StarRating } from '@/components/products/StarRating';
 import { ProductReviewManagement } from '@/components/products/ProductReviewManagement';
 import { AddToCartButton } from '@/app/products/[id]/AddToCartButton';
 import { Separator } from '@/components/ui/separator';
@@ -11,26 +11,9 @@ import { Badge } from '@/components/ui/badge';
 import { Tag, Package, ListChecks, TruckIcon, CreditCardIcon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageProvider';
 import { getPluralNoun } from '@/lib/i18nUtils';
-import type { Product, Review as ReviewType } from '@/types'; // Explicitly import types
+import type { Product, Review as ReviewType } from '@/types';
 
-import { Skeleton } from '@/components/ui/skeleton'; // For loading state
-
-
-function SearchResultGridSkeleton() {
-  return (
-    <>
-      {[...Array(8)].map((_, i) => (
-        <div key={i} className="flex flex-col space-y-3">
-          <Skeleton className="h-[150px] sm:h-[200px] w-full rounded-xl" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-3/4" />
-          </div>
-        </div>
-      ))}
-    </>
-  );
-}
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 interface ProductDetailClientProps {
@@ -39,9 +22,11 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   const { translate } = useLanguage();
-  const [product, setProduct] = useState<Product | null | undefined>(undefined); // undefined for loading, null for not found
+  const [product, setProduct] = useState<Product | null | undefined>(undefined);
   const [initialReviews, setInitialReviews] = useState<ReviewType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const allCategories = useMemo(() => getAllCategories(), []);
 
   useEffect(() => {
     if (id) {
@@ -52,11 +37,20 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
         setInitialReviews(fetchedReviews);
         document.title = `${fetchedProduct.name} - ${translate('app.name')}`;
       } else {
-        document.title = `${translate('product.product_not_found_title', {defaultValue: 'Product Not Found'})} - ${translate('app.name')}`;
+        document.title = `${translate('product.product_not_found_title')} - ${translate('app.name')}`;
       }
       setIsLoading(false);
     }
   }, [id, translate]);
+
+  const category = useMemo(() => {
+    if (!product) return null;
+    return allCategories.find(c => c.id === product.categoryId);
+  }, [allCategories, product]);
+
+  const categorySlug = category ? category.slug : '';
+  const categoryDisplayNameForFallback = category ? category.name : (product?.categoryName || '');
+
 
   if (isLoading) {
     return (
@@ -66,7 +60,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
             <div className="md:p-8">
               <Skeleton className="aspect-video bg-muted rounded-lg w-full h-[300px] md:h-[400px]" />
             </div>
-            <div className="p-6 md:p-8 flex flex-col">\
+            <div className="p-6 md:p-8 flex flex-col">
               <Skeleton className="h-6 w-1/4 mb-2" /> {/* Badge */}
               <Skeleton className="h-10 w-3/4 mb-2" /> {/* Title */}
               <Skeleton className="h-4 w-1/2 mb-4" /> {/* Brand & Rating */}
@@ -81,11 +75,9 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
   }
 
   if (!product) {
-    // Consider rendering a specific "Product not found" message here
-    // instead of calling notFound(), as this is a client component
     return (
         <div className="flex items-center justify-center h-64">
-            <p className="text-muted-foreground text-xl">{translate('product.product_not_found')}</p>
+            <p className="text-muted-foreground text-xl">{translate('product.product_not_found_title')}</p>
         </div>
     );
   }
@@ -120,8 +112,10 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
           </div>
           <div className="p-6 md:p-8 flex flex-col">
             <CardHeader className="p-0">
-              <Badge variant="secondary" className="w-fit mb-2">{translate(`category.${product.categoryId}`, { defaultValue: product.categoryName })}</Badge>
-              <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground">{product.name}</CardTitle> {/* Product name is not translated as it's data */}
+              <Badge variant="secondary" className="w-fit mb-2">
+                {translate(`category.${categorySlug}`, { defaultValue: categoryDisplayNameForFallback })}
+              </Badge>
+              <CardTitle className="text-3xl lg:text-4xl font-bold text-foreground">{product.name}</CardTitle>
               {product.brand && <p className="text-sm text-muted-foreground">{translate('product.brand')}: {product.brand}</p>}
               <div className="flex items-center space-x-2 mt-2">
                 <StarRating rating={averageRating} size="md" />
@@ -132,7 +126,7 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
             <CardContent className="p-0 mt-6 flex-grow">
               <p className="text-3xl font-extrabold text-primary mb-4">₸{product.price.toFixed(2)}</p>
               <CardDescription className="text-base text-foreground/80 leading-relaxed">
-                {product.description} {/* Product description is not translated as it's data */}
+                {product.description}
               </CardDescription>
 
               {product.features && product.features.length > 0 && (
@@ -140,14 +134,14 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
                   <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center"><ListChecks className="w-5 h-5 mr-2 text-primary" />{translate('product.characteristics')}</h3>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                     {product.features.map((feature, index) => (
-                      <li key={index}>{feature}</li> // Features are data
+                      <li key={index}>{feature}</li>
                     ))}
                   </ul>
                 </div>
               )}
 
               <div className="mt-4 text-sm text-muted-foreground space-y-1">
-                {product.sku && <p className="flex items-center"><Tag className="w-4 h-4 mr-2 text-primary/70" />{translate('product.sku')}: {product.sku}</p>}\
+                {product.sku && <p className="flex items-center"><Tag className="w-4 h-4 mr-2 text-primary/70" />{translate('product.sku')}: {product.sku}</p>}
                 <p className="flex items-center">
                     <Package className="w-4 h-4 mr-2 text-primary/70" />
                     {translate('product.availability')}: {product.stock > 0
