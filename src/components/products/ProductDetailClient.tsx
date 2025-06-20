@@ -10,7 +10,6 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tag, Package, ListChecks, TruckIcon, CreditCardIcon } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageProvider';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import type { Product, Review as ReviewType } from '@/types';
 
 import { Skeleton } from '@/components/ui/skeleton';
@@ -86,19 +85,8 @@ export default function ProductDetailClient({ id }: ProductDetailClientProps) {
     ? initialReviews.reduce((sum, review) => sum + review.rating, 0) / initialReviews.length
     : 0;
 
-  const reviewNoun = getPluralNoun(
-    initialReviews.length,
-    translate('noun.review.one'),
-    translate('noun.review.few'),
-    translate('noun.review.many')
-  );
-
-  const stockNoun = getPluralNoun(
-    product.stock,
-    translate('noun.item.one'),
-    translate('noun.item.few'),
-    translate('noun.item.many')
-  );
+  const reviewNoun = translate('noun.review', { count: initialReviews.length });
+  const stockNoun = translate('noun.item', { count: product.stock });
 
 
   return (

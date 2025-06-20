@@ -11,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import { Loader2, ChevronLeft, CheckCircle, ShoppingBag, Home, CreditCard, User, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import { useLanguage } from '@/contexts/LanguageProvider';
 
 export default function ReviewPage() {
@@ -61,7 +60,7 @@ export default function ReviewPage() {
   }
 
   const { shippingAddress, paymentMethod } = checkoutData;
-  const itemNounText = getPluralNoun(itemCount, translate('noun.item.one'), translate('noun.item.few'), translate('noun.item.many'));
+  const itemNounText = translate('noun.item', { count: itemCount });
 
   return (
     <Card className="border-0 shadow-none">
