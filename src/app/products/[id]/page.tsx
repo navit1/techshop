@@ -40,13 +40,14 @@ function ProductDetailSkeleton() {
   );
 }
 
-// Using inline type for params directly
-export default async function ProductPage({ params }: { params: { id: string } }) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { id: string };
+}): Promise<JSX.Element> {
   const id = params.id;
 
   if (!id) {
-    // This case should ideally be handled by Next.js routing if id is missing
-    // or you can explicitly call notFound()
     notFound();
   }
 
