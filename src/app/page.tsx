@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ProductCard } from '@/components/products/ProductCard';
 import { getAllProducts, getProductById } from '@/lib/data';
+import type { Product } from '@/types'; // Import Product type
 import { Card, CardContent } from '@/components/ui/card';
 import { Truck, ShieldCheck, Sparkles, Smartphone, Gift, ShoppingBag } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
@@ -12,9 +13,21 @@ import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
 export default function HomePage() {
   const { translate } = useLanguage(); // Get translate function
   const allProducts = getAllProducts();
-  const featuredProducts = allProducts.slice(0, 4); 
-  const newArrivals = allProducts.slice(-4).reverse(); 
-  const specialOfferProduct1 = getProductById('prod_el_2'); 
+
+  const modifyProductIfTargetCategory = (product: Product): Product => {
+    if (product.categoryId === 'cat_sub_2_1') {
+      return { ...product, categoryName: "почему здесь не правильно показывают текст" };
+    }
+    return product;
+  };
+
+  const featuredProductsRaw = allProducts.slice(0, 4);
+  const featuredProducts = featuredProductsRaw.map(modifyProductIfTargetCategory);
+
+  const newArrivalsRaw = allProducts.slice(-4).reverse();
+  const newArrivals = newArrivalsRaw.map(modifyProductIfTargetCategory);
+
+  const specialOfferProduct1 = getProductById('prod_el_2');
 
   return (
     <div className="space-y-16">
