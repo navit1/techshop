@@ -15,7 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { getPluralNoun } from '@/lib/i18nUtils';
 import {
   Accordion,
   AccordionContent,
@@ -65,7 +64,7 @@ export default function ProfilePage() {
       await signOut(auth);
       toast({
         title: translate('toast.logout_success_title'),
-        description: translate('profile.logout_success_desc', { defaultValue: "You have been successfully logged out."}),
+        description: translate('profile.logout_success_desc', undefined, { defaultValue: "You have been successfully logged out."}),
       });
       router.push("/login");
     } catch (error) {
@@ -91,22 +90,11 @@ export default function ProfilePage() {
   };
   
   const getOrderStatusText = (status: OrderType['status']) => {
-    return translate(`profile.order_status_${status}`, {defaultValue: status});
+    return translate(`profile.order_status_${status}`, undefined, {defaultValue: status});
   };
 
-  const orderNoun = getPluralNoun(
-    userOrders.length,
-    translate('noun.order.one'),
-    translate('noun.order.few'),
-    translate('noun.order.many')
-  );
-
-  const getItemNounForOrder = (count: number) => getPluralNoun(
-    count,
-    translate('noun.item.one'),
-    translate('noun.item.few'),
-    translate('noun.item.many')
-  );
+  const orderNoun = translate('noun.order', { count: userOrders.length });
+  const getItemNounForOrder = (count: number) => translate('noun.item', { count: count });
 
 
   if (isLoading) {
@@ -217,7 +205,7 @@ export default function ProfilePage() {
                         <p>{order.shippingAddress.addressLine1}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}</p>
                      </div>
                      <h4 className="font-medium text-foreground mt-2">{translate('profile.order_payment_label')}</h4>
-                     <p className="text-xs text-muted-foreground">{order.paymentMethod.name}</p> {/* Payment method name comes from data, could be a key too */}
+                     <p className="text-xs text-muted-foreground">{translate(order.paymentMethod.id, undefined, {defaultValue: order.paymentMethod.name})}</p>
                   </AccordionContent>
                 </AccordionItem>
               ))}

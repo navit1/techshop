@@ -1,10 +1,10 @@
+
 "use client";
 
 import { useEffect } from 'react';
 import { ProductCard } from '@/components/products/ProductCard';
 import type { Product } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import { useLanguage } from '@/contexts/LanguageProvider';
 
 function SearchResultGrid({ products, query, translate }: { products: Product[], query: string, translate: (key: string, params?: any) => string }) {
@@ -53,12 +53,7 @@ export default function SearchResultHandler({
     }
   }, [searchQuery, translate]);
 
-  const productNoun = getPluralNoun(
-    filteredProducts.length,
-    translate('noun.product.one'),
-    translate('noun.product.few'),
-    translate('noun.product.many')
-  );
+  const productNoun = translate('noun.product', { count: filteredProducts.length });
 
   return (
     <div className="space-y-8">
@@ -74,10 +69,12 @@ export default function SearchResultHandler({
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Вместо SearchResultGrid можно сразу вставить разметку для простоты */}
         {filteredProducts.map(product => (
           <ProductCard key={product.id} product={product} />
         ))}
+         {filteredProducts.length === 0 && (
+           <p className="text-muted-foreground col-span-full text-center py-10">{translate('search.no_results_for_query', { query: searchQuery })}</p>
+         )}
       </div>
     </div>
   );

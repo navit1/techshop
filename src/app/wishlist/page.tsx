@@ -6,24 +6,18 @@ import { ProductCard } from '@/components/products/ProductCard';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Heart, ShoppingBag } from 'lucide-react';
-import { getPluralNoun } from '@/lib/i18nUtils';
-import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
+import { useLanguage } from '@/contexts/LanguageProvider'; 
 import { useEffect } from 'react';
 
 export default function WishlistPage() {
   const { wishlistItems, itemCount } = useWishlist();
-  const { translate } = useLanguage(); // Get translate function
+  const { translate } = useLanguage(); 
 
   useEffect(() => {
     document.title = `${translate('wishlist.page_title')} - ${translate('app.name')}`;
   }, [translate]);
 
-  const productNoun = getPluralNoun(
-    itemCount,
-    translate('noun.product.one'),
-    translate('noun.product.few'),
-    translate('noun.product.many')
-  );
+  const productNoun = translate('noun.product', { count: itemCount });
 
   if (itemCount === 0) {
     return (

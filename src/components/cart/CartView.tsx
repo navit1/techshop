@@ -7,19 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ShoppingBag, CreditCard } from 'lucide-react';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import { useLanguage } from '@/contexts/LanguageProvider';
 
 export function CartView() {
   const { cart, totalPrice, clearCart, itemCount } = useCart();
   const { translate } = useLanguage();
 
-  const itemNoun = getPluralNoun(
-    itemCount,
-    translate('noun.item.one'),
-    translate('noun.item.few'),
-    translate('noun.item.many')
-  );
+  const itemNoun = translate('noun.item', { count: itemCount });
 
   if (itemCount === 0) {
     return (

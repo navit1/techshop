@@ -5,7 +5,6 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getAllProducts, getAllCategories, getProductsByCategoryId } from '@/lib/data';
 import type { Product, Category } from '@/types';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import { ProductGrid } from '@/components/products/ProductGrid';
 import { ProductGridSkeleton } from '@/components/products/ProductGridSkeleton';
 import { FilterSidebar } from '@/components/products/FilterSidebar';
@@ -14,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { FilterIcon, XIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
+import { useLanguage } from '@/contexts/LanguageProvider'; 
 
 const MIN_PRICE_DEFAULT = 0;
 const MAX_PRICE_DEFAULT = 5000000;
@@ -22,7 +21,7 @@ const MAX_PRICE_DEFAULT = 5000000;
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { translate } = useLanguage(); // Get translate function
+  const { translate } = useLanguage(); 
   const allProductsMaster = useMemo(() => getAllProducts(), []);
   const categories = useMemo(() => getAllCategories(), []);
 
@@ -47,7 +46,6 @@ export default function ProductsPage() {
       currentCat = categories.find(c => c.slug === categorySlug);
       if (currentCat) {
         prodsForCat = getProductsByCategoryId(currentCat.id);
-        // Use a dynamic key for category title if translations are set up like 'category.smartphones'
         titleKey = `category.${currentCat.slug}`; 
       } else {
         prodsForCat = []; 
@@ -67,21 +65,20 @@ export default function ProductsPage() {
     };
   }, [categorySlug, allProductsMaster, categories]);
   
-  const pageTitle = translate(pageTitleKey, { defaultValue: currentCategory?.name || translate('product.all_products_title')});
+  const pageTitle = translate(pageTitleKey, undefined, { defaultValue: currentCategory?.name || translate('product.all_products_title')});
 
 
   useEffect(() => {
-    // Update document title based on current view
-    let dynamicTitle = translate('product.page_title'); // Default products page title
+    let dynamicTitle = translate('product.page_title'); 
     if (searchQuery) {
       dynamicTitle = translate('search.results_title', { query: searchQuery });
     } else if (currentCategory) {
-      dynamicTitle = translate(`category.${currentCategory.slug}`, {defaultValue: currentCategory.name});
+      dynamicTitle = translate(`category.${currentCategory.slug}`, undefined, {defaultValue: currentCategory.name});
     } else {
       dynamicTitle = translate('product.all_products_title');
     }
     document.title = `${dynamicTitle} - ${translate('app.name')}`;
-  }, [searchQuery, currentCategory, translate, pageTitleKey]);
+  }, [searchQuery, currentCategory, translate, pageTitleKey, currentCategory?.name]);
 
 
   const minPrice = minPriceInitial === MIN_PRICE_DEFAULT && productsForCategory.length > 0 ? minPossiblePriceForCategory : minPriceInitial;
@@ -131,13 +128,10 @@ export default function ProductsPage() {
   
   const displayTitle = useMemo(() => {
     if (searchQuery) {
-      let baseTitleKey = 'search.results_title';
-      let params = { query: searchQuery };
       if (currentCategory) {
-        // This becomes complex, might need a specific key or keep it simpler
-        return translate('product.search_results_in_category_title', { query: searchQuery, categoryName: translate(`category.${currentCategory.slug}`, {defaultValue: currentCategory.name}) });
+        return translate('product.search_results_in_category_title', { query: searchQuery, categoryName: translate(`category.${currentCategory.slug}`, undefined, {defaultValue: currentCategory.name}) });
       }
-      return translate(baseTitleKey, params);
+      return translate('search.results_title', { query: searchQuery });
     }
     return pageTitle;
   }, [searchQuery, currentCategory, pageTitle, translate]);
@@ -151,7 +145,7 @@ export default function ProductsPage() {
       filters.push(...brands.map(b => ({ type: 'brand', label: translate('filter.brand_filter_label', {brand: b}), value: b })));
     }
     if (colors.length > 0) {
-      filters.push(...colors.map(c => ({ type: 'color', label: translate('filter.color_filter_label', {color: c}), value: c })));
+      filters.push(...colors.map(c => ({ type: 'color', label: translate('filter.color_filter_label', {color: translate(`color.${c.toLowerCase()}`, undefined, {defaultValue: c} )}), value: c })));
     }
     return filters;
   }, [minPrice, maxPrice, brands, colors, minPossiblePriceForCategory, maxPossiblePriceForCategory, translate]);
@@ -183,12 +177,7 @@ export default function ProductsPage() {
     router.push(`/products?${params.toString()}`, { scroll: false });
   };
 
-  const productNoun = getPluralNoun(
-    filteredAndSortedProducts.length,
-    translate('noun.product.one'),
-    translate('noun.product.few'),
-    translate('noun.product.many')
-  );
+  const productNoun = translate('noun.product', { count: filteredAndSortedProducts.length });
 
   return (
     <div className="flex flex-col md:flex-row gap-8">

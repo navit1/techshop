@@ -10,9 +10,8 @@ import { ReviewItem } from './ReviewItem';
 import { ReviewForm } from './ReviewForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { getPluralNoun } from '@/lib/i18nUtils';
 import { MessageSquareText, UserCheck } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageProvider'; // Import useLanguage
+import { useLanguage } from '@/contexts/LanguageProvider'; 
 
 interface ProductReviewManagementProps {
   productId: string;
@@ -24,7 +23,7 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
   const { getOrdersByCurrentUser } = useOrder();
   const [reviews, setReviews] = useState<Review[]>(initialReviews);
-  const { translate } = useLanguage(); // Get translate function
+  const { translate } = useLanguage(); 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -59,12 +58,7 @@ export function ProductReviewManagement({ productId, initialReviews }: ProductRe
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
     : 0;
 
-  const reviewNoun = getPluralNoun(
-    reviews.length,
-    translate('noun.review.one'),
-    translate('noun.review.few'),
-    translate('noun.review.many')
-  );
+  const reviewNoun = translate('noun.review', { count: reviews.length });
 
   const renderReviewFormSection = () => {
     if (isLoadingAuth) {
