@@ -14,9 +14,6 @@ export default function HomePage() {
   const { translate } = useLanguage();
   const allProducts = getAllProducts();
 
-  // Removed modifyProductIfTargetCategory function and its usage
-  // Category display is now handled consistently by ProductCard via translations
-
   const featuredProducts = allProducts.slice(0, 4);
   const newArrivals = allProducts.slice(-4).reverse();
   const specialOfferProduct1 = getProductById('prod_el_2');
@@ -24,10 +21,10 @@ export default function HomePage() {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary/70 via-primary/50 to-accent/50 text-primary-foreground py-20 px-6 rounded-lg shadow-xl overflow-hidden">
+      <section className="relative bg-gradient-to-r from-primary/70 via-primary/50 to-accent/50 text-primary-foreground py-12 sm:py-20 px-4 sm:px-6 rounded-lg shadow-xl overflow-hidden">
         <div className="relative container mx-auto text-center">
-          <h1 className="text-5xl font-extrabold mb-4 tracking-tight">{translate('homepage.hero_title')}</h1>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 tracking-tight">{translate('homepage.hero_title')}</h1>
+          <p className="text-md sm:text-xl mb-8 max-w-xl sm:max-w-2xl mx-auto">
             {translate('homepage.hero_subtitle')}
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -135,3 +132,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    
